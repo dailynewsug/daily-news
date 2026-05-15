@@ -224,3 +224,116 @@ function setupBackToTop() {
 }
 
 setupBackToTop();
+// ================================
+// CATEGORY FILTERING
+// ================================
+function setupCategoryFilter() {
+    const sectionLinks = document.querySelectorAll('.section-nav a');
+    const newsGrid = document.querySelector('.news-grid');
+    const sectionTitle = document.querySelector('.section-heading');
+
+    if (!sectionLinks || !newsGrid) return;
+
+    sectionLinks.forEach(link => {
+        link.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            // Update active link
+            sectionLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
+
+            const category = link.textContent.trim();
+
+            // If Top Stories — reload everything
+            if (category === 'Top Stories') {
+                window.location.reload();
+                return;
+            }
+
+            // Filter news grid
+            const allCards = document.querySelectorAll('.news-grid .news-card');
+
+            // If no Firebase cards yet, filter static cards
+            allCards.forEach(card => {
+                const cardLabel = card.querySelector('.label');
+                if (!cardLabel) return;
+
+                const cardCategory = cardLabel.textContent.trim();
+
+                if (
+                    category === 'Top Stories' ||
+                    cardCategory.toLowerCase() === category.toLowerCase()
+                ) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Update section title
+            if (sectionTitle) {
+                sectionTitle.querySelector('span')
+                    ? sectionTitle.querySelector('span').textContent = category
+                    : sectionTitle.textContent = category;
+            }
+
+            // Smooth scroll to news grid
+            newsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+}
+
+setupCategoryFilter();
+
+
+// ================================
+// TOP NAV FILTERING (News, Opinion, Sport etc.)
+// ================================
+function setupTopNavFilter() {
+    const topNavLinks = document.querySelectorAll('.top-nav a');
+    const newsGrid = document.querySelector('.news-grid');
+
+    if (!topNavLinks || !newsGrid) return;
+
+    // Map top nav names to category names
+    const categoryMap = {
+        'News': ['Politics', 'Business', 'Technology', 'Health', 'Environment', 'Education'],
+        'Opinion': ['Opinion'],
+        'Sport': ['Sports'],
+        'Culture': ['Culture'],
+        'Lifestyle': ['Lifestyle']
+    };
+
+    topNavLinks.forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+
+            const navName = link.textContent.trim();
+            const matchingCategories = categoryMap[navName] || [];
+
+            // Update active
+            topNavLinks.forEach(l => l.style.borderBottom = 'none');
+            link.style.borderBottom = '2px solid #ffffff';
+
+            const allCards = document.querySelectorAll('.news-grid .news-card');
+
+            allCards.forEach(card => {
+                const cardLabel = card.querySelector('.label');
+                if (!cardLabel) return;
+
+                const cardCategory = cardLabel.textContent.trim();
+
+                if (matchingCategories.includes(cardCategory)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            // Smooth scroll
+            newsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+}
+
+setupTopNavFilter();
