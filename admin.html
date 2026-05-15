@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Daily News</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ADMIN SPECIFIC STYLES */
+        .admin-wrap {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .admin-header-bar {
+            background-color: #052962;
+            color: white;
+            padding: 16px 24px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .admin-header-bar h1 {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 22px;
+        }
+
+        .admin-header-bar a {
+            color: rgba(255,255,255,0.8);
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .admin-header-bar a:hover {
+            color: white;
+        }
+
+        .admin-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+
+        /* FORM */
+        #articleForm {
+            background: #ffffff;
+            border: 1px solid #dcdcdc;
+            border-top: 4px solid #052962;
+            padding: 24px;
+        }
+
+        #formTitle {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #052962;
+            margin-bottom: 20px;
+        }
+
+        .admin-form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .admin-form-group label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #121212;
+        }
+
+        .admin-form-group input,
+        .admin-form-group select,
+        .admin-form-group textarea {
+            padding: 10px 12px;
+            font-size: 14px;
+            border: 1px solid #dcdcdc;
+            outline: none;
+            font-family: 'Source Sans 3', Arial, sans-serif;
+            transition: border-color 0.2s;
+            border-radius: 2px;
+            width: 100%;
+        }
+
+        .admin-form-group input:focus,
+        .admin-form-group select:focus,
+        .admin-form-group textarea:focus {
+            border-color: #052962;
+        }
+
+        .admin-form-group textarea {
+            resize: vertical;
+            min-height: 200px;
+            line-height: 1.6;
+        }
+
+        .admin-btn-row {
+            display: flex;
+            gap: 10px;
+        }
+
+        #publishBtn {
+            background-color: #052962;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: background 0.2s;
+            flex: 1;
+        }
+
+        #publishBtn:hover {
+            background-color: #c70000;
+        }
+
+        #publishBtn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        #resetBtn {
+            background-color: #f6f6f6;
+            color: #121212;
+            border: 1px solid #dcdcdc;
+            padding: 12px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: background 0.2s;
+        }
+
+        #resetBtn:hover {
+            background-color: #dcdcdc;
+        }
+
+        /* ARTICLES LIST */
+        .admin-articles-panel {
+            background: #ffffff;
+            border: 1px solid #dcdcdc;
+            border-top: 4px solid #c70000;
+            padding: 24px;
+        }
+
+        .admin-articles-panel h2 {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 20px;
+            font-weight: 700;
+            color: #c70000;
+            margin-bottom: 20px;
+        }
+
+        .admin-article-card {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            padding: 14px 0;
+            border-bottom: 1px solid #dcdcdc;
+            gap: 12px;
+        }
+
+        .admin-article-card:last-child {
+            border-bottom: none;
+        }
+
+        .admin-card-info h3 {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #121212;
+            margin: 6px 0 4px 0;
+            line-height: 1.3;
+        }
+
+        .admin-card-meta {
+            display: flex;
+            gap: 12px;
+            font-size: 11px;
+            color: #767676;
+        }
+
+        .admin-card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex-shrink: 0;
+        }
+
+        .edit-btn {
+            background-color: #052962;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: background 0.2s;
+        }
+
+        .edit-btn:hover {
+            background-color: #1a6eb5;
+        }
+
+        .delete-btn {
+            background-color: #f6f6f6;
+            color: #c70000;
+            border: 1px solid #c70000;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            border-radius: 2px;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:hover {
+            background-color: #c70000;
+            color: white;
+        }
+
+        .loading-msg, .no-articles, .error-msg {
+            font-size: 13px;
+            color: #767676;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .error-msg { color: #c70000; }
+
+        /* NOTIFICATION */
+        .admin-notification {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 14px 20px;
+            font-size: 14px;
+            font-weight: 700;
+            border-radius: 2px;
+            z-index: 9999;
+            color: white;
+            animation: slideIn 0.3s ease;
+        }
+
+        .admin-notification.success { background-color: #1a5c38; }
+        .admin-notification.error { background-color: #c70000; }
+
+        @keyframes slideIn {
+            from { transform: translateY(20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        @media (max-width: 900px) {
+            .admin-layout { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body style="background-color:#f6f6f6;">
+
+    <!-- ADMIN HEADER -->
+    <div class="admin-header-bar">
+        <h1>⚙️ Daily News — Admin Panel</h1>
+        <a href="index.html">← Back to Website</a>
+    </div>
+
+    <div class="admin-wrap">
+        <div class="admin-layout">
+
+            <!-- WRITE ARTICLE FORM -->
+            <div id="articleForm">
+                <h2 id="formTitle">Write New Article</h2>
+
+                <input type="hidden" id="editId">
+                <input type="hidden" id="currentImage">
+
+                <div class="admin-form-group">
+                    <label for="artTitle">Headline *</label>
+                    <input type="text" id="artTitle" placeholder="Enter the article headline...">
+                </div>
+
+                <div class="admin-form-group">
+                    <label for="artCategory">Category *</label>
+                    <select id="artCategory">
+                        <option value="">Select category</option>
+                        <option value="Politics">Politics</option>
+                        <option value="Business">Business</option>
+                        <option value="Sports">Sports</option>
+                        <option value="Technology">Technology</option>
+                        <option value="Health">Health</option>
+                        <option value="Environment">Environment</option>
+                        <option value="Education">Education</option>
+                        <option value="Opinion">Opinion</option>
+                    </select>
+                </div>
+
+                <div class="admin-form-group">
+                    <label for="artAuthor">Author Name *</label>
+                    <input type="text" id="artAuthor" placeholder="e.g. John Doe">
+                </div>
+
+                <div class="admin-form-group">
+                    <label for="artStandfirst">Standfirst / Summary *</label>
+                    <textarea id="artStandfirst" rows="3" placeholder="A short summary that appears below the headline..."></textarea>
+                </div>
+
+                <div class="admin-form-group">
+                    <label for="artBody">Article Body *</label>
+                    <textarea id="artBody" placeholder="Write the full article here. Separate paragraphs with a blank line..."></textarea>
+                </div>
+
+                <div class="admin-form-group">
+                    <label for="artImage">Featured Image</label>
+                    <input type="file" id="artImage" accept="image/*">
+                </div>
+
+                <div class="admin-btn-row">
+                    <button id="publishBtn">Publish Article</button>
+                    <button id="resetBtn">Clear Form</button>
+                </div>
+            </div>
+
+            <!-- PUBLISHED ARTICLES -->
+            <div class="admin-articles-panel">
+                <h2>Published Articles</h2>
+                <div id="adminArticleList">
+                    <p class="loading-msg">Loading articles...</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyC4U6MWTPKDQZ_oICtSLdfnFP3a-HFILb4",
+        authDomain: "daily-news-a8c64.firebaseapp.com",
+        projectId: "daily-news-a8c64",
+        storageBucket: "daily-news-a8c64.firebasestorage.app",
+        messagingSenderId: "75335342698",
+        appId: "1:75335342698:web:3e65f3d773eca7730b4813"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // ================================
+    // LOAD ARTICLES
+    // ================================
+    async function loadAdminArticles() {
+        const list = document.getElementById('adminArticleList');
+        list.innerHTML = '<p class="loading-msg">Loading articles...</p>';
+
+        try {
+            const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'));
+            const snapshot = await getDocs(q);
+
+            if (snapshot.empty) {
+                list.innerHTML = '<p class="no-articles">No articles yet. Create your first one above!</p>';
+                return;
+            }
+
+            list.innerHTML = '';
+            snapshot.forEach(docSnap => {
+                const a = docSnap.data();
+                const id = docSnap.id;
+                const card = document.createElement('div');
+                card.className = 'admin-article-card';
+                card.innerHTML = `
+                    <div class="admin-card-info">
+                        <span class="label ${a.category.toLowerCase()}-label">${a.category}</span>
+                        <h3>${a.title}</h3>
+                        <div class="admin-card-meta">
+                            <span>By ${a.author}</span>
+                            <span>${a.date}</span>
+                        </div>
+                    </div>
+                    <div class="admin-card-actions">
+                        <button class="edit-btn" onclick="editArticle('${id}')">Edit</button>
+                        <button class="delete-btn" onclick="deleteArticle('${id}')">Delete</button>
+                    </div>
+                `;
+                list.appendChild(card);
+            });
+
+        } catch (error) {
+            list.innerHTML = `<p class="error-msg">Error: ${error.message}</p>`;
+        }
+    }
+
+    // ================================
+    // PUBLISH ARTICLE
+    // ================================
+    async function publishArticle() {
+        const title = document.getElementById('artTitle').value.trim();
+        const category = document.getElementById('artCategory').value;
+        const author = document.getElementById('artAuthor').value.trim();
+        const standfirst = document.getElementById('artStandfirst').value.trim();
+        const body = document.getElementById('artBody').value.trim();
+        const editId = document.getElementById('editId').value;
+
+        if (!title || !category || !author || !standfirst || !body) {
+            showNotification('Please fill in all required fields.', 'error');
+            return;
+        }
+
+        const publishBtn = document.getElementById('publishBtn');
+        publishBtn.textContent = 'Publishing...';
+        publishBtn.disabled = true;
+
+        try {
+            const articleData = {
+                title,
+                category,
+                author,
+                standfirst,
+                body,
+                imageUrl: '',
+                date: new Date().toLocaleDateString('en-GB', {
+                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                }),
+                createdAt: new Date().toISOString()
+            };
+
+            if (editId) {
+                await updateDoc(doc(db, 'articles', editId), articleData);
+                showNotification('Article updated successfully!', 'success');
+            } else {
+                await addDoc(collection(db, 'articles'), articleData);
+                showNotification('Article published successfully!', 'success');
+            }
+
+            resetForm();
+            loadAdminArticles();
+
+        } catch (error) {
+            showNotification(`Error: ${error.message}`, 'error');
+        } finally {
+            publishBtn.textContent = 'Publish Article';
+            publishBtn.disabled = false;
+        }
+    }
+
+    // ================================
+    // DELETE ARTICLE
+    // ================================
+    window.deleteArticle = async function(id) {
+        if (!confirm('Are you sure you want to delete this article?')) return;
+        try {
+            await deleteDoc(doc(db, 'articles', id));
+            showNotification('Article deleted.', 'success');
+            loadAdminArticles();
+        } catch (error) {
+            showNotification(`Error: ${error.message}`, 'error');
+        }
+    }
+
+    // ================================
+    // EDIT ARTICLE
+    // ================================
+    window.editArticle = async function(id) {
+        try {
+            const snapshot = await getDocs(collection(db, 'articles'));
+            snapshot.forEach(docSnap => {
+                if (docSnap.id === id) {
+                    const a = docSnap.data();
+                    document.getElementById('artTitle').value = a.title;
+                    document.getElementById('artCategory').value = a.category;
+                    document.getElementById('artAuthor').value = a.author;
+                    document.getElementById('artStandfirst').value = a.standfirst;
+                    document.getElementById('artBody').value = a.body;
+                    document.getElementById('editId').value = id;
+                    document.getElementById('formTitle').textContent = 'Edit Article';
+                    document.getElementById('publishBtn').textContent = 'Update Article';
+                    document.getElementById('articleForm').scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        } catch (error) {
+            showNotification(`Error: ${error.message}`, 'error');
+        }
+    }
+
+    // ================================
+    // RESET FORM
+    // ================================
+    function resetForm() {
+        document.getElementById('artTitle').value = '';
+        document.getElementById('artCategory').value = '';
+        document.getElementById('artAuthor').value = '';
+        document.getElementById('artStandfirst').value = '';
+        document.getElementById('artBody').value = '';
+        document.getElementById('editId').value = '';
+        document.getElementById('formTitle').textContent = 'Write New Article';
+        document.getElementById('publishBtn').textContent = 'Publish Article';
+    }
+
+    // ================================
+    // NOTIFICATION
+    // ================================
+    function showNotification(message, type) {
+        const existing = document.querySelector('.admin-notification');
+        if (existing) existing.remove();
+        const notif = document.createElement('div');
+        notif.className = `admin-notification ${type}`;
+        notif.textContent = message;
+        document.body.appendChild(notif);
+        setTimeout(() => notif.remove(), 4000);
+    }
+
+    // ================================
+    // INIT
+    // ================================
+    document.getElementById('publishBtn').addEventListener('click', publishArticle);
+    document.getElementById('resetBtn').addEventListener('click', resetForm);
+    loadAdminArticles();
+
+</script>
+
+</body>
+</html>

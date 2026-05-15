@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Daily News</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- TOP THIN BAR -->
+    <div class="top-bar">
+        <span id="currentDate"></span>
+        <span>Support Daily News — become a subscriber</span>
+    </div>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="header-left">
+                <nav class="top-nav">
+                    <a href="#">News</a>
+                    <a href="#">Opinion</a>
+                    <a href="#">Sport</a>
+                    <a href="#">Culture</a>
+                    <a href="#">Lifestyle</a>
+                </nav>
+            </div>
+            <div class="header-logo">
+                <a href="index.html">Daily News</a>
+            </div>
+            <div class="header-right">
+                <button class="subscribe-top-btn">Subscribe</button>
+                <button class="search-btn">🔍</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION NAV -->
+    <nav class="section-nav">
+        <div class="section-nav-inner">
+            <a href="index.html">Top Stories</a>
+            <a href="#">Politics</a>
+            <a href="#">Business</a>
+            <a href="#">Technology</a>
+            <a href="#">Sports</a>
+            <a href="#">Health</a>
+            <a href="#">Environment</a>
+            <a href="#">Education</a>
+            <a href="about.html">About</a>
+            <a href="contact.html" class="active">Contact</a>
+        </div>
+    </nav>
+
+    <!-- PAGE WRAP -->
+    <div class="page-wrap">
+        <div class="contact-layout">
+
+            <!-- CONTACT MAIN -->
+            <main class="contact-main">
+
+                <h1 class="contact-title">Contact Us</h1>
+                <p class="contact-intro">We want to hear from you. Whether you have a news tip, a correction, a complaint or just want to say hello — our team reads every message we receive.</p>
+
+                <div class="divider"></div>
+
+                <!-- CONTACT FORM -->
+                <section class="contact-section">
+                    <h2 class="section-heading">Send Us a Message</h2>
+
+                    <div class="contact-form">
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="firstName">First Name *</label>
+                                <input type="text" id="firstName" placeholder="Your first name">
+                            </div>
+                            <div class="form-group">
+                                <label for="lastName">Last Name *</label>
+                                <input type="text" id="lastName" placeholder="Your last name">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" placeholder="your@email.com">
+                        </div>
+
+                        <div class="form-group">
+                            <label for="subject">Subject *</label>
+                            <select id="subject">
+                                <option value="">Select a subject</option>
+                                <option value="newstip">News Tip</option>
+                                <option value="correction">Request a Correction</option>
+                                <option value="advertising">Advertising Enquiry</option>
+                                <option value="partnership">Partnership Opportunity</option>
+                                <option value="complaint">Complaint</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" rows="6" placeholder="Write your message here..."></textarea>
+                        </div>
+
+                        <div class="form-group checkbox-group">
+                            <input type="checkbox" id="newsletter" class="checkbox-input">
+                            <label for="newsletter" class="checkbox-label">Subscribe me to the Daily News morning briefing</label>
+                        </div>
+
+                        <button class="contact-submit-btn" id="submitBtn">Send Message</button>
+
+                        <div class="form-success" id="formSuccess">
+                            ✓ Thank you! Your message has been sent. We will get back to you within 24 hours.
+                        </div>
+
+                    </div>
+                </section>
+
+                <div class="divider"></div>
+
+                <!-- NEWS TIP BOX -->
+                <section class="contact-section">
+                    <h2 class="section-heading">Got a News Tip?</h2>
+                    <div class="tip-box">
+                        <div class="tip-icon">📰</div>
+                        <div class="tip-text">
+                            <h3>Help us break the next big story</h3>
+                            <p>If you have information about a story you think the public should know about, we want to hear from you. All sources are treated with strict confidentiality. You can also reach our investigations team directly at <strong>tips@dailynews.ug</strong></p>
+                            <p>For sensitive tips requiring extra security, we recommend contacting us through an encrypted channel. Ask us how.</p>
+                        </div>
+                    </div>
+                </section>
+
+            </main>
+
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+
+                <div class="sidebar-widget">
+                    <h4 class="widget-title">Get in Touch</h4>
+                    <ul class="contact-info-list">
+                        <li>
+                            <span class="contact-info-icon">📍</span>
+                            <div>
+                                <strong>Address</strong>
+                                <p>Plot 45, Kampala Road<br>Kampala, Uganda</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="contact-info-icon">📞</span>
+                            <div>
+                                <strong>Phone</strong>
+                                <p>+256 700 000 000</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="contact-info-icon">✉️</span>
+                            <div>
+                                <strong>General Enquiries</strong>
+                                <p>info@dailynews.ug</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="contact-info-icon">🕐</span>
+                            <div>
+                                <strong>Office Hours</strong>
+                                <p>Mon – Fri: 8am – 6pm<br>Sat: 9am – 1pm</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h4 class="widget-title">Departments</h4>
+                    <ul class="dept-list">
+                        <li>
+                            <span class="dept-name">Newsroom</span>
+                            <span class="dept-email">news@dailynews.ug</span>
+                        </li>
+                        <li>
+                            <span class="dept-name">Sports Desk</span>
+                            <span class="dept-email">sport@dailynews.ug</span>
+                        </li>
+                        <li>
+                            <span class="dept-name">Advertising</span>
+                            <span class="dept-email">ads@dailynews.ug</span>
+                        </li>
+                        <li>
+                            <span class="dept-name">Investigations</span>
+                            <span class="dept-email">tips@dailynews.ug</span>
+                        </li>
+                        <li>
+                            <span class="dept-name">Letters Editor</span>
+                            <span class="dept-email">letters@dailynews.ug</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h4 class="widget-title">Follow Daily News</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-btn fb">Facebook</a>
+                        <a href="#" class="social-btn tw">Twitter / X</a>
+                        <a href="#" class="social-btn ig">Instagram</a>
+                        <a href="#" class="social-btn yt">YouTube</a>
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-logo">Daily News</div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h5>News</h5>
+                    <a href="#">Politics</a>
+                    <a href="#">Business</a>
+                    <a href="#">Technology</a>
+                    <a href="#">Health</a>
+                    <a href="#">Environment</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Sport</h5>
+                    <a href="#">Football</a>
+                    <a href="#">Athletics</a>
+                    <a href="#">Cricket</a>
+                    <a href="#">Rugby</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="#">Advertise</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Use</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Daily News. All rights reserved. | Kampala, Uganda</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+    <script>
+        // CONTACT FORM LOGIC
+        const submitBtn = document.getElementById('submitBtn');
+        const formSuccess = document.getElementById('formSuccess');
+
+        submitBtn.addEventListener('click', () => {
+            const firstName = document.getElementById('firstName').value.trim();
+            const lastName = document.getElementById('lastName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const subject = document.getElementById('subject').value;
+            const message = document.getElementById('message').value.trim();
+
+            if (!firstName || !lastName || !email || !subject || !message) {
+                alert('Please fill in all required fields.');
+                return;
+            }
+
+            if (!email.includes('@') || !email.includes('.')) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+
+            setTimeout(() => {
+                submitBtn.style.display = 'none';
+                formSuccess.style.display = 'block';
+
+                document.getElementById('firstName').value = '';
+                document.getElementById('lastName').value = '';
+                document.getElementById('email').value = '';
+                document.getElementById('subject').value = '';
+                document.getElementById('message').value = '';
+            }, 1500);
+        });
+    </script>
+
+</body>
+</html>

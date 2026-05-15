@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Daily News - Truth. Speed. Accuracy.</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Guardian-Titlepiece&family=Georgia&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- TOP THIN BAR -->
+    <div class="top-bar">
+        <span id="currentDate"></span>
+        <span>Support Daily News — become a subscriber</span>
+    </div>
+
+    <!-- HEADER -->
+    <header class="header">
+        <div class="header-inner">
+            <div class="header-left">
+                <nav class="top-nav">
+                    <a href="#">News</a>
+                    <a href="#">Opinion</a>
+                    <a href="#">Sport</a>
+                    <a href="#">Culture</a>
+                    <a href="#">Lifestyle</a>
+                </nav>
+            </div>
+            <div class="header-logo">
+                <a href="index.html">Daily News</a>
+            </div>
+            <div class="header-right">
+                <button class="subscribe-top-btn">Subscribe</button>
+                <button class="search-btn">🔍</button>
+            </div>
+        </div>
+    </header>
+
+    <!-- SECTION NAV -->
+    <nav class="section-nav">
+        <div class="section-nav-inner">
+            <a href="#" class="active">Top Stories</a>
+            <a href="#">Politics</a>
+            <a href="#">Business</a>
+            <a href="#">Technology</a>
+            <a href="#">Sports</a>
+            <a href="#">Health</a>
+            <a href="#">Environment</a>
+            <a href="#">Education</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
+
+    <!-- BREAKING NEWS TICKER -->
+    <div class="ticker-wrap">
+        <span class="ticker-label">BREAKING</span>
+        <div class="ticker-track">
+            <span>Government announces new economic policy &nbsp;&nbsp;&nbsp;●&nbsp;&nbsp;&nbsp;
+            National team wins championship &nbsp;&nbsp;&nbsp;●&nbsp;&nbsp;&nbsp;
+            Heavy rains expected this weekend &nbsp;&nbsp;&nbsp;●&nbsp;&nbsp;&nbsp;
+            New smartphone released today &nbsp;&nbsp;&nbsp;●&nbsp;&nbsp;&nbsp;
+            Parliament passes landmark education bill</span>
+        </div>
+    </div>
+
+    <!-- MAIN WRAPPER -->
+    <div class="page-wrap">
+
+        <!-- FEATURED + TOP STORIES GRID -->
+        <section class="top-stories">
+
+            <!-- MAIN FEATURED STORY -->
+            <article class="featured-story">
+                <div class="featured-img politics-bg"></div>
+                <div class="featured-text">
+                    <span class="label politics-label">Politics</span>
+                    <h1 class="featured-headline">Government Unveils Landmark Infrastructure Plan Worth Billions in Historic Budget Session</h1>
+                    <p class="featured-standfirst">The sweeping development plan will see roads, bridges, hospitals and public utilities upgraded across the country over the next five years in what analysts are calling the boldest economic move in a decade.</p>
+                    <div class="byline">
+                        <span class="author">By <strong>John Doe</strong></span>
+                        <span class="time">2 hours ago</span>
+                    </div>
+                </div>
+            </article>
+
+            <!-- RIGHT COLUMN STORIES -->
+            <div class="right-stories">
+
+                <article class="side-story border-sport">
+                    <div class="side-story-text">
+                        <span class="label sport-label">Sport</span>
+                        <h3>National Team Secures Spot in Continental Cup After Thrilling Victory</h3>
+                        <p class="side-standfirst">A last-minute goal sealed a historic qualification for the tournament finals.</p>
+                        <span class="time">1 hour ago</span>
+                    </div>
+                    <div class="side-story-img sport-bg"></div>
+                </article>
+
+                <article class="side-story border-business">
+                    <div class="side-story-text">
+                        <span class="label business-label">Business</span>
+                        <h3>Stock Market Hits All-Time High for Third Consecutive Week</h3>
+                        <p class="side-standfirst">Investors celebrate record-breaking performance amid positive economic signals.</p>
+                        <span class="time">3 hours ago</span>
+                    </div>
+                    <div class="side-story-img business-bg"></div>
+                </article>
+
+                <article class="side-story border-tech">
+                    <div class="side-story-text">
+                        <span class="label tech-label">Technology</span>
+                        <h3>Local Tech Startup Raises $10M to Expand Across East Africa</h3>
+                        <p class="side-standfirst">The Kampala-based company plans to launch in five new markets by end of year.</p>
+                        <span class="time">4 hours ago</span>
+                    </div>
+                    <div class="side-story-img tech-bg"></div>
+                </article>
+
+            </div>
+
+        </section>
+
+        <div class="divider"></div>
+
+        <!-- CONTENT + SIDEBAR -->
+        <div class="content-sidebar">
+
+            <!-- MAIN CONTENT -->
+            <main class="main-content">
+
+                <!-- LATEST NEWS SECTION -->
+                <section class="news-section">
+                    <h2 class="section-heading"><span>Latest News</span></h2>
+
+                    <div class="news-grid">
+
+                        <article class="news-card">
+                            <div class="news-card-img health-bg"></div>
+                            <div class="news-card-body">
+                                <span class="label health-label">Health</span>
+                                <h3>Ministry Launches Nationwide Free Vaccination Campaign for Children</h3>
+                                <p>The health ministry has rolled out a program targeting children under five years old across all districts.</p>
+                                <div class="card-meta">
+                                    <span>Dr. Alice Brown</span>
+                                    <span>5 hours ago</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="news-card">
+                            <div class="news-card-img politics-bg"></div>
+                            <div class="news-card-body">
+                                <span class="label politics-label">Politics</span>
+                                <h3>Parliament Passes New Education Bill Affecting Millions of Students</h3>
+                                <p>Lawmakers voted in favor of the landmark reform bill after weeks of heated debate in the chamber.</p>
+                                <div class="card-meta">
+                                    <span>Peter Omon</span>
+                                    <span>6 hours ago</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="news-card">
+                            <div class="news-card-img environment-bg"></div>
+                            <div class="news-card-body">
+                                <span class="label environment-label">Environment</span>
+                                <h3>Lake Victoria Water Levels Rise to Highest Point in Twenty Years</h3>
+                                <p>Scientists warn of flooding risks for lakeside communities as levels continue to climb this season.</p>
+                                <div class="card-meta">
+                                    <span>Mary Apio</span>
+                                    <span>7 hours ago</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="news-card">
+                            <div class="news-card-img business-bg"></div>
+                            <div class="news-card-body">
+                                <span class="label business-label">Business</span>
+                                <h3>City Council Approves Affordable Housing Project for 2,000 Families</h3>
+                                <p>The development will be built on the outskirts of the city with modern facilities and green spaces.</p>
+                                <div class="card-meta">
+                                    <span>James Okello</span>
+                                    <span>8 hours ago</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="news-card">
+                            <div class="news-card-img sport-bg"></div>
+                            <div class="news-card-body">
+                                <span class="label sport-label">Sport</span>
+                                <h3>Marathon Runner Breaks National Record at Kampala City Run</h3>
+                                <p>A 24-year-old athlete shattered the previous national record by over two minutes in a stunning performance.</p>
+                                <div class="card-meta">
+                                    <span>Brian Ssali</span>
+                                    <span>9 hours ago</span>
+                                </div>
+                            </div>
+                        </article>
+
+                        <article class="news-card">
+                            <div class="news-card-img tech-bg"></div>
+                            <div class="news-card-body">
+                                <span class="label tech-label">Technology</span>
+                                <h3>Government Rolls Out Free Public Wi-Fi in Major Cities Nationwide</h3>
+                                <p>The initiative aims to bridge the digital divide and boost access to online education and services.</p>
+                                <div class="card-meta">
+                                    <span>Sandra Nakato</span>
+                                    <span>10 hours ago</span>
+                                </div>
+                            </div>
+                        </article>
+
+                    </div>
+                </section>
+
+                <div class="divider"></div>
+
+                <!-- OPINION SECTION -->
+                <section class="news-section">
+                    <h2 class="section-heading opinion-heading"><span>Opinion</span></h2>
+                    <div class="opinion-grid">
+
+                        <article class="opinion-card">
+                            <div class="opinion-author-img"></div>
+                            <div class="opinion-body">
+                                <span class="label opinion-label">Opinion</span>
+                                <h3>Why Africa's Youth Must Lead the Next Economic Revolution</h3>
+                                <p>The continent's greatest resource is not oil or minerals — it is the 600 million young people ready to build the future.</p>
+                                <span class="opinion-author">Prof. David Mutebi</span>
+                            </div>
+                        </article>
+
+                        <article class="opinion-card">
+                            <div class="opinion-author-img"></div>
+                            <div class="opinion-body">
+                                <span class="label opinion-label">Opinion</span>
+                                <h3>The Infrastructure Bill Is Bold — But Who Will Actually Benefit?</h3>
+                                <p>Grand announcements are easy. The real test is whether ordinary citizens will see roads fixed in their lifetime.</p>
+                                <span class="opinion-author">Grace Namukasa</span>
+                            </div>
+                        </article>
+
+                        <article class="opinion-card">
+                            <div class="opinion-author-img"></div>
+                            <div class="opinion-body">
+                                <span class="label opinion-label">Opinion</span>
+                                <h3>Social Media Is Changing How We Report News — Not Always for the Better</h3>
+                                <p>Speed has overtaken accuracy in the modern newsroom and the consequences for public trust are severe.</p>
+                                <span class="opinion-author">Rita Amongi</span>
+                            </div>
+                        </article>
+
+                    </div>
+                </section>
+
+            </main>
+
+            <!-- SIDEBAR -->
+            <aside class="sidebar">
+
+                <div class="sidebar-widget">
+                    <h4 class="widget-title">Most Viewed</h4>
+                    <ol class="most-viewed">
+                        <li>
+                            <span class="mv-num">1</span>
+                            <a href="#">Economic Policy Shakes Markets Across the Region</a>
+                        </li>
+                        <li>
+                            <span class="mv-num">2</span>
+                            <a href="#">Football Team Wins Big in Dramatic Final</a>
+                        </li>
+                        <li>
+                            <span class="mv-num">3</span>
+                            <a href="#">New Hospital Opens in Downtown Kampala</a>
+                        </li>
+                        <li>
+                            <span class="mv-num">4</span>
+                            <a href="#">Election Results Announced After Tense Count</a>
+                        </li>
+                        <li>
+                            <span class="mv-num">5</span>
+                            <a href="#">Tech Giant Opens First Local Office</a>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="sidebar-widget newsletter-widget">
+                    <h4 class="widget-title">Daily Briefing</h4>
+                    <p>Get the top stories delivered to your inbox every morning.</p>
+                    <input type="email" placeholder="Your email address" class="email-input">
+                    <button class="subscribe-btn">Sign up</button>
+                </div>
+
+                <div class="sidebar-widget">
+                    <h4 class="widget-title">Follow Daily News</h4>
+                    <div class="social-links">
+                        <a href="#" class="social-btn fb">Facebook</a>
+                        <a href="#" class="social-btn tw">Twitter / X</a>
+                        <a href="#" class="social-btn ig">Instagram</a>
+                        <a href="#" class="social-btn yt">YouTube</a>
+                    </div>
+                </div>
+
+            </aside>
+
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <div class="footer-inner">
+            <div class="footer-logo">Daily News</div>
+            <div class="footer-links">
+                <div class="footer-col">
+                    <h5>News</h5>
+                    <a href="#">Politics</a>
+                    <a href="#">Business</a>
+                    <a href="#">Technology</a>
+                    <a href="#">Health</a>
+                    <a href="#">Environment</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Sport</h5>
+                    <a href="#">Football</a>
+                    <a href="#">Athletics</a>
+                    <a href="#">Cricket</a>
+                    <a href="#">Rugby</a>
+                </div>
+                <div class="footer-col">
+                    <h5>Company</h5>
+                    <a href="about.html">About Us</a>
+                    <a href="contact.html">Contact</a>
+                    <a href="#">Advertise</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Terms of Use</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2026 Daily News. All rights reserved. | Kampala, Uganda</p>
+        </div>
+    </footer>
+
+    <script src="js/main.js"></script>
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+        apiKey: "AIzaSyC4U6MWTPKDQZ_oICtSLdfnFP3a-HFILb4",
+        authDomain: "daily-news-a8c64.firebaseapp.com",
+        projectId: "daily-news-a8c64",
+        storageBucket: "daily-news-a8c64.firebasestorage.app",
+        messagingSenderId: "75335342698",
+        appId: "1:75335342698:web:3e65f3d773eca7730b4813"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // CATEGORY COLOR MAP
+    const categoryColors = {
+        'Politics': 'politics',
+        'Business': 'business',
+        'Sports': 'sport',
+        'Technology': 'tech',
+        'Health': 'health',
+        'Environment': 'environment',
+        'Education': 'politics',
+        'Opinion': 'opinion'
+    };
+
+    // ================================
+    // LOAD LATEST NEWS FROM FIREBASE
+    // ================================
+    async function loadLatestNews() {
+        const newsGrid = document.querySelector('.news-grid');
+        if (!newsGrid) return;
+
+        try {
+            const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'));
+            const snapshot = await getDocs(q);
+
+            if (snapshot.empty) return;
+
+            // Clear existing static cards
+            newsGrid.innerHTML = '';
+
+            snapshot.forEach(docSnap => {
+                const a = docSnap.data();
+                const id = docSnap.id;
+                const colorClass = categoryColors[a.category] || 'politics';
+
+                const card = document.createElement('article');
+                card.className = 'news-card';
+                card.innerHTML = `
+                    ${a.imageUrl
+                        ? `<img src="${a.imageUrl}" class="news-card-img" style="object-fit:cover;" alt="${a.title}">`
+                        : `<div class="news-card-img ${colorClass}-bg"></div>`
+                    }
+                    <div class="news-card-body">
+                        <span class="label ${colorClass}-label">${a.category}</span>
+                        <h3>${a.title}</h3>
+                        <p>${a.standfirst}</p>
+                        <div class="card-meta">
+                            <span>${a.author}</span>
+                            <span>${a.date}</span>
+                        </div>
+                    </div>
+                `;
+
+                // Click to open article
+                card.style.cursor = 'pointer';
+                card.addEventListener('click', () => {
+                    localStorage.setItem('currentArticle', JSON.stringify({ id, ...a }));
+                    window.location.href = 'article.html';
+                });
+
+                newsGrid.appendChild(card);
+            });
+
+        } catch (error) {
+            console.error('Error loading articles:', error);
+        }
+    }
+
+    // ================================
+    // LOAD FEATURED STORY FROM FIREBASE
+    // ================================
+    async function loadFeaturedStory() {
+        const featured = document.querySelector('.featured-story');
+        if (!featured) return;
+
+        try {
+            const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'));
+            const snapshot = await getDocs(q);
+
+            if (snapshot.empty) return;
+
+            // Get the most recent article
+            const docSnap = snapshot.docs[0];
+            const a = docSnap.data();
+            const id = docSnap.id;
+            const colorClass = categoryColors[a.category] || 'politics';
+
+            featured.innerHTML = `
+                ${a.imageUrl
+                    ? `<img src="${a.imageUrl}" class="featured-img" style="object-fit:cover; width:100%; height:320px;" alt="${a.title}">`
+                    : `<div class="featured-img ${colorClass}-bg"></div>`
+                }
+                <div class="featured-text">
+                    <span class="label ${colorClass}-label">${a.category}</span>
+                    <h1 class="featured-headline">${a.title}</h1>
+                    <p class="featured-standfirst">${a.standfirst}</p>
+                    <div class="byline">
+                        <span class="author">By <strong>${a.author}</strong></span>
+                        <span class="time">${a.date}</span>
+                    </div>
+                </div>
+            `;
+
+            featured.style.cursor = 'pointer';
+            featured.addEventListener('click', () => {
+                localStorage.setItem('currentArticle', JSON.stringify({ id, ...a }));
+                window.location.href = 'article.html';
+            });
+
+        } catch (error) {
+            console.error('Error loading featured story:', error);
+        }
+    }
+
+    loadFeaturedStory();
+    loadLatestNews();
+</script>
+
+</body>
+</html>
