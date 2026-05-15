@@ -476,8 +476,74 @@
         }
     }
 
-    loadFeaturedStory();
-    loadLatestNews();
+loadFeaturedStory();
+loadLatestNews().then(() => {
+    async function loadLatestNews(filterCategory = null) {
+    const newsGrid = document.querySelector('.news-grid');
+    if (!newsGrid) return;
+
+    newsGrid.innerHTML = '<p style="padding:20px; color:#767676;">Loading articles...</p>';
+
+    try {
+        const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'));
+        const snapshot = await getDocs(q);
+
+        if (snapshot.empty) {
+            newsGrid.innerHTML = '<p style="padding:20px; color:#767676;">No articles yet.</p>';
+            return;
+        }
+
+        newsGrid.innerHTML = '';
+
+        snapshot.forEach(docSnap => {
+            const a = docSnap.data();
+            const id = docSnap.id;
+            const colorClass = categoryColors[a.category] || 'politics';
+
+            if (filterCategory && filterCategory !== 'Top Stories' &&
+                a.category.toLowerCase() !== filterCategory.toLowerCase()) {
+                return;
+            }
+
+            const card = document.createElement('article');
+            card.className = 'news-card';
+            card.setAttribute('data-category', a.category);
+            card.innerHTML = `
+                ${a.imageUrl
+                    ? `<img src="${a.imageUrl}" class="news-card-img" style="object-fit:cover;" alt="${a.title}">`
+                    : `<div class="news-card-img ${colorClass}-bg"></div>`
+                }
+                <div class="news-card-body">
+                    <span class="label ${colorClass}-label">${a.category}</span>
+                    <h3>${a.title}</h3>
+                    <p>${a.standfirst}</p>
+                    <div class="card-meta">
+                        <span>${a.author}</span>
+                        <span>${a.date}</span>
+                    </div>
+                </div>
+            `;
+
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', () => {
+                localStorage.setItem('currentArticle', JSON.stringify({ id, ...a }));
+                window.location.href = 'article.html';
+            });
+
+            newsGrid.appendChild(card);
+        });
+
+        if (newsGrid.children.length === 0) {
+            newsGrid.innerHTML = `<p style="padding:20px; color:#767676;">No articles in this category yet.</p>`;
+        }
+
+    } catch (error) {
+        console.error('Error loading articles:', error);
+    }
+}
+});
+// Make filterArticles available globally
+window.filterArticles = loadLatestNews;
 </script>
 
 </body>

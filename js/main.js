@@ -283,57 +283,74 @@ function setupCategoryFilter() {
     });
 }
 
-setupCategoryFilter();
-
-
 // ================================
-// TOP NAV FILTERING (News, Opinion, Sport etc.)
+// CATEGORY FILTERING
 // ================================
-function setupTopNavFilter() {
-    const topNavLinks = document.querySelectorAll('.top-nav a');
-    const newsGrid = document.querySelector('.news-grid');
+function setupCategoryFilter() {
+    const sectionLinks = document.querySelectorAll('.section-nav a');
+    const sectionTitle = document.querySelector('.section-heading span');
 
-    if (!topNavLinks || !newsGrid) return;
+    if (!sectionLinks) return;
 
-    // Map top nav names to category names
-    const categoryMap = {
-        'News': ['Politics', 'Business', 'Technology', 'Health', 'Environment', 'Education'],
-        'Opinion': ['Opinion'],
-        'Sport': ['Sports'],
-        'Culture': ['Culture'],
-        'Lifestyle': ['Lifestyle']
-    };
-
-    topNavLinks.forEach(link => {
-        link.addEventListener('click', (e) => {
+    sectionLinks.forEach(link => {
+        link.addEventListener('click', async (e) => {
             e.preventDefault();
 
-            const navName = link.textContent.trim();
-            const matchingCategories = categoryMap[navName] || [];
+            // Update active link
+            sectionLinks.forEach(l => l.classList.remove('active'));
+            link.classList.add('active');
 
-            // Update active
-            topNavLinks.forEach(l => l.style.borderBottom = 'none');
-            link.style.borderBottom = '2px solid #ffffff';
+            const category = link.textContent.trim();
 
-            const allCards = document.querySelectorAll('.news-grid .news-card');
+            // Update section title
+            if (sectionTitle) sectionTitle.textContent = category === 'Top Stories' ? 'Latest News' : category;
 
-            allCards.forEach(card => {
-                const cardLabel = card.querySelector('.label');
-                if (!cardLabel) return;
+            // Reload articles with filter
+            if (typeof window.filterArticles === 'function') {
+                await window.filterArticles(category);
+            }
 
-                const cardCategory = cardLabel.textContent.trim();
-
-                if (matchingCategories.includes(cardCategory)) {
-                    card.style.display = 'block';
-                } else {
-                    card.style.display = 'none';
-                }
-            });
-
-            // Smooth scroll
-            newsGrid.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            // Smooth scroll to news section
+            const newsSection = document.querySelector('.news-section');
+            if (newsSection) newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     });
 }
 
+// ================================
+// TOP NAV FILTERING
+// ================================
+function setupTopNavFilter() {
+    const topNavLinks = document.querySelectorAll('.top-nav a');
+
+    const categoryMap = {
+        'News': 'Top Stories',
+        'Opinion': 'Opinion',
+        'Sport': 'Sports',
+        'Culture': 'Top Stories',
+        'Lifestyle': 'Top Stories'
+    };
+
+    topNavLinks.forEach(link => {
+        link.addEventListener('click', async (e) => {
+            e.preventDefault();
+
+            const navName = link.textContent.trim();
+            const category = categoryMap[navName] || 'Top Stories';
+
+            // Update section nav active state
+            const sectionLinks = document.querySelectorAll('.section-nav a');
+            sectionLinks.forEach(l => l.classList.remove('active'));
+
+            if (typeof window.filterArticles === 'function') {
+                await window.filterArticles(category);
+            }
+
+            const newsSection = document.querySelector('.news-section');
+            if (newsSection) newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+}
+
+setupCategoryFilter();
 setupTopNavFilter();
