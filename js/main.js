@@ -228,7 +228,7 @@ setupBackToTop();
 // CATEGORY FILTERING
 // ================================
 function setupCategoryFilter() {
-    const sectionLinks = document.querySelectorAll('.section-nav a');
+   const sectionLinks = document.querySelectorAll('.section-nav .filter-link');
     const newsGrid = document.querySelector('.news-grid');
     const sectionTitle = document.querySelector('.section-heading');
 
