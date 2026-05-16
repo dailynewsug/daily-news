@@ -294,13 +294,35 @@
     // ================================
     function loadArticle() {
         const stored = localStorage.getItem('currentArticle');
-        if (!stored) return;
+
+        if (!stored) {
+            document.querySelector('.article-main').innerHTML = `
+                <div style="padding:40px; text-align:center;">
+                    <h2 style="font-family:Georgia,serif; color:#052962;">No article selected</h2>
+                    <p style="color:#767676; margin:10px 0 20px 0;">Please go back to the homepage and click an article to read it.</p>
+                    <a href="index.html" style="background:#052962; color:#fff; padding:10px 20px; font-weight:700; border-radius:2px;">← Back to Homepage</a>
+                </div>
+            `;
+            return;
+        }
 
         const a = JSON.parse(stored);
         const colorClass = categoryColors[a.category] || 'politics';
 
         // Update page title
         document.title = `${a.title} - Daily News`;
+
+        // Update breadcrumb
+        const breadcrumb = document.querySelector('.breadcrumb');
+        if (breadcrumb) {
+            breadcrumb.innerHTML = `
+                <a href="index.html">Home</a>
+                <span> › </span>
+                <a href="index.html?category=${a.category}">${a.category}</a>
+                <span> › </span>
+                <span>${a.title.substring(0, 40)}...</span>
+            `;
+        }
 
         // Update label
         const label = document.querySelector('.article-main .label');
@@ -317,9 +339,13 @@
         const standfirst = document.querySelector('.article-standfirst');
         if (standfirst) standfirst.textContent = a.standfirst;
 
-        // Update author
+        // Update author name
         const authorName = document.querySelector('.author-name');
         if (authorName) authorName.innerHTML = `By <strong>${a.author}</strong>`;
+
+        // Update author title
+        const authorTitle = document.querySelector('.author-title');
+        if (authorTitle) authorTitle.textContent = 'Daily News Correspondent';
 
         // Update date
         const articleDate = document.querySelector('.article-date');
@@ -339,24 +365,81 @@
             }
         }
 
-        // Update body — split paragraphs by blank line
+        // Update body
         const articleBody = document.querySelector('.article-body');
-        if (articleBody) {
+        if (articleBody && a.body) {
             const paragraphs = a.body.split('\n\n').filter(p => p.trim() !== '');
-            articleBody.innerHTML = paragraphs
-                .map(p => `<p>${p.trim()}</p>`)
-                .join('');
+
+            if (paragraphs.length === 0) {
+                // Try splitting by single newline
+                const lines = a.body.split('\n').filter(p => p.trim() !== '');
+                articleBody.innerHTML = lines.map(p => `<p>${p.trim()}</p>`).join('');
+            } else {
+                articleBody.innerHTML = paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
+            }
+        }
+
+        // Update tags
+        const tagsContainer = document.querySelector('.article-tags');
+        if (tagsContainer) {
+            tagsContainer.innerHTML = `
+                <span class="tag-title">Topics:</span>
+                <a href="index.html?category=${a.category}" class="article-tag">${a.category}</a>
+                <a href="index.html" class="article-tag">Daily News</a>
+            `;
+        }
+
+        // Setup share buttons
+        setupShareButtons(a.title);
+    }
+
+    // ================================
+    // SHARE BUTTONS
+    // ================================
+    function setupShareButtons(title) {
+        const fbBtn = document.querySelector('.fb-share');
+        const twBtn = document.querySelector('.tw-share');
+        const copyBtn = document.querySelector('.copy-share');
+
+        const url = window.location.href;
+
+        if (fbBtn) {
+            fbBtn.addEventListener('click', () => {
+                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+            });
+        }
+
+        if (twBtn) {
+            twBtn.addEventListener('click', () => {
+                window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank');
+            });
+        }
+
+        if (copyBtn) {
+            copyBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(url).then(() => {
+                    copyBtn.textContent = '✓ Copied!';
+                    copyBtn.style.backgroundColor = '#1a5c38';
+                    setTimeout(() => {
+                        copyBtn.textContent = 'Copy Link';
+                        copyBtn.style.backgroundColor = '#767676';
+                    }, 2000);
+                });
+            });
         }
     }
 
     // ================================
-    // LOAD MORE STORIES SIDEBAR
+    // LOAD MORE STORIES
     // ================================
     async function loadMoreStories() {
         const moreGrid = document.querySelector('.more-grid');
         if (!moreGrid) return;
 
         try {
+            const stored = localStorage.getItem('currentArticle');
+            const currentArticle = stored ? JSON.parse(stored) : null;
+
             const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'));
             const snapshot = await getDocs(q);
 
@@ -369,10 +452,15 @@
                 if (count >= 3) return;
                 const a = docSnap.data();
                 const id = docSnap.id;
+
+                // Skip current article
+                if (currentArticle && currentArticle.id === id) return;
+
                 const colorClass = categoryColors[a.category] || 'politics';
 
                 const card = document.createElement('article');
                 card.className = 'more-card';
+                card.style.cursor = 'pointer';
                 card.innerHTML = `
                     <span class="label ${colorClass}-label">${a.category}</span>
                     <h4>${a.title}</h4>
@@ -381,7 +469,8 @@
 
                 card.addEventListener('click', () => {
                     localStorage.setItem('currentArticle', JSON.stringify({ id, ...a }));
-                    window.location.reload();
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    setTimeout(() => window.location.reload(), 300);
                 });
 
                 moreGrid.appendChild(card);
@@ -393,8 +482,12 @@
         }
     }
 
+    // ================================
+    // INIT
+    // ================================
     loadArticle();
     loadMoreStories();
+
 </script>
 
 </body>
