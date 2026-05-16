@@ -39,20 +39,20 @@
     </header>
 
     <!-- SECTION NAV -->
-<nav class="section-nav">
-    <div class="section-nav-inner">
-        <a href="index.html" class="active">Top Stories</a>
-        <a href="#">Politics</a>
-        <a href="#">Business</a>
-        <a href="#">Technology</a>
-        <a href="#">Sports</a>
-        <a href="#">Health</a>
-        <a href="#">Environment</a>
-        <a href="#">Education</a>
-        <a href="about.html">About</a>
-        <a href="contact.html">Contact</a>
-    </div>
-</nav>
+    <nav class="section-nav">
+        <div class="section-nav-inner">
+            <a href="#" class="active">Top Stories</a>
+            <a href="#">Politics</a>
+            <a href="#">Business</a>
+            <a href="#">Technology</a>
+            <a href="#">Sports</a>
+            <a href="#">Health</a>
+            <a href="#">Environment</a>
+            <a href="#">Education</a>
+            <a href="about.html">About</a>
+            <a href="contact.html">Contact</a>
+        </div>
+    </nav>
 
     <!-- BREAKING NEWS TICKER -->
     <div class="ticker-wrap">
@@ -543,7 +543,43 @@ loadLatestNews().then(() => {
 }
 });
 // Make filterArticles available globally
-window.filterArticles = loadLatestNews;
+window.filterArticles = filterByCategory;
+setupNavLinks();
+checkUrlCategory();
+}
+
+// ================================
+// READ URL CATEGORY PARAMETER
+// ================================
+function checkUrlCategory() {
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get('category');
+    if (category) {
+        const sectionLinks = document.querySelectorAll('.section-nav a');
+        sectionLinks.forEach(l => {
+            l.classList.remove('active');
+            if (l.textContent.trim().toLowerCase() === category.toLowerCase()) {
+                l.classList.add('active');
+            }
+        });
+        filterByCategory(category);
+    }
+}
+
+async function init() {
+    await fetchAllArticles();
+
+    if (allArticles.length > 0) {
+        renderFeatured(allArticles[0]);
+        renderArticles(allArticles);
+    }
+
+    window.filterArticles = filterByCategory;
+    setupNavLinks();
+    checkUrlCategory();
+}
+
+init();
 </script>
 
 </body>
