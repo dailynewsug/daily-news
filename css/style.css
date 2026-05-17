@@ -1414,3 +1414,6 @@ a:hover {
     color: #767676;
     font-size: 15px;
 }
+/* SHARE BUTTONS */
+.wa-share    { background-color: #25d366; }
+.email-share { background-color: #c70000; }
