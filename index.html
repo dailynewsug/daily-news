@@ -16,6 +16,13 @@
         <span>Support Daily News — become a subscriber</span>
     </div>
 
+    <!-- SEARCH BAR -->
+<div class="search-bar-wrap" id="searchBarWrap">
+    <div class="search-bar-inner">
+        <input type="text" id="searchInput" placeholder="Search Daily News...">
+        <button id="searchClearBtn">✕</button>
+    </div>
+</div>
     <!-- HEADER -->
     <header class="header">
         <div class="header-inner">
@@ -347,6 +354,82 @@
     </footer>
 
     <script src="js/main.js"></script>
+    <script>
+    // Search setup - runs after page loads
+    window.addEventListener('load', function() {
+        const searchToggle = document.getElementById('searchToggle');
+        const searchBarWrap = document.getElementById('searchBarWrap');
+        const searchInput = document.getElementById('searchInput');
+        const searchClearBtn = document.getElementById('searchClearBtn');
+
+        if (!searchToggle) return;
+
+        searchToggle.addEventListener('click', function() {
+            searchBarWrap.classList.toggle('active');
+            if (searchBarWrap.classList.contains('active')) {
+                searchInput.focus();
+            } else {
+                searchInput.value = '';
+                if (window.renderArticles && window.allArticles) {
+                    window.renderArticles(window.allArticles);
+                }
+            }
+        });
+
+        searchClearBtn.addEventListener('click', function() {
+            searchInput.value = '';
+            searchBarWrap.classList.remove('active');
+            if (window.renderArticles && window.allArticles) {
+                window.renderArticles(window.allArticles);
+            }
+        });
+
+        searchInput.addEventListener('input', function() {
+            const keyword = searchInput.value.trim().toLowerCase();
+
+            if (keyword === '') {
+                if (window.renderArticles && window.allArticles) {
+                    window.renderArticles(window.allArticles);
+                }
+                return;
+            }
+
+            if (!window.allArticles) return;
+
+            const results = window.allArticles.filter(a =>
+                a.title.toLowerCase().includes(keyword) ||
+                a.standfirst.toLowerCase().includes(keyword) ||
+                a.body.toLowerCase().includes(keyword) ||
+                a.author.toLowerCase().includes(keyword) ||
+                a.category.toLowerCase().includes(keyword)
+            );
+
+            if (window.renderArticles) {
+                window.renderArticles(results);
+            }
+
+            const newsGrid = document.querySelector('.news-grid');
+            if (newsGrid) {
+                const countEl = document.createElement('p');
+                countEl.className = 'search-results-count';
+                countEl.textContent = `${results.length} result${results.length !== 1 ? 's' : ''} for "${searchInput.value.trim()}"`;
+                newsGrid.insertBefore(countEl, newsGrid.firstChild);
+
+                if (results.length === 0) {
+                    newsGrid.innerHTML = `
+                        <div class="no-results">
+                            <p>No articles found for <strong>"${searchInput.value.trim()}"</strong></p>
+                            <p style="margin-top:8px;font-size:13px;">Try a different keyword</p>
+                        </div>
+                    `;
+                }
+            }
+
+            const newsSection = document.querySelector('.news-section');
+            if (newsSection) newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+    });
+</script>
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
     import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -493,6 +576,8 @@ loadLatestNews().then(() => {
         }
 
         newsGrid.innerHTML = '';
+        window.allArticles = allArticles;
+window.renderArticles = renderArticles;
 
         snapshot.forEach(docSnap => {
             const a = docSnap.data();
@@ -541,116 +626,6 @@ loadLatestNews().then(() => {
     }
 }
 });
-// Make filterArticles available globally
-window.filterArticles = filterByCategory;
-setupNavLinks();
-checkUrlCategory();
-
-// ================================
-// READ URL CATEGORY PARAMETER
-// ================================
-function checkUrlCategory() {
-    const params = new URLSearchParams(window.location.search);
-    const category = params.get('category');
-    if (category) {
-        const sectionLinks = document.querySelectorAll('.section-nav a');
-        sectionLinks.forEach(l => {
-            l.classList.remove('active');
-            if (l.textContent.trim().toLowerCase() === category.toLowerCase()) {
-                l.classList.add('active');
-            }
-        });
-        filterByCategory(category);
-    }
-}
-
-async function init() {
-    await fetchAllArticles();
-
-    if (allArticles.length > 0) {
-        renderFeatured(allArticles[0]);
-        renderArticles(allArticles);
-    }
-
-    window.filterArticles = filterByCategory;
-    setupNavLinks();
-    checkUrlCategory();
-}
-
-init();
-// ================================
-// SEARCH FUNCTIONALITY
-// ================================
-function setupSearch() {
-    const searchToggle = document.getElementById('searchToggle');
-    const searchBarWrap = document.getElementById('searchBarWrap');
-    const searchInput = document.getElementById('searchInput');
-    const searchClearBtn = document.getElementById('searchClearBtn');
-
-    if (!searchToggle) return;
-
-    // Toggle search bar
-    searchToggle.addEventListener('click', () => {
-        searchBarWrap.classList.toggle('active');
-        if (searchBarWrap.classList.contains('active')) {
-            searchInput.focus();
-        } else {
-            searchInput.value = '';
-            renderArticles(allArticles);
-        }
-    });
-
-    // Clear search
-    searchClearBtn.addEventListener('click', () => {
-        searchInput.value = '';
-        searchBarWrap.classList.remove('active');
-        renderArticles(allArticles);
-    });
-
-    // Live search as user types
-    searchInput.addEventListener('input', () => {
-        const keyword = searchInput.value.trim().toLowerCase();
-
-        if (keyword === '') {
-            renderArticles(allArticles);
-            return;
-        }
-
-        const results = allArticles.filter(a =>
-            a.title.toLowerCase().includes(keyword) ||
-            a.standfirst.toLowerCase().includes(keyword) ||
-            a.body.toLowerCase().includes(keyword) ||
-            a.author.toLowerCase().includes(keyword) ||
-            a.category.toLowerCase().includes(keyword)
-        );
-
-        // Show results count
-        const newsGrid = document.querySelector('.news-grid');
-        if (newsGrid) {
-            renderArticles(results);
-
-            const countEl = document.createElement('p');
-            countEl.className = 'search-results-count';
-            countEl.textContent = `${results.length} result${results.length !== 1 ? 's' : ''} for "${searchInput.value.trim()}"`;
-            newsGrid.insertBefore(countEl, newsGrid.firstChild);
-
-            if (results.length === 0) {
-                newsGrid.innerHTML = `
-                    <div class="no-results">
-                        <p>No articles found for <strong>"${searchInput.value.trim()}"</strong></p>
-                        <p style="margin-top:8px; font-size:13px;">Try a different keyword</p>
-                    </div>
-                `;
-            }
-        }
-
-        // Scroll to results
-        const newsSection = document.querySelector('.news-section');
-        if (newsSection) newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-}
-
-setupSearch();
 </script>
 
 </body>
