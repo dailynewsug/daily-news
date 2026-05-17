@@ -136,6 +136,35 @@
                     </div>
                 </section>
 
+                <div class="divider"></div>
+
+                <!-- COMMENTS SECTION -->
+                <div class="comments-section">
+                    <h3 id="commentsTitle">Comments (0)</h3>
+
+                    <!-- COMMENT FORM -->
+                    <div class="comment-form">
+                        <h4>Leave a Comment</h4>
+                        <div class="comment-form-row">
+                            <input type="text" id="commentName" placeholder="Your name *">
+                            <input type="email" id="commentEmail" placeholder="Your email (not published)">
+                        </div>
+                        <textarea id="commentText" placeholder="Write your comment here..."></textarea>
+                        <button class="comment-submit-btn" id="commentSubmitBtn">Post Comment</button>
+                        <div class="comment-success" id="commentSuccess">
+                            ✓ Your comment has been posted successfully!
+                        </div>
+                    </div>
+
+                    <!-- COMMENTS LIST -->
+                    <div class="comments-list" id="commentsList">
+                        <div class="no-comments">
+                            Be the first to comment on this story.
+                        </div>
+                    </div>
+
+                </div>
+
             </article>
 
             <!-- ARTICLE SIDEBAR -->
@@ -208,7 +237,7 @@
     <script src="js/main.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC4U6MWTPKDQZ_oICtSLdfnFP3a-HFILb4",
@@ -253,10 +282,8 @@
             const a = JSON.parse(stored);
             const colorClass = categoryColors[a.category] || 'politics';
 
-            // Update page title
             document.title = `${a.title} - Daily News`;
 
-            // Update breadcrumb
             const breadcrumb = document.querySelector('.breadcrumb');
             if (breadcrumb) {
                 breadcrumb.innerHTML = `
@@ -268,33 +295,27 @@
                 `;
             }
 
-            // Update label
             const label = document.querySelector('.article-main .label');
             if (label) {
                 label.className = `label ${colorClass}-label`;
                 label.textContent = a.category;
             }
 
-            // Update headline
             const headline = document.querySelector('.article-headline');
             if (headline) headline.textContent = a.title;
 
-            // Update standfirst
             const standfirst = document.querySelector('.article-standfirst');
             if (standfirst) standfirst.textContent = a.standfirst;
 
-            // Update author
             const authorName = document.querySelector('.author-name');
             if (authorName) authorName.innerHTML = `By <strong>${a.author}</strong>`;
 
             const authorTitle = document.querySelector('.author-title');
             if (authorTitle) authorTitle.textContent = 'Daily News Correspondent';
 
-            // Update date
             const articleDate = document.querySelector('.article-date');
             if (articleDate) articleDate.textContent = a.date;
 
-            // Update image
             const articleImg = document.querySelector('.article-img');
             if (articleImg) {
                 if (a.imageUrl) {
@@ -308,7 +329,6 @@
                 }
             }
 
-            // Update body
             const articleBody = document.querySelector('.article-body');
             if (articleBody && a.body) {
                 const paragraphs = a.body.split('\n\n').filter(p => p.trim() !== '');
@@ -320,7 +340,6 @@
                 }
             }
 
-            // Update tags
             const tagsContainer = document.querySelector('.article-tags');
             if (tagsContainer) {
                 tagsContainer.innerHTML = `
@@ -330,11 +349,10 @@
                 `;
             }
 
-            // Show "Read Original" button for aggregated articles
+            // Show "Read Original" for aggregated articles
             if (a.aggregator && a.sourceUrl) {
-                const divider = document.querySelector('.article-body + .divider') ||
-                                document.querySelector('.divider');
-                if (divider) {
+                const articleBodyEl = document.querySelector('.article-body');
+                if (articleBodyEl) {
                     const readOriginal = document.createElement('div');
                     readOriginal.style.cssText = 'margin:20px 0; padding:16px; background:#f6f6f6; border-left:4px solid #052962;';
                     readOriginal.innerHTML = `
@@ -346,11 +364,10 @@
                             Read Full Story on ${a.sourceName || a.author} →
                         </a>
                     `;
-                    divider.parentNode.insertBefore(readOriginal, divider);
+                    articleBodyEl.appendChild(readOriginal);
                 }
             }
 
-            // Setup share buttons
             setupShareButtons(a.title);
         }
 
@@ -503,11 +520,135 @@
         }
 
         // ================================
+        // LOAD COMMENTS
+        // ================================
+        async function loadComments() {
+            const commentsList = document.getElementById('commentsList');
+            const commentsTitle = document.getElementById('commentsTitle');
+            if (!commentsList) return;
+
+            const stored = localStorage.getItem('currentArticle');
+            if (!stored) return;
+            const currentArticle = JSON.parse(stored);
+
+            try {
+                const q = query(collection(db, 'comments'), orderBy('createdAt', 'desc'));
+                const snapshot = await getDocs(q);
+
+                const comments = [];
+                snapshot.forEach(docSnap => {
+                    const c = docSnap.data();
+                    if (c.articleId === currentArticle.id) {
+                        comments.push({ id: docSnap.id, ...c });
+                    }
+                });
+
+                if (commentsTitle) {
+                    commentsTitle.textContent = `Comments (${comments.length})`;
+                }
+
+                if (comments.length === 0) {
+                    commentsList.innerHTML = '<div class="no-comments">Be the first to comment on this story.</div>';
+                    return;
+                }
+
+                commentsList.innerHTML = '';
+                comments.forEach(c => {
+                    const card = document.createElement('div');
+                    card.className = 'comment-card';
+                    const initials = c.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                    card.innerHTML = `
+                        <div class="comment-header">
+                            <div class="comment-avatar">${initials}</div>
+                            <div>
+                                <div class="comment-author">${c.name}</div>
+                                <div class="comment-date">${c.date}</div>
+                            </div>
+                        </div>
+                        <div class="comment-text">${c.text}</div>
+                        <div class="comment-likes">
+                            <button class="like-btn" onclick="this.textContent = '👍 ' + (parseInt(this.textContent.replace(/\\D/g,'') || 0) + 1)">
+                                👍 Like
+                            </button>
+                        </div>
+                    `;
+                    commentsList.appendChild(card);
+                });
+
+            } catch (error) {
+                console.error('Error loading comments:', error);
+            }
+        }
+
+        // ================================
+        // SETUP COMMENT FORM
+        // ================================
+        async function setupCommentForm() {
+            const submitBtn = document.getElementById('commentSubmitBtn');
+            if (!submitBtn) return;
+
+            const stored = localStorage.getItem('currentArticle');
+            if (!stored) return;
+            const currentArticle = JSON.parse(stored);
+
+            submitBtn.addEventListener('click', async () => {
+                const name = document.getElementById('commentName').value.trim();
+                const text = document.getElementById('commentText').value.trim();
+
+                if (!name || !text) {
+                    alert('Please enter your name and comment.');
+                    return;
+                }
+
+                submitBtn.textContent = 'Posting...';
+                submitBtn.disabled = true;
+
+                try {
+                    await addDoc(collection(db, 'comments'), {
+                        articleId: currentArticle.id,
+                        articleTitle: currentArticle.title,
+                        name,
+                        text,
+                        date: new Date().toLocaleDateString('en-GB', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric',
+                            hour: '2-digit',
+                            minute: '2-digit'
+                        }),
+                        createdAt: new Date().toISOString()
+                    });
+
+                    document.getElementById('commentName').value = '';
+                    document.getElementById('commentEmail').value = '';
+                    document.getElementById('commentText').value = '';
+
+                    const successMsg = document.getElementById('commentSuccess');
+                    if (successMsg) {
+                        successMsg.style.display = 'block';
+                        setTimeout(() => { successMsg.style.display = 'none'; }, 3000);
+                    }
+
+                    loadComments();
+
+                } catch (error) {
+                    alert('Error posting comment. Please try again.');
+                    console.error(error);
+                } finally {
+                    submitBtn.textContent = 'Post Comment';
+                    submitBtn.disabled = false;
+                }
+            });
+        }
+
+        // ================================
         // INIT
         // ================================
         loadArticle();
         loadMoreStories();
         loadMostViewed();
+        loadComments();
+        setupCommentForm();
 
     </script>
 
