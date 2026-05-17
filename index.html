@@ -191,12 +191,8 @@
 
                 <div class="sidebar-widget">
                     <h4 class="widget-title">Most Viewed</h4>
-                    <ol class="most-viewed">
-                        <li><span class="mv-num">1</span><a href="#">Economic Policy Shakes Markets Across the Region</a></li>
-                        <li><span class="mv-num">2</span><a href="#">Football Team Wins Big in Dramatic Final</a></li>
-                        <li><span class="mv-num">3</span><a href="#">New Hospital Opens in Downtown Kampala</a></li>
-                        <li><span class="mv-num">4</span><a href="#">Election Results Announced After Tense Count</a></li>
-                        <li><span class="mv-num">5</span><a href="#">Tech Giant Opens First Local Office</a></li>
+                    <ol class="most-viewed" id="mostViewedList">
+                        <li style="color:#767676; font-size:13px;">Loading...</li>
                     </ol>
                 </div>
 
@@ -300,7 +296,6 @@
                 snapshot.forEach(docSnap => {
                     allArticles.push({ id: docSnap.id, ...docSnap.data() });
                 });
-                // Make available globally for search
                 window.allArticles = allArticles;
                 window.renderArticles = renderArticles;
             } catch (error) {
@@ -377,6 +372,36 @@
                 localStorage.setItem('currentArticle', JSON.stringify(a));
                 window.location.href = 'article.html';
             };
+        }
+
+        // ================================
+        // RENDER MOST VIEWED SIDEBAR
+        // ================================
+        function renderMostViewed() {
+            const list = document.getElementById('mostViewedList');
+            if (!list) return;
+
+            if (allArticles.length === 0) {
+                list.innerHTML = '<li style="color:#767676;font-size:13px;">No articles yet.</li>';
+                return;
+            }
+
+            list.innerHTML = '';
+            const top5 = allArticles.slice(0, 5);
+            top5.forEach((a, index) => {
+                const li = document.createElement('li');
+                li.innerHTML = `
+                    <span class="mv-num">${index + 1}</span>
+                    <a href="#">${a.title}</a>
+                `;
+                li.style.cursor = 'pointer';
+                li.querySelector('a').addEventListener('click', (e) => {
+                    e.preventDefault();
+                    localStorage.setItem('currentArticle', JSON.stringify(a));
+                    window.location.href = 'article.html';
+                });
+                list.appendChild(li);
+            });
         }
 
         // ================================
@@ -523,6 +548,7 @@
             if (allArticles.length > 0) {
                 renderFeatured(allArticles[0]);
                 renderArticles(allArticles);
+                renderMostViewed();
             }
             setupNavLinks();
             setupSearch();
