@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ADMIN SPECIFIC STYLES */
         .admin-wrap {
             max-width: 1200px;
             margin: 30px auto;
@@ -35,9 +34,7 @@
             font-weight: 600;
         }
 
-        .admin-header-bar a:hover {
-            color: white;
-        }
+        .admin-header-bar a:hover { color: white; }
 
         .admin-layout {
             display: grid;
@@ -45,7 +42,6 @@
             gap: 30px;
         }
 
-        /* FORM */
         #articleForm {
             background: #ffffff;
             border: 1px solid #dcdcdc;
@@ -117,14 +113,8 @@
             flex: 1;
         }
 
-        #publishBtn:hover {
-            background-color: #c70000;
-        }
-
-        #publishBtn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-        }
+        #publishBtn:hover { background-color: #c70000; }
+        #publishBtn:disabled { opacity: 0.7; cursor: not-allowed; }
 
         #resetBtn {
             background-color: #f6f6f6;
@@ -138,11 +128,8 @@
             transition: background 0.2s;
         }
 
-        #resetBtn:hover {
-            background-color: #dcdcdc;
-        }
+        #resetBtn:hover { background-color: #dcdcdc; }
 
-        /* ARTICLES LIST */
         .admin-articles-panel {
             background: #ffffff;
             border: 1px solid #dcdcdc;
@@ -167,9 +154,7 @@
             gap: 12px;
         }
 
-        .admin-article-card:last-child {
-            border-bottom: none;
-        }
+        .admin-article-card:last-child { border-bottom: none; }
 
         .admin-card-info h3 {
             font-family: 'Libre Baskerville', Georgia, serif;
@@ -206,9 +191,7 @@
             transition: background 0.2s;
         }
 
-        .edit-btn:hover {
-            background-color: #1a6eb5;
-        }
+        .edit-btn:hover { background-color: #1a6eb5; }
 
         .delete-btn {
             background-color: #f6f6f6;
@@ -235,6 +218,48 @@
         }
 
         .error-msg { color: #c70000; }
+
+        /* IMAGE PREVIEW */
+        .image-preview-wrap {
+            margin-top: 8px;
+            display: none;
+        }
+
+        .image-preview-wrap img {
+            width: 100%;
+            max-height: 200px;
+            object-fit: cover;
+            border: 1px solid #dcdcdc;
+            border-radius: 2px;
+        }
+
+        .image-upload-status {
+            font-size: 12px;
+            color: #767676;
+            margin-top: 6px;
+            display: none;
+        }
+
+        .image-upload-status.uploading { color: #052962; }
+        .image-upload-status.done { color: #1a5c38; }
+        .image-upload-status.error { color: #c70000; }
+
+        /* ADMIN ARTICLE THUMBNAIL */
+        .admin-card-thumb {
+            width: 60px;
+            height: 45px;
+            object-fit: cover;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .admin-card-thumb-placeholder {
+            width: 60px;
+            height: 45px;
+            background: linear-gradient(135deg, #052962, #1a6eb5);
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
 
         /* NOTIFICATION */
         .admin-notification {
@@ -266,13 +291,16 @@
 <body style="background-color:#f6f6f6;">
 
     <!-- ADMIN HEADER -->
-<div class="admin-header-bar">
-    <h1>⚙️ Daily News — Admin Panel</h1>
-    <div style="display:flex; align-items:center; gap:16px;">
-        <a href="index.html">← Back to Website</a>
-        <button onclick="signOutAdmin()" style="background:#c70000; color:#fff; border:none; padding:7px 14px; font-weight:700; cursor:pointer; border-radius:2px; font-size:13px;">Sign Out</button>
+    <div class="admin-header-bar">
+        <h1>⚙️ Daily News — Admin Panel</h1>
+        <div style="display:flex; align-items:center; gap:16px;">
+            <a href="index.html">← Back to Website</a>
+            <button onclick="signOutAdmin()" style="background:#c70000; color:#fff; border:none; padding:7px 14px; font-weight:700; cursor:pointer; border-radius:2px; font-size:13px;">Sign Out</button>
+        </div>
     </div>
-</div>
+
+    <div class="admin-wrap">
+        <div class="admin-layout">
 
             <!-- WRITE ARTICLE FORM -->
             <div id="articleForm">
@@ -319,6 +347,10 @@
                 <div class="admin-form-group">
                     <label for="artImage">Featured Image</label>
                     <input type="file" id="artImage" accept="image/*">
+                    <div class="image-preview-wrap" id="imagePreviewWrap">
+                        <img id="imagePreview" src="" alt="Preview">
+                    </div>
+                    <div class="image-upload-status" id="imageUploadStatus"></div>
                 </div>
 
                 <div class="admin-btn-row">
@@ -338,223 +370,314 @@
         </div>
     </div>
 
- <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, getDocs, deleteDoc, doc, updateDoc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
-    const firebaseConfig = {
-        apiKey: "AIzaSyC4U6MWTPKDQZ_oICtSLdfnFP3a-HFILb4",
-        authDomain: "daily-news-a8c64.firebaseapp.com",
-        projectId: "daily-news-a8c64",
-        storageBucket: "daily-news-a8c64.firebasestorage.app",
-        messagingSenderId: "75335342698",
-        appId: "1:75335342698:web:3e65f3d773eca7730b4813"
-    };
+        const firebaseConfig = {
+            apiKey: "AIzaSyC4U6MWTPKDQZ_oICtSLdfnFP3a-HFILb4",
+            authDomain: "daily-news-a8c64.firebaseapp.com",
+            projectId: "daily-news-a8c64",
+            storageBucket: "daily-news-a8c64.firebasestorage.app",
+            messagingSenderId: "75335342698",
+            appId: "1:75335342698:web:3e65f3d773eca7730b4813"
+        };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
+        // ================================
+        // CLOUDINARY CONFIG
+        // ================================
+        const CLOUDINARY_CLOUD_NAME = 'dpbdwrnfw';
+        const CLOUDINARY_UPLOAD_PRESET = 'daily_news_uploads';
 
-    // ================================
-    // AUTH GUARD — redirect if not logged in
-    // ================================
-    onAuthStateChanged(auth, (user) => {
-        if (!user) {
-            window.location.href = 'login.html';
-        } else {
-            // Show logged in user email
-            const headerBar = document.querySelector('.admin-header-bar');
-            if (headerBar) {
-                const userInfo = document.createElement('span');
-                userInfo.style.cssText = 'font-size:12px; color:rgba(255,255,255,0.7); margin-right:16px;';
-                userInfo.textContent = `Logged in as ${user.email}`;
-                headerBar.insertBefore(userInfo, headerBar.querySelector('a'));
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+        const auth = getAuth(app);
+
+        // ================================
+        // AUTH GUARD
+        // ================================
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                window.location.href = 'login.html';
+            } else {
+                const headerBar = document.querySelector('.admin-header-bar');
+                if (headerBar) {
+                    const userInfo = document.createElement('span');
+                    userInfo.style.cssText = 'font-size:12px; color:rgba(255,255,255,0.7); margin-right:16px;';
+                    userInfo.textContent = `Logged in as ${user.email}`;
+                    headerBar.insertBefore(userInfo, headerBar.querySelector('a'));
+                }
+                loadAdminArticles();
+                setupImagePreview();
             }
-            loadAdminArticles();
+        });
+
+        // ================================
+        // SIGN OUT
+        // ================================
+        window.signOutAdmin = async function() {
+            await signOut(auth);
+            window.location.href = 'login.html';
         }
-    });
 
-    // ================================
-    // SIGN OUT
-    // ================================
-    window.signOutAdmin = async function() {
-        await signOut(auth);
-        window.location.href = 'login.html';
-    }
+        // ================================
+        // IMAGE PREVIEW
+        // ================================
+        function setupImagePreview() {
+            const imageInput = document.getElementById('artImage');
+            const previewWrap = document.getElementById('imagePreviewWrap');
+            const preview = document.getElementById('imagePreview');
 
-    // ================================
-    // LOAD ARTICLES
-    // ================================
-    async function loadAdminArticles() {
-        const list = document.getElementById('adminArticleList');
-        list.innerHTML = '<p class="loading-msg">Loading articles...</p>';
+            if (!imageInput) return;
 
-        try {
-            const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'));
-            const snapshot = await getDocs(q);
+            imageInput.addEventListener('change', () => {
+                const file = imageInput.files[0];
+                if (!file) return;
 
-            if (snapshot.empty) {
-                list.innerHTML = '<p class="no-articles">No articles yet. Create your first one above!</p>';
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    preview.src = e.target.result;
+                    previewWrap.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        // ================================
+        // UPLOAD IMAGE TO CLOUDINARY
+        // ================================
+        async function uploadImageToCloudinary(file) {
+            const statusEl = document.getElementById('imageUploadStatus');
+
+            statusEl.textContent = '⏳ Uploading image...';
+            statusEl.className = 'image-upload-status uploading';
+            statusEl.style.display = 'block';
+
+            try {
+                const formData = new FormData();
+                formData.append('file', file);
+                formData.append('upload_preset', CLOUDINARY_UPLOAD_PRESET);
+                formData.append('cloud_name', CLOUDINARY_CLOUD_NAME);
+
+                const response = await fetch(
+                    `https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD_NAME}/image/upload`,
+                    { method: 'POST', body: formData }
+                );
+
+                const data = await response.json();
+
+                if (data.secure_url) {
+                    statusEl.textContent = '✅ Image uploaded successfully!';
+                    statusEl.className = 'image-upload-status done';
+                    return data.secure_url;
+                } else {
+                    throw new Error(data.error?.message || 'Upload failed');
+                }
+
+            } catch (error) {
+                statusEl.textContent = `❌ Image upload failed: ${error.message}`;
+                statusEl.className = 'image-upload-status error';
+                return '';
+            }
+        }
+
+        // ================================
+        // LOAD ARTICLES
+        // ================================
+        async function loadAdminArticles() {
+            const list = document.getElementById('adminArticleList');
+            list.innerHTML = '<p class="loading-msg">Loading articles...</p>';
+
+            try {
+                const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'));
+                const snapshot = await getDocs(q);
+
+                if (snapshot.empty) {
+                    list.innerHTML = '<p class="no-articles">No articles yet. Create your first one above!</p>';
+                    return;
+                }
+
+                list.innerHTML = '';
+                snapshot.forEach(docSnap => {
+                    const a = docSnap.data();
+                    const id = docSnap.id;
+                    const card = document.createElement('div');
+                    card.className = 'admin-article-card';
+                    card.innerHTML = `
+                        ${a.imageUrl
+                            ? `<img src="${a.imageUrl}" class="admin-card-thumb" alt="${a.title}">`
+                            : `<div class="admin-card-thumb-placeholder"></div>`
+                        }
+                        <div class="admin-card-info" style="flex:1;">
+                            <span class="label ${a.category.toLowerCase()}-label">${a.category}</span>
+                            <h3>${a.title}</h3>
+                            <div class="admin-card-meta">
+                                <span>By ${a.author}</span>
+                                <span>${a.date}</span>
+                            </div>
+                        </div>
+                        <div class="admin-card-actions">
+                            <button class="edit-btn" onclick="editArticle('${id}')">Edit</button>
+                            <button class="delete-btn" onclick="deleteArticle('${id}')">Delete</button>
+                        </div>
+                    `;
+                    list.appendChild(card);
+                });
+
+            } catch (error) {
+                list.innerHTML = `<p class="error-msg">Error: ${error.message}</p>`;
+            }
+        }
+
+        // ================================
+        // PUBLISH ARTICLE
+        // ================================
+        async function publishArticle() {
+            const title = document.getElementById('artTitle').value.trim();
+            const category = document.getElementById('artCategory').value;
+            const author = document.getElementById('artAuthor').value.trim();
+            const standfirst = document.getElementById('artStandfirst').value.trim();
+            const body = document.getElementById('artBody').value.trim();
+            const imageFile = document.getElementById('artImage').files[0];
+            const editId = document.getElementById('editId').value;
+
+            if (!title || !category || !author || !standfirst || !body) {
+                showNotification('Please fill in all required fields.', 'error');
                 return;
             }
 
-            list.innerHTML = '';
-            snapshot.forEach(docSnap => {
-                const a = docSnap.data();
-                const id = docSnap.id;
-                const card = document.createElement('div');
-                card.className = 'admin-article-card';
-                card.innerHTML = `
-                    <div class="admin-card-info">
-                        <span class="label ${a.category.toLowerCase()}-label">${a.category}</span>
-                        <h3>${a.title}</h3>
-                        <div class="admin-card-meta">
-                            <span>By ${a.author}</span>
-                            <span>${a.date}</span>
-                        </div>
-                    </div>
-                    <div class="admin-card-actions">
-                        <button class="edit-btn" onclick="editArticle('${id}')">Edit</button>
-                        <button class="delete-btn" onclick="deleteArticle('${id}')">Delete</button>
-                    </div>
-                `;
-                list.appendChild(card);
-            });
+            const publishBtn = document.getElementById('publishBtn');
+            publishBtn.textContent = 'Publishing...';
+            publishBtn.disabled = true;
 
-        } catch (error) {
-            list.innerHTML = `<p class="error-msg">Error: ${error.message}</p>`;
-        }
-    }
-
-    // ================================
-    // PUBLISH ARTICLE
-    // ================================
-    async function publishArticle() {
-        const title = document.getElementById('artTitle').value.trim();
-        const category = document.getElementById('artCategory').value;
-        const author = document.getElementById('artAuthor').value.trim();
-        const standfirst = document.getElementById('artStandfirst').value.trim();
-        const body = document.getElementById('artBody').value.trim();
-        const editId = document.getElementById('editId').value;
-
-        if (!title || !category || !author || !standfirst || !body) {
-            showNotification('Please fill in all required fields.', 'error');
-            return;
-        }
-
-        const publishBtn = document.getElementById('publishBtn');
-        publishBtn.textContent = 'Publishing...';
-        publishBtn.disabled = true;
-
-        try {
-            const articleData = {
-                title,
-                category,
-                author,
-                standfirst,
-                body,
-                imageUrl: document.getElementById('currentImage').value || '',
-                date: new Date().toLocaleDateString('en-GB', {
-                    weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-                }),
-                createdAt: new Date().toISOString()
-            };
-
-            if (editId) {
-                await updateDoc(doc(db, 'articles', editId), articleData);
-                showNotification('Article updated successfully!', 'success');
-            } else {
-                await addDoc(collection(db, 'articles'), articleData);
-                showNotification('Article published successfully!', 'success');
-            }
-
-            resetForm();
-            loadAdminArticles();
-
-        } catch (error) {
-            showNotification(`Error: ${error.message}`, 'error');
-        } finally {
-            publishBtn.textContent = 'Publish Article';
-            publishBtn.disabled = false;
-        }
-    }
-
-    // ================================
-    // DELETE ARTICLE
-    // ================================
-    window.deleteArticle = async function(id) {
-        if (!confirm('Are you sure you want to delete this article?')) return;
-        try {
-            await deleteDoc(doc(db, 'articles', id));
-            showNotification('Article deleted.', 'success');
-            loadAdminArticles();
-        } catch (error) {
-            showNotification(`Error: ${error.message}`, 'error');
-        }
-    }
-
-    // ================================
-    // EDIT ARTICLE
-    // ================================
-    window.editArticle = async function(id) {
-        try {
-            const snapshot = await getDocs(collection(db, 'articles'));
-            snapshot.forEach(docSnap => {
-                if (docSnap.id === id) {
-                    const a = docSnap.data();
-                    document.getElementById('artTitle').value = a.title;
-                    document.getElementById('artCategory').value = a.category;
-                    document.getElementById('artAuthor').value = a.author;
-                    document.getElementById('artStandfirst').value = a.standfirst;
-                    document.getElementById('artBody').value = a.body;
-                    document.getElementById('editId').value = id;
-                    document.getElementById('currentImage').value = a.imageUrl || '';
-                    document.getElementById('formTitle').textContent = 'Edit Article';
-                    document.getElementById('publishBtn').textContent = 'Update Article';
-                    document.getElementById('articleForm').scrollIntoView({ behavior: 'smooth' });
+            try {
+                // Upload image if provided
+                let imageUrl = document.getElementById('currentImage').value || '';
+                if (imageFile) {
+                    imageUrl = await uploadImageToCloudinary(imageFile);
                 }
-            });
-        } catch (error) {
-            showNotification(`Error: ${error.message}`, 'error');
+
+                const articleData = {
+                    title,
+                    category,
+                    author,
+                    standfirst,
+                    body,
+                    imageUrl,
+                    date: new Date().toLocaleDateString('en-GB', {
+                        weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
+                    }),
+                    createdAt: new Date().toISOString()
+                };
+
+                if (editId) {
+                    await updateDoc(doc(db, 'articles', editId), articleData);
+                    showNotification('Article updated successfully!', 'success');
+                } else {
+                    await addDoc(collection(db, 'articles'), articleData);
+                    showNotification('Article published successfully!', 'success');
+                }
+
+                resetForm();
+                loadAdminArticles();
+
+            } catch (error) {
+                showNotification(`Error: ${error.message}`, 'error');
+            } finally {
+                publishBtn.textContent = 'Publish Article';
+                publishBtn.disabled = false;
+            }
         }
-    }
 
-    // ================================
-    // RESET FORM
-    // ================================
-    function resetForm() {
-        document.getElementById('artTitle').value = '';
-        document.getElementById('artCategory').value = '';
-        document.getElementById('artAuthor').value = '';
-        document.getElementById('artStandfirst').value = '';
-        document.getElementById('artBody').value = '';
-        document.getElementById('editId').value = '';
-        document.getElementById('currentImage').value = '';
-        document.getElementById('formTitle').textContent = 'Write New Article';
-        document.getElementById('publishBtn').textContent = 'Publish Article';
-    }
+        // ================================
+        // DELETE ARTICLE
+        // ================================
+        window.deleteArticle = async function(id) {
+            if (!confirm('Are you sure you want to delete this article?')) return;
+            try {
+                await deleteDoc(doc(db, 'articles', id));
+                showNotification('Article deleted.', 'success');
+                loadAdminArticles();
+            } catch (error) {
+                showNotification(`Error: ${error.message}`, 'error');
+            }
+        }
 
-    // ================================
-    // NOTIFICATION
-    // ================================
-    function showNotification(message, type) {
-        const existing = document.querySelector('.admin-notification');
-        if (existing) existing.remove();
-        const notif = document.createElement('div');
-        notif.className = `admin-notification ${type}`;
-        notif.textContent = message;
-        document.body.appendChild(notif);
-        setTimeout(() => notif.remove(), 4000);
-    }
+        // ================================
+        // EDIT ARTICLE
+        // ================================
+        window.editArticle = async function(id) {
+            try {
+                const snapshot = await getDocs(collection(db, 'articles'));
+                snapshot.forEach(docSnap => {
+                    if (docSnap.id === id) {
+                        const a = docSnap.data();
+                        document.getElementById('artTitle').value = a.title;
+                        document.getElementById('artCategory').value = a.category;
+                        document.getElementById('artAuthor').value = a.author;
+                        document.getElementById('artStandfirst').value = a.standfirst;
+                        document.getElementById('artBody').value = a.body;
+                        document.getElementById('editId').value = id;
+                        document.getElementById('currentImage').value = a.imageUrl || '';
+                        document.getElementById('formTitle').textContent = 'Edit Article';
+                        document.getElementById('publishBtn').textContent = 'Update Article';
 
-    // ================================
-    // INIT
-    // ================================
-    document.getElementById('publishBtn').addEventListener('click', publishArticle);
-    document.getElementById('resetBtn').addEventListener('click', resetForm);
+                        // Show existing image preview
+                        if (a.imageUrl) {
+                            const preview = document.getElementById('imagePreview');
+                            const previewWrap = document.getElementById('imagePreviewWrap');
+                            preview.src = a.imageUrl;
+                            previewWrap.style.display = 'block';
+                        }
 
-</script>
+                        document.getElementById('articleForm').scrollIntoView({ behavior: 'smooth' });
+                    }
+                });
+            } catch (error) {
+                showNotification(`Error: ${error.message}`, 'error');
+            }
+        }
+
+        // ================================
+        // RESET FORM
+        // ================================
+        function resetForm() {
+            document.getElementById('artTitle').value = '';
+            document.getElementById('artCategory').value = '';
+            document.getElementById('artAuthor').value = '';
+            document.getElementById('artStandfirst').value = '';
+            document.getElementById('artBody').value = '';
+            document.getElementById('artImage').value = '';
+            document.getElementById('editId').value = '';
+            document.getElementById('currentImage').value = '';
+            document.getElementById('formTitle').textContent = 'Write New Article';
+            document.getElementById('publishBtn').textContent = 'Publish Article';
+            document.getElementById('imagePreviewWrap').style.display = 'none';
+            document.getElementById('imageUploadStatus').style.display = 'none';
+            document.getElementById('imageUploadStatus').textContent = '';
+        }
+
+        // ================================
+        // NOTIFICATION
+        // ================================
+        function showNotification(message, type) {
+            const existing = document.querySelector('.admin-notification');
+            if (existing) existing.remove();
+            const notif = document.createElement('div');
+            notif.className = `admin-notification ${type}`;
+            notif.textContent = message;
+            document.body.appendChild(notif);
+            setTimeout(() => notif.remove(), 4000);
+        }
+
+        // ================================
+        // INIT
+        // ================================
+        document.getElementById('publishBtn').addEventListener('click', publishArticle);
+        document.getElementById('resetBtn').addEventListener('click', resetForm);
+
+    </script>
 
 </body>
 </html>
