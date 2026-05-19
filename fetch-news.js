@@ -8,9 +8,6 @@ const Parser = require('rss-parser');
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-// ================================
-// FIREBASE SETUP
-// ================================
 async function main() {
     console.log('🚀 Daily News Auto-Publisher starting...');
     console.log(`⏰ ${new Date().toISOString()}`);
@@ -44,7 +41,7 @@ async function main() {
     });
 
     // ================================
-    // NEWS SOURCES — FULL ARTICLES
+    // FULL ARTICLE SOURCES
     // (Creative Commons / Open License)
     // ================================
     const FULL_SOURCES = [
@@ -61,7 +58,7 @@ async function main() {
             source: 'UN News Africa'
         },
         {
-            url: 'https://www.urn.or.ug/feed/',
+            url: 'https://ugandaradionetwork.net/feed/',
             category: 'Politics',
             source: 'Uganda Radio Network'
         },
@@ -75,7 +72,7 @@ async function main() {
         {
             url: 'https://news.un.org/feed/subscribe/en/news/topic/economic-development/feed/rss.xml',
             category: 'Business',
-            source: 'UN News'
+            source: 'UN News Business'
         },
         {
             url: 'https://reliefweb.int/updates/rss.xml?theme=EC&region=267',
@@ -135,6 +132,11 @@ async function main() {
             category: 'Sports',
             source: 'CAF Online'
         },
+        {
+            url: 'https://sportsoceanuganda.com/feed/',
+            category: 'Sports',
+            source: 'Sports Ocean Uganda'
+        },
 
         // EDUCATION
         {
@@ -162,10 +164,44 @@ async function main() {
     ];
 
     // ================================
-    // NEWS SOURCES — AGGREGATOR
+    // AGGREGATOR SOURCES
     // (Headlines + summaries + source link)
     // ================================
     const AGGREGATOR_SOURCES = [
+
+        // UGANDA
+        {
+            url: 'https://chimpreports.com/feed/',
+            category: 'Politics',
+            source: 'Chimp Reports',
+            aggregator: true
+        },
+        {
+            url: 'https://watchdoguganda.com/feed/',
+            category: 'Politics',
+            source: 'Watchdog Uganda',
+            aggregator: true
+        },
+        {
+            url: 'https://scribe.co.ug/feed/',
+            category: 'Politics',
+            source: 'The Scribe Uganda',
+            aggregator: true
+        },
+        {
+            url: 'https://exclusive.co.ug/feed/',
+            category: 'Business',
+            source: 'Exclusive Uganda',
+            aggregator: true
+        },
+        {
+            url: 'https://allafrica.com/tools/headlines/rdf/uganda/headlines.rdf',
+            category: 'Politics',
+            source: 'AllAfrica Uganda',
+            aggregator: true
+        },
+
+        // EAST AFRICA & AFRICA
         {
             url: 'https://www.aljazeera.com/xml/rss/all.xml',
             category: 'Politics',
@@ -179,39 +215,21 @@ async function main() {
             aggregator: true
         },
         {
-            url: 'https://chimp.net/feed/',
-            category: 'Politics',
-            source: 'Chimp Reports',
-            aggregator: true
-        },
-        {
             url: 'https://www.theeastafrican.co.ke/rss/1000',
             category: 'Business',
             source: 'The East African',
             aggregator: true
         },
         {
-            url: 'https://www.monitor.co.ug/rss',
+            url: 'https://www.africanews.com/feed/rss',
             category: 'Politics',
-            source: 'Daily Monitor',
-            aggregator: true
-        },
-        {
-            url: 'https://www.newvision.co.ug/rss',
-            category: 'Politics',
-            source: 'New Vision',
+            source: 'Africa News',
             aggregator: true
         },
         {
             url: 'https://allafrica.com/tools/headlines/rdf/africa/headlines.rdf',
             category: 'Politics',
             source: 'AllAfrica',
-            aggregator: true
-        },
-        {
-            url: 'https://www.africanews.com/feed/rss',
-            category: 'Politics',
-            source: 'Africa News',
             aggregator: true
         }
     ];
@@ -235,101 +253,6 @@ async function main() {
     // FETCH FULL CONTENT
     // ================================
     async function fetchFullContent(url) {
-    try {
-        const response = await axios.get(url, {
-            timeout: 10000,
-            headers: { 'User-Agent': 'Mozilla/5.0 (compatible; DailyNewsBot/1.0)' }
-        });
-
-        const $ = cheerio.load(response.data);
-        $('script, style, nav, header, footer, .ad, .advertisement, .social-share, .comments, .sidebar').remove();
-
-        let content = '';
-        const selectors = [
-            'article .content',
-            'article .body',
-            '.article-body',
-            '.article-content',
-            '.post-content',
-            '.entry-content',
-            '.content-body',
-            'article p',
-            'main p'
-        ];
-
-        for (const selector of selectors) {
-            const el = $(selector);
-            if (el.length > 0) {
-                content = el.text().trim();
-                if (content.length > 200) break;
-            }
-        }
-
-        if (content.length < 200) {
-            const paragraphs = [];
-            $('p').each((i, el) => {
-                const text = $(el).text().trim();
-                if (text.length > 50) paragraphs.push(text);
-            });
-            content = paragraphs.join('\n\n');
-        }
-
-        // ================================
-        // IMPROVED IMAGE FINDING
-        // ================================
-        let imageUrl = '';
-
-        // Try og:image first (most reliable)
-        const ogImage = $('meta[property="og:image"]');
-        if (ogImage.length > 0) {
-            imageUrl = ogImage.attr('content') || '';
-        }
-
-        // Try twitter:image
-        if (!imageUrl) {
-            const twImage = $('meta[name="twitter:image"]');
-            if (twImage.length > 0) {
-                imageUrl = twImage.attr('content') || '';
-            }
-        }
-
-        // Try featured image
-        if (!imageUrl) {
-            const selectors = [
-                '.featured-image img',
-                '.post-thumbnail img',
-                '.article-image img',
-                '.hero-image img',
-                'article img',
-                '.entry-content img',
-                'figure img',
-                'img[class*="featured"]',
-                'img[class*="hero"]',
-                'img[class*="main"]'
-            ];
-
-            for (const selector of selectors) {
-                const img = $(selector).first();
-                if (img.length > 0) {
-                    const src = img.attr('src') || img.attr('data-src') || img.attr('data-lazy-src') || '';
-                    if (src && src.startsWith('http') && !src.includes('logo') && !src.includes('icon') && !src.includes('avatar')) {
-                        imageUrl = src;
-                        break;
-                    }
-                }
-            }
-        }
-
-        // Make sure imageUrl is absolute
-        if (imageUrl && !imageUrl.startsWith('http')) {
-            imageUrl = '';
-        }
-
-        return { content, imageUrl };
-    } catch (error) {
-        return { content: '', imageUrl: '' };
-    }
-}
         try {
             const response = await axios.get(url, {
                 timeout: 10000,
@@ -340,7 +263,7 @@ async function main() {
             $('script, style, nav, header, footer, .ad, .advertisement, .social-share, .comments, .sidebar').remove();
 
             let content = '';
-            const selectors = [
+            const contentSelectors = [
                 'article .content',
                 'article .body',
                 '.article-body',
@@ -352,7 +275,7 @@ async function main() {
                 'main p'
             ];
 
-            for (const selector of selectors) {
+            for (const selector of contentSelectors) {
                 const el = $(selector);
                 if (el.length > 0) {
                     content = el.text().trim();
@@ -370,19 +293,62 @@ async function main() {
                 content = paragraphs.join('\n\n');
             }
 
-            // Get image
+            // ================================
+            // IMPROVED IMAGE FINDING
+            // ================================
             let imageUrl = '';
+
+            // Try og:image first (most reliable)
             const ogImage = $('meta[property="og:image"]');
             if (ogImage.length > 0) {
                 imageUrl = ogImage.attr('content') || '';
             }
+
+            // Try twitter:image
             if (!imageUrl) {
-                const img = $('article img, .featured-image img, .post-thumbnail img').first();
-                imageUrl = img.attr('src') || '';
-                if (imageUrl && !imageUrl.startsWith('http')) imageUrl = '';
+                const twImage = $('meta[name="twitter:image"]');
+                if (twImage.length > 0) {
+                    imageUrl = twImage.attr('content') || '';
+                }
+            }
+
+            // Try featured image selectors
+            if (!imageUrl) {
+                const imgSelectors = [
+                    '.featured-image img',
+                    '.post-thumbnail img',
+                    '.article-image img',
+                    '.hero-image img',
+                    'article img',
+                    '.entry-content img',
+                    'figure img',
+                    'img[class*="featured"]',
+                    'img[class*="hero"]',
+                    'img[class*="main"]'
+                ];
+
+                for (const selector of imgSelectors) {
+                    const img = $(selector).first();
+                    if (img.length > 0) {
+                        const src = img.attr('src') || img.attr('data-src') || img.attr('data-lazy-src') || '';
+                        if (src && src.startsWith('http') &&
+                            !src.includes('logo') &&
+                            !src.includes('icon') &&
+                            !src.includes('avatar')) {
+                            imageUrl = src;
+                            break;
+                        }
+                    }
+                }
+            }
+
+            // Make sure imageUrl is absolute
+            if (imageUrl && !imageUrl.startsWith('http')) {
+                imageUrl = '';
             }
 
             return { content, imageUrl };
+
         } catch (error) {
             return { content: '', imageUrl: '' };
         }
