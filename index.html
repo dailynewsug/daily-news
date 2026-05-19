@@ -30,6 +30,110 @@
     <link rel="canonical" href="https://www.dailynewsug.online">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* LOCAL / INTERNATIONAL SORTER */
+        .origin-filter {
+            display: flex;
+            gap: 0;
+            margin-bottom: 16px;
+            border: 1px solid #dcdcdc;
+            border-radius: 2px;
+            overflow: hidden;
+            width: fit-content;
+        }
+
+        .origin-btn {
+            padding: 8px 20px;
+            font-size: 13px;
+            font-weight: 700;
+            border: none;
+            cursor: pointer;
+            background-color: #f6f6f6;
+            color: #767676;
+            transition: all 0.2s;
+            font-family: 'Source Sans 3', Arial, sans-serif;
+        }
+
+        .origin-btn.active {
+            background-color: #052962;
+            color: #ffffff;
+        }
+
+        .origin-btn:hover:not(.active) {
+            background-color: #dcdcdc;
+            color: #121212;
+        }
+
+        /* SOURCE BADGE */
+        .source-badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 2px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .source-badge.local {
+            background-color: #c70000;
+            color: #ffffff;
+        }
+
+        .source-badge.international {
+            background-color: #1a5c38;
+            color: #ffffff;
+        }
+
+        /* CATEGORY SECTIONS */
+        .category-section {
+            margin-bottom: 30px;
+        }
+
+        .category-section-title {
+            font-family: 'Libre Baskerville', Georgia, serif;
+            font-size: 18px;
+            font-weight: 700;
+            color: #052962;
+            border-bottom: 2px solid #052962;
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .category-section-title.sport { color: #005689; border-bottom-color: #005689; }
+        .category-section-title.business { color: #4a1942; border-bottom-color: #4a1942; }
+        .category-section-title.tech { color: #1a5c38; border-bottom-color: #1a5c38; }
+        .category-section-title.health { color: #a1845c; border-bottom-color: #a1845c; }
+        .category-section-title.environment { color: #185a1a; border-bottom-color: #185a1a; }
+        .category-section-title.education { color: #052962; border-bottom-color: #052962; }
+        .category-section-title.opinion { color: #c70000; border-bottom-color: #c70000; }
+
+        .see-more-link {
+            font-size: 12px;
+            font-weight: 600;
+            color: #767676;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .see-more-link:hover {
+            color: #052962;
+        }
+
+        .no-articles-msg {
+            padding: 20px;
+            color: #767676;
+            font-size: 13px;
+            text-align: center;
+            grid-column: 1 / -1;
+            background: #f6f6f6;
+            border-radius: 2px;
+        }
+    </style>
 </head>
 <body>
 
@@ -104,8 +208,6 @@
 
         <!-- FEATURED + TOP STORIES GRID -->
         <section class="top-stories">
-
-            <!-- MAIN FEATURED STORY -->
             <article class="featured-story">
                 <div class="featured-img politics-bg"></div>
                 <div class="featured-text">
@@ -113,20 +215,19 @@
                     <h1 class="featured-headline">Government Unveils Landmark Infrastructure Plan Worth Billions in Historic Budget Session</h1>
                     <p class="featured-standfirst">The sweeping development plan will see roads, bridges, hospitals and public utilities upgraded across the country over the next five years.</p>
                     <div class="byline">
-                        <span class="author">By <strong>John Doe</strong></span>
-                        <span class="time">2 hours ago</span>
+                        <span class="author">By <strong>Daily News</strong></span>
+                        <span class="time">Latest</span>
                     </div>
                 </div>
             </article>
 
-            <!-- RIGHT COLUMN STORIES -->
             <div class="right-stories">
                 <article class="side-story border-sport">
                     <div class="side-story-text">
                         <span class="label sport-label">Sport</span>
                         <h3>National Team Secures Spot in Continental Cup After Thrilling Victory</h3>
                         <p class="side-standfirst">A last-minute goal sealed a historic qualification for the tournament finals.</p>
-                        <span class="time">1 hour ago</span>
+                        <span class="time">Latest</span>
                     </div>
                     <div class="side-story-img sport-bg"></div>
                 </article>
@@ -136,7 +237,7 @@
                         <span class="label business-label">Business</span>
                         <h3>Stock Market Hits All-Time High for Third Consecutive Week</h3>
                         <p class="side-standfirst">Investors celebrate record-breaking performance amid positive economic signals.</p>
-                        <span class="time">3 hours ago</span>
+                        <span class="time">Latest</span>
                     </div>
                     <div class="side-story-img business-bg"></div>
                 </article>
@@ -146,12 +247,11 @@
                         <span class="label tech-label">Technology</span>
                         <h3>Local Tech Startup Raises $10M to Expand Across East Africa</h3>
                         <p class="side-standfirst">The Kampala-based company plans to launch in five new markets by end of year.</p>
-                        <span class="time">4 hours ago</span>
+                        <span class="time">Latest</span>
                     </div>
                     <div class="side-story-img tech-bg"></div>
                 </article>
             </div>
-
         </section>
 
         <div class="divider"></div>
@@ -162,11 +262,21 @@
             <!-- MAIN CONTENT -->
             <main class="main-content">
 
-                <!-- LATEST NEWS SECTION -->
-                <section class="news-section">
-                    <h2 class="section-heading"><span>Latest News</span></h2>
-                    <div class="news-grid">
-                        <!-- Articles loaded from Firebase -->
+                <!-- LOCAL / INTERNATIONAL FILTER -->
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:16px; flex-wrap:wrap; gap:10px;">
+                    <h2 class="section-heading" style="margin-bottom:0;"><span id="sectionTitle">Latest News</span></h2>
+                    <div class="origin-filter">
+                        <button class="origin-btn active" id="btnAll">All News</button>
+                        <button class="origin-btn" id="btnLocal">🇺🇬 Uganda</button>
+                        <button class="origin-btn" id="btnEastAfrica">🌍 East Africa</button>
+                        <button class="origin-btn" id="btnInternational">🌐 International</button>
+                    </div>
+                </div>
+
+                <!-- NEWS SECTIONS BY CATEGORY -->
+                <section class="news-section" id="newsContainer">
+                    <div class="news-grid" id="mainNewsGrid">
+                        <p class="no-articles-msg">Loading articles...</p>
                     </div>
                 </section>
 
@@ -175,7 +285,7 @@
                 <!-- OPINION SECTION -->
                 <section class="news-section">
                     <h2 class="section-heading opinion-heading"><span>Opinion</span></h2>
-                    <div class="opinion-grid">
+                    <div class="opinion-grid" id="opinionGrid">
                         <article class="opinion-card">
                             <div class="opinion-author-img"></div>
                             <div class="opinion-body">
@@ -185,7 +295,6 @@
                                 <span class="opinion-author">Prof. David Mutebi</span>
                             </div>
                         </article>
-
                         <article class="opinion-card">
                             <div class="opinion-author-img"></div>
                             <div class="opinion-body">
@@ -195,7 +304,6 @@
                                 <span class="opinion-author">Grace Namukasa</span>
                             </div>
                         </article>
-
                         <article class="opinion-card">
                             <div class="opinion-author-img"></div>
                             <div class="opinion-body">
@@ -307,8 +415,42 @@
             'Opinion': 'opinion'
         };
 
-        let allArticles = [];
+        // ================================
+        // LOCAL UGANDAN SOURCES
+        // ================================
+        const LOCAL_SOURCES = [
+            'Chimp Reports', 'Watchdog Uganda', 'The Scribe Uganda',
+            'Uganda Radio Network', 'Daily Monitor', 'New Vision',
+            'Nile Post', 'Sports Ocean Uganda', 'Exclusive Uganda',
+            'AllAfrica Uganda'
+        ];
 
+        // ================================
+        // EAST AFRICA SOURCES
+        // ================================
+        const EAST_AFRICA_SOURCES = [
+            'The East African', 'East African Community',
+            'ReliefWeb Uganda', 'ReliefWeb Uganda Health',
+            'ReliefWeb Uganda Education', 'ReliefWeb East Africa',
+            'ReliefWeb East Africa Environment', 'AllAfrica',
+            'WHO Africa', 'Africa News'
+        ];
+
+        // ================================
+        // CATEGORIES TO DISPLAY
+        // ================================
+        const CATEGORIES = [
+            'Politics', 'Business', 'Sports',
+            'Technology', 'Health', 'Environment', 'Education'
+        ];
+
+        let allArticles = [];
+        let currentOrigin = 'all';
+        let currentCategory = 'Top Stories';
+
+        // ================================
+        // FETCH ALL ARTICLES
+        // ================================
         async function fetchAllArticles() {
             try {
                 const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'));
@@ -318,51 +460,210 @@
                     allArticles.push({ id: docSnap.id, ...docSnap.data() });
                 });
                 window.allArticles = allArticles;
-                window.renderArticles = renderArticles;
+                window.renderArticles = renderNewsGrid;
             } catch (error) {
                 console.error('Error fetching articles:', error);
             }
         }
 
-        function renderArticles(articles) {
-            const newsGrid = document.querySelector('.news-grid');
-            if (!newsGrid) return;
+        // ================================
+        // GET ORIGIN OF ARTICLE
+        // ================================
+        function getOrigin(article) {
+            const source = article.sourceName || article.author || '';
+            if (LOCAL_SOURCES.some(s => source.includes(s))) return 'local';
+            if (EAST_AFRICA_SOURCES.some(s => source.includes(s))) return 'eastafrica';
+            return 'international';
+        }
+
+        // ================================
+        // FILTER ARTICLES
+        // ================================
+        function getFilteredArticles(category, origin) {
+            let filtered = allArticles;
+
+            // Filter by category
+            if (category && category !== 'Top Stories' && category !== 'News') {
+                if (category === 'Sport') {
+                    filtered = filtered.filter(a => a.category === 'Sports');
+                } else {
+                    filtered = filtered.filter(a =>
+                        a.category.toLowerCase() === category.toLowerCase()
+                    );
+                }
+            }
+
+            // Filter by origin
+            if (origin === 'local') {
+                filtered = filtered.filter(a => getOrigin(a) === 'local');
+            } else if (origin === 'eastafrica') {
+                filtered = filtered.filter(a => getOrigin(a) === 'eastafrica');
+            } else if (origin === 'international') {
+                filtered = filtered.filter(a => getOrigin(a) === 'international');
+            }
+
+            return filtered;
+        }
+
+        // ================================
+        // CREATE ARTICLE CARD
+        // ================================
+        function createCard(a) {
+            const colorClass = categoryColors[a.category] || 'politics';
+            const origin = getOrigin(a);
+            const originLabel = origin === 'local' ? '🇺🇬 Uganda' :
+                               origin === 'eastafrica' ? '🌍 East Africa' : '🌐 International';
+            const originClass = origin === 'local' ? 'local' :
+                               origin === 'eastafrica' ? 'local' : 'international';
+
+            const card = document.createElement('article');
+            card.className = 'news-card';
+            card.setAttribute('data-category', a.category);
+            card.setAttribute('data-origin', origin);
+            card.innerHTML = `
+                ${a.imageUrl
+                    ? `<img src="${a.imageUrl}" class="news-card-img" style="object-fit:cover;width:100%;height:140px;" alt="${a.title}">`
+                    : `<div class="news-card-img ${colorClass}-bg"></div>`
+                }
+                <div class="news-card-body">
+                    <div style="display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin-bottom:4px;">
+                        <span class="label ${colorClass}-label">${a.category}</span>
+                        <span class="source-badge ${originClass}">${originLabel}</span>
+                    </div>
+                    <h3>${a.title}</h3>
+                    <p>${a.standfirst ? a.standfirst.substring(0, 120) + '...' : ''}</p>
+                    <div class="card-meta">
+                        <span>${a.author}</span>
+                        <span>${a.date}</span>
+                    </div>
+                </div>
+            `;
+            card.style.cursor = 'pointer';
+            card.addEventListener('click', () => {
+                localStorage.setItem('currentArticle', JSON.stringify(a));
+                window.location.href = 'article.html';
+            });
+            return card;
+        }
+
+        // ================================
+        // RENDER NEWS GRID (single category view)
+        // ================================
+        function renderNewsGrid(articles) {
+            const grid = document.getElementById('mainNewsGrid');
+            if (!grid) return;
 
             if (!articles || articles.length === 0) {
-                newsGrid.innerHTML = '<p style="padding:20px;color:#767676;grid-column:1/-1;">No articles in this category yet.</p>';
+                grid.innerHTML = '<p class="no-articles-msg">No articles found in this category.</p>';
                 return;
             }
 
-            newsGrid.innerHTML = '';
+            grid.innerHTML = '';
             articles.forEach(a => {
-                const colorClass = categoryColors[a.category] || 'politics';
-                const card = document.createElement('article');
-                card.className = 'news-card';
-                card.setAttribute('data-category', a.category);
-                card.innerHTML = `
-                    ${a.imageUrl
-                        ? `<img src="${a.imageUrl}" class="news-card-img" style="object-fit:cover;width:100%;height:140px;" alt="${a.title}">`
-                        : `<div class="news-card-img ${colorClass}-bg"></div>`
-                    }
-                    <div class="news-card-body">
-                        <span class="label ${colorClass}-label">${a.category}</span>
-                        <h3>${a.title}</h3>
-                        <p>${a.standfirst}</p>
-                        <div class="card-meta">
-                            <span>${a.author}</span>
-                            <span>${a.date}</span>
-                        </div>
-                    </div>
-                `;
-                card.style.cursor = 'pointer';
-                card.addEventListener('click', () => {
-                    localStorage.setItem('currentArticle', JSON.stringify(a));
-                    window.location.href = 'article.html';
-                });
-                newsGrid.appendChild(card);
+                grid.appendChild(createCard(a));
             });
         }
 
+        // ================================
+        // RENDER BY CATEGORIES (Top Stories view)
+        // ================================
+        function renderByCategories(origin) {
+            const container = document.getElementById('newsContainer');
+            if (!container) return;
+
+            container.innerHTML = '';
+
+            const categoryIcons = {
+                'Politics': '🏛️',
+                'Business': '📈',
+                'Sports': '⚽',
+                'Technology': '💻',
+                'Health': '🏥',
+                'Environment': '🌿',
+                'Education': '📚'
+            };
+
+            const categoryClasses = {
+                'Politics': 'politics',
+                'Business': 'business',
+                'Sports': 'sport',
+                'Technology': 'tech',
+                'Health': 'health',
+                'Environment': 'environment',
+                'Education': 'education'
+            };
+
+            let hasAnyArticles = false;
+
+            CATEGORIES.forEach(cat => {
+                let catArticles = allArticles.filter(a =>
+                    a.category.toLowerCase() === cat.toLowerCase()
+                );
+
+                // Filter by origin
+                if (origin === 'local') {
+                    catArticles = catArticles.filter(a => getOrigin(a) === 'local');
+                } else if (origin === 'eastafrica') {
+                    catArticles = catArticles.filter(a => getOrigin(a) === 'eastafrica');
+                } else if (origin === 'international') {
+                    catArticles = catArticles.filter(a => getOrigin(a) === 'international');
+                }
+
+                if (catArticles.length === 0) return;
+
+                hasAnyArticles = true;
+
+                // Show max 3 per category in top stories view
+                const displayArticles = catArticles.slice(0, 3);
+
+                const section = document.createElement('div');
+                section.className = 'category-section';
+
+                const titleEl = document.createElement('div');
+                titleEl.className = `category-section-title ${categoryClasses[cat] || ''}`;
+                titleEl.innerHTML = `
+                    <span>${categoryIcons[cat] || ''} ${cat}</span>
+                    ${catArticles.length > 3
+                        ? `<a class="see-more-link" data-category="${cat}">See all ${catArticles.length} →</a>`
+                        : ''
+                    }
+                `;
+                section.appendChild(titleEl);
+
+                const grid = document.createElement('div');
+                grid.className = 'news-grid';
+                displayArticles.forEach(a => grid.appendChild(createCard(a)));
+                section.appendChild(grid);
+
+                // See more click
+                const seeMore = titleEl.querySelector('.see-more-link');
+                if (seeMore) {
+                    seeMore.addEventListener('click', () => {
+                        filterByCategory(cat);
+                        // Update nav
+                        document.querySelectorAll('.section-nav a').forEach(l => {
+                            l.classList.remove('active');
+                            if (l.textContent.trim() === cat) l.classList.add('active');
+                        });
+                    });
+                }
+
+                container.appendChild(section);
+
+                // Add divider between categories
+                const divider = document.createElement('div');
+                divider.className = 'divider';
+                container.appendChild(divider);
+            });
+
+            if (!hasAnyArticles) {
+                container.innerHTML = '<p class="no-articles-msg">No articles found for this filter.</p>';
+            }
+        }
+
+        // ================================
+        // RENDER FEATURED
+        // ================================
         function renderFeatured(a) {
             const featured = document.querySelector('.featured-story');
             if (!featured || !a) return;
@@ -389,23 +690,20 @@
             };
         }
 
+        // ================================
+        // RENDER MOST VIEWED
+        // ================================
         function renderMostViewed() {
             const list = document.getElementById('mostViewedList');
             if (!list) return;
-
             if (allArticles.length === 0) {
                 list.innerHTML = '<li style="color:#767676;font-size:13px;">No articles yet.</li>';
                 return;
             }
-
             list.innerHTML = '';
-            const top5 = allArticles.slice(0, 5);
-            top5.forEach((a, index) => {
+            allArticles.slice(0, 5).forEach((a, index) => {
                 const li = document.createElement('li');
-                li.innerHTML = `
-                    <span class="mv-num">${index + 1}</span>
-                    <a href="#">${a.title}</a>
-                `;
+                li.innerHTML = `<span class="mv-num">${index + 1}</span><a href="#">${a.title}</a>`;
                 li.style.cursor = 'pointer';
                 li.querySelector('a').addEventListener('click', (e) => {
                     e.preventDefault();
@@ -416,35 +714,78 @@
             });
         }
 
+        // ================================
+        // FILTER BY CATEGORY
+        // ================================
         function filterByCategory(category) {
-            let filtered;
-            if (category === 'Top Stories' || category === 'News' || category === 'Culture' || category === 'Lifestyle') {
-                filtered = allArticles;
-            } else if (category === 'Sport') {
-                filtered = allArticles.filter(a => a.category === 'Sports');
+            currentCategory = category;
+            const sectionTitle = document.getElementById('sectionTitle');
+
+            const container = document.getElementById('newsContainer');
+            container.innerHTML = '<div class="news-grid" id="mainNewsGrid"></div>';
+
+            if (category === 'Top Stories' || category === 'News' ||
+                category === 'Culture' || category === 'Lifestyle') {
+                currentCategory = 'Top Stories';
+                if (sectionTitle) sectionTitle.textContent = 'Latest News';
+                renderByCategories(currentOrigin);
             } else {
-                filtered = allArticles.filter(a =>
-                    a.category.toLowerCase() === category.toLowerCase()
-                );
-            }
-
-            renderArticles(filtered);
-
-            const sectionTitle = document.querySelector('.section-heading span');
-            if (sectionTitle) {
-                sectionTitle.textContent = (category === 'Top Stories') ? 'Latest News' : category;
+                if (sectionTitle) sectionTitle.textContent = category;
+                const filtered = getFilteredArticles(category, currentOrigin);
+                renderNewsGrid(filtered);
             }
 
             const newsSection = document.querySelector('.news-section');
             if (newsSection) newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
 
+        // ================================
+        // SETUP ORIGIN FILTER BUTTONS
+        // ================================
+        function setupOriginFilter() {
+            const btnAll = document.getElementById('btnAll');
+            const btnLocal = document.getElementById('btnLocal');
+            const btnEastAfrica = document.getElementById('btnEastAfrica');
+            const btnInternational = document.getElementById('btnInternational');
+
+            function setActive(btn) {
+                [btnAll, btnLocal, btnEastAfrica, btnInternational].forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            }
+
+            btnAll.addEventListener('click', () => {
+                setActive(btnAll);
+                currentOrigin = 'all';
+                filterByCategory(currentCategory);
+            });
+
+            btnLocal.addEventListener('click', () => {
+                setActive(btnLocal);
+                currentOrigin = 'local';
+                filterByCategory(currentCategory);
+            });
+
+            btnEastAfrica.addEventListener('click', () => {
+                setActive(btnEastAfrica);
+                currentOrigin = 'eastafrica';
+                filterByCategory(currentCategory);
+            });
+
+            btnInternational.addEventListener('click', () => {
+                setActive(btnInternational);
+                currentOrigin = 'international';
+                filterByCategory(currentCategory);
+            });
+        }
+
+        // ================================
+        // SEARCH
+        // ================================
         function setupSearch() {
             const searchToggle = document.getElementById('searchToggle');
             const searchBarWrap = document.getElementById('searchBarWrap');
             const searchInput = document.getElementById('searchInput');
             const searchClearBtn = document.getElementById('searchClearBtn');
-
             if (!searchToggle) return;
 
             searchToggle.addEventListener('click', () => {
@@ -453,56 +794,45 @@
                     searchInput.focus();
                 } else {
                     searchInput.value = '';
-                    renderArticles(allArticles);
+                    filterByCategory(currentCategory);
                 }
             });
 
             searchClearBtn.addEventListener('click', () => {
                 searchInput.value = '';
                 searchBarWrap.classList.remove('active');
-                renderArticles(allArticles);
+                filterByCategory(currentCategory);
             });
 
             searchInput.addEventListener('input', () => {
                 const keyword = searchInput.value.trim().toLowerCase();
-
                 if (keyword === '') {
-                    renderArticles(allArticles);
+                    filterByCategory(currentCategory);
                     return;
                 }
 
                 const results = allArticles.filter(a =>
                     a.title.toLowerCase().includes(keyword) ||
-                    a.standfirst.toLowerCase().includes(keyword) ||
-                    a.body.toLowerCase().includes(keyword) ||
+                    (a.standfirst && a.standfirst.toLowerCase().includes(keyword)) ||
+                    (a.body && a.body.toLowerCase().includes(keyword)) ||
                     a.author.toLowerCase().includes(keyword) ||
                     a.category.toLowerCase().includes(keyword)
                 );
 
-                renderArticles(results);
-
-                const newsGrid = document.querySelector('.news-grid');
-                if (newsGrid) {
-                    const countEl = document.createElement('p');
-                    countEl.className = 'search-results-count';
-                    countEl.textContent = `${results.length} result${results.length !== 1 ? 's' : ''} for "${searchInput.value.trim()}"`;
-                    newsGrid.insertBefore(countEl, newsGrid.firstChild);
-
-                    if (results.length === 0) {
-                        newsGrid.innerHTML = `
-                            <div class="no-results">
-                                <p>No articles found for <strong>"${searchInput.value.trim()}"</strong></p>
-                                <p style="margin-top:8px;font-size:13px;">Try a different keyword</p>
-                            </div>
-                        `;
-                    }
-                }
+                const container = document.getElementById('newsContainer');
+                container.innerHTML = '<div class="news-grid" id="mainNewsGrid"></div>';
+                const sectionTitle = document.getElementById('sectionTitle');
+                if (sectionTitle) sectionTitle.textContent = `Search: "${searchInput.value.trim()}"`;
+                renderNewsGrid(results);
 
                 const newsSection = document.querySelector('.news-section');
                 if (newsSection) newsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         }
 
+        // ================================
+        // SETUP NAV LINKS
+        // ================================
         function setupNavLinks() {
             const sectionLinks = document.querySelectorAll('.section-nav a');
             sectionLinks.forEach(link => {
@@ -531,7 +861,7 @@
                 });
             });
 
-            // Footer category links
+            // Footer links
             const footerLinks = document.querySelectorAll('.footer-col a[href^="index.html?category="]');
             footerLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
@@ -545,21 +875,35 @@
             });
         }
 
+        // ================================
+        // CHECK URL PARAMS
+        // ================================
         function checkUrlCategory() {
             const params = new URLSearchParams(window.location.search);
             const category = params.get('category');
             if (category) {
                 filterByCategory(category);
+                document.querySelectorAll('.section-nav a').forEach(l => {
+                    l.classList.remove('active');
+                    if (l.textContent.trim() === category) l.classList.add('active');
+                });
             }
         }
 
+        // ================================
+        // INIT
+        // ================================
         async function init() {
             await fetchAllArticles();
             if (allArticles.length > 0) {
                 renderFeatured(allArticles[0]);
-                renderArticles(allArticles);
+                renderByCategories('all');
                 renderMostViewed();
+            } else {
+                document.getElementById('newsContainer').innerHTML =
+                    '<p class="no-articles-msg">Loading articles... Please refresh in a moment.</p>';
             }
+            setupOriginFilter();
             setupNavLinks();
             setupSearch();
             checkUrlCategory();
@@ -574,16 +918,12 @@
     <script src="https://5gvci.com/act/files/tag.min.js?z=11022493" data-cfasync="false" async></script>
     <!-- Monetag In-Page Push (Mobile) -->
     <script>(function(s){s.dataset.zone='11022631',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-    <!-- Service Worker for Push Notifications -->
+    <!-- Service Worker -->
     <script>
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('/sw.js')
-            .then(function(registration) {
-                console.log('Service Worker registered:', registration);
-            })
-            .catch(function(error) {
-                console.log('Service Worker registration failed:', error);
-            });
+            .then(r => console.log('SW registered:', r))
+            .catch(e => console.log('SW failed:', e));
         }
     </script>
 
