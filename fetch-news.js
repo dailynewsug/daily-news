@@ -48,56 +48,40 @@ async function main() {
     // ================================
     const FULL_SOURCES = [
 
-        // HEALTH — WHO (working)
+        // HEALTH
         {
             url: 'https://www.who.int/rss-feeds/news-english.xml',
             category: 'Health',
             source: 'WHO'
         },
-
-        // HEALTH — WHO Africa (working)
         {
             url: 'https://www.afro.who.int/rss.xml',
             category: 'Health',
             source: 'WHO Africa'
         },
 
-        // SPORTS — Uganda (working)
+        // SPORTS — Uganda
         {
             url: 'https://sportsoceanuganda.com/feed/',
             category: 'Sports',
             source: 'Sports Ocean Uganda'
         },
 
-        // EDUCATION — The Conversation Africa (working)
+        // EDUCATION
         {
             url: 'https://theconversation.com/africa/education/articles.atom',
             category: 'Education',
             source: 'The Conversation Africa'
         },
 
-        // OPINION — The Conversation Africa (working)
+        // OPINION
         {
             url: 'https://theconversation.com/africa/articles.atom',
             category: 'Opinion',
             source: 'The Conversation Africa'
         },
 
-        // TECHNOLOGY — Africa Science News
-        {
-            url: 'https://africasciencenews.org/feed/',
-            category: 'Technology',
-            source: 'Africa Science News'
-        },
-
-        // ENVIRONMENT — RFI Africa
-        {
-            url: 'https://www.rfi.fr/en/rss/rfi-africa-en.xml',
-            category: 'Environment',
-            source: 'RFI Africa'
-        },
-
-        // BUSINESS — Africa Report
+        // BUSINESS
         {
             url: 'https://www.theafricareport.com/feed/',
             category: 'Business',
@@ -127,12 +111,6 @@ async function main() {
             url: 'https://exclusive.co.ug/feed/',
             category: 'Business',
             source: 'Exclusive Uganda',
-            aggregator: true
-        },
-        {
-            url: 'https://sportsoceanuganda.com/feed/',
-            category: 'Sports',
-            source: 'Sports Ocean Uganda',
             aggregator: true
         },
         {
@@ -180,17 +158,17 @@ async function main() {
             aggregator: true
         },
 
-        // INTERNATIONAL
-        {
-            url: 'https://www.aljazeera.com/xml/rss/all.xml',
-            category: 'Politics',
-            source: 'Al Jazeera',
-            aggregator: true
-        },
+        // INTERNATIONAL — BBC (most reliable)
         {
             url: 'https://feeds.bbci.co.uk/news/world/africa/rss.xml',
             category: 'Politics',
             source: 'BBC Africa',
+            aggregator: true
+        },
+        {
+            url: 'https://feeds.bbci.co.uk/news/world/rss.xml',
+            category: 'Politics',
+            source: 'BBC World',
             aggregator: true
         },
         {
@@ -218,15 +196,23 @@ async function main() {
             aggregator: true
         },
         {
-            url: 'https://rss.cnn.com/rss/edition_world.rss',
-            category: 'Politics',
-            source: 'CNN World',
+            url: 'https://feeds.bbci.co.uk/news/science_and_environment/rss.xml',
+            category: 'Environment',
+            source: 'BBC Environment',
             aggregator: true
         },
         {
-            url: 'https://www.rfi.fr/en/rss/rfi-africa-en.xml',
+            url: 'https://feeds.bbci.co.uk/news/education/rss.xml',
+            category: 'Education',
+            source: 'BBC Education',
+            aggregator: true
+        },
+
+        // AL JAZEERA
+        {
+            url: 'https://www.aljazeera.com/xml/rss/all.xml',
             category: 'Politics',
-            source: 'RFI Africa',
+            source: 'Al Jazeera',
             aggregator: true
         }
     ];
@@ -422,7 +408,7 @@ async function main() {
 
                 if (cleanSummary.length < 30) continue;
 
-                // Try to get image from RSS item
+                // Try to get image from RSS enclosure
                 let imageUrl = '';
                 if (item.enclosure && item.enclosure.url) {
                     imageUrl = item.enclosure.url;
