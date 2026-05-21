@@ -1,26 +1,23 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <script>(function(s){s.dataset.zone='11034900',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-    <script>(function(s){s.dataset.zone='11034907',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-    <script>(function(s){s.dataset.zone='11035918',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3178797910676300"
-     crossorigin="anonymous"></script>
     <meta charset="UTF-8">
     <!-- Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-G6SX3WSJRK"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
-    gtag('config', 'G-G6SX3WSJRK');
-</script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-G6SX3WSJRK"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-G6SX3WSJRK');
+    </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3178797910676300" crossorigin="anonymous"></script>
+    <meta name="monetag" content="a7697520531dbf6c26debbd85afb3fc0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily News Uganda | Breaking News and Analysis</title>
-<meta name="description" content="Read the latest news, analysis and updates from Daily News Uganda.">
-<meta name="robots" content="index, follow">
-<meta property="og:type" content="article">
-<meta property="og:site_name" content="Daily News">
+    <meta name="description" content="Read the latest news, analysis and updates from Daily News Uganda.">
+    <meta name="robots" content="index, follow">
+    <meta property="og:type" content="article">
+    <meta property="og:site_name" content="Daily News">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
 </head>
@@ -82,31 +79,31 @@
                 <div class="breadcrumb">
                     <a href="index.html">Home</a>
                     <span> › </span>
-                    <a href="#">Politics</a>
+                    <a href="#" id="breadcrumbCategory">News</a>
                     <span> › </span>
-                    <span>Infrastructure Plan</span>
+                    <span id="breadcrumbTitle">Article</span>
                 </div>
 
                 <!-- ARTICLE LABEL -->
-                <span class="label politics-label">Politics</span>
+                <span class="label politics-label" id="articleLabel">Politics</span>
 
                 <!-- HEADLINE -->
-                <h1 class="article-headline">Government Unveils Landmark Infrastructure Plan Worth Billions in Historic Budget Session</h1>
+                <h1 class="article-headline" id="articleHeadline">Loading article...</h1>
 
                 <!-- STANDFIRST -->
-                <p class="article-standfirst">The sweeping development plan will see roads, bridges, hospitals and public utilities upgraded across the country over the next five years in what analysts are calling the boldest economic move in a decade.</p>
+                <p class="article-standfirst" id="articleStandfirst"></p>
 
                 <!-- ARTICLE META -->
                 <div class="article-meta">
                     <div class="article-author-info">
                         <div class="author-avatar"></div>
                         <div>
-                            <span class="author-name">By <strong>John Doe</strong></span>
+                            <span class="author-name" id="articleAuthor">By <strong>Daily News</strong></span>
                             <span class="author-title">Daily News Correspondent</span>
                         </div>
                     </div>
                     <div class="article-meta-right">
-                        <span class="article-date">Friday 15 May 2026</span>
+                        <span class="article-date" id="articleDate"></span>
                         <div class="article-share">
                             <button class="share-btn fb-share">📘 Facebook</button>
                             <button class="share-btn tw-share">🐦 Twitter</button>
@@ -120,26 +117,24 @@
                 <div class="divider"></div>
 
                 <!-- ARTICLE IMAGE -->
-                <div class="article-img politics-bg"></div>
-                <p class="img-caption">Photograph: Daily News</p>
+                <div id="articleImageWrap">
+                    <div class="article-img politics-bg"></div>
+                    <p class="img-caption">Photograph: Daily News</p>
+                </div>
 
                 <!-- ARTICLE BODY -->
-                <div class="article-body">
-                    <p>The government has announced a sweeping infrastructure development plan that will see roads, bridges, hospitals and public utilities upgraded across the country over the next five years.</p>
-                    <p>Speaking to a packed parliament, the Finance Minister outlined plans to allocate funds across five key sectors — transport, healthcare, education, energy and water.</p>
-                    <blockquote class="article-quote">
-                        "This is not just a budget. This is a statement of intent. We are investing in the future of every citizen, in every corner of this country."
-                        <cite>— Finance Minister</cite>
-                    </blockquote>
-                    <p>The plan has been broadly welcomed by business leaders and civil society organisations, though opposition lawmakers have raised questions about financing and oversight.</p>
+                <div class="article-body" id="articleBody">
+                    <p style="color:#767676;">Loading article content...</p>
                 </div>
+
+                <!-- SOURCE LINK (for aggregated articles) -->
+                <div id="sourceLink"></div>
 
                 <div class="divider"></div>
 
                 <!-- TAGS -->
-                <div class="article-tags">
+                <div class="article-tags" id="articleTags">
                     <span class="tag-title">Topics:</span>
-                    <a href="index.html?category=Politics" class="article-tag">Politics</a>
                     <a href="index.html" class="article-tag">Daily News</a>
                 </div>
 
@@ -148,9 +143,7 @@
                 <!-- MORE ON THIS STORY -->
                 <section class="more-stories">
                     <h3 class="section-heading">More Stories</h3>
-                    <div class="more-grid">
-                        <!-- Loaded from Firebase -->
-                    </div>
+                    <div class="more-grid" id="moreGrid"></div>
                 </section>
 
                 <div class="divider"></div>
@@ -159,7 +152,6 @@
                 <div class="comments-section">
                     <h3 id="commentsTitle">Comments (0)</h3>
 
-                    <!-- COMMENT FORM -->
                     <div class="comment-form">
                         <h4>Leave a Comment</h4>
                         <div class="comment-form-row">
@@ -173,34 +165,27 @@
                         </div>
                     </div>
 
-                    <!-- COMMENTS LIST -->
                     <div class="comments-list" id="commentsList">
-                        <div class="no-comments">
-                            Be the first to comment on this story.
-                        </div>
+                        <div class="no-comments">Be the first to comment on this story.</div>
                     </div>
-
                 </div>
 
             </article>
 
             <!-- ARTICLE SIDEBAR -->
             <aside class="sidebar">
-
                 <div class="sidebar-widget">
                     <h4 class="widget-title">Most Viewed</h4>
                     <ol class="most-viewed" id="mostViewedList">
                         <li style="color:#767676; font-size:13px;">Loading...</li>
                     </ol>
                 </div>
-
                 <div class="sidebar-widget newsletter-widget">
                     <h4 class="widget-title">Daily Briefing</h4>
                     <p>Get the top stories delivered to your inbox every morning.</p>
                     <input type="email" placeholder="Your email address" class="email-input">
                     <button class="subscribe-btn">Sign up</button>
                 </div>
-
                 <div class="sidebar-widget">
                     <h4 class="widget-title">Follow Daily News</h4>
                     <div class="social-links">
@@ -210,7 +195,6 @@
                         <a href="#" class="social-btn yt">YouTube</a>
                     </div>
                 </div>
-
             </aside>
 
         </div>
@@ -240,9 +224,9 @@
                     <h5>Company</h5>
                     <a href="about.html">About Us</a>
                     <a href="contact.html">Contact</a>
-                    <a href="#">Advertise</a>
+                    <a href="contact.html?subject=advertise">Advertise</a>
                     <a href="privacy.html">Privacy Policy</a>
-                    <a href="#">Terms of Use</a>
+                    <a href="terms.html">Terms of Use</a>
                 </div>
             </div>
         </div>
@@ -252,9 +236,13 @@
     </footer>
 
     <script src="js/main.js"></script>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, getDoc, doc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import {
+            getFirestore, collection, getDocs, getDoc,
+            addDoc, orderBy, query, limit, doc
+        } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC4U6MWTPKDQZ_oICtSLdfnFP3a-HFILb4",
@@ -269,212 +257,159 @@
         const db = getFirestore(app);
 
         const categoryColors = {
-            'Politics': 'politics',
-            'Business': 'business',
-            'Sports': 'sport',
-            'Technology': 'tech',
-            'Health': 'health',
-            'Environment': 'environment',
-            'Education': 'politics',
-            'Opinion': 'opinion'
+            'Politics': 'politics', 'Business': 'business', 'Sports': 'sport',
+            'Technology': 'tech', 'Health': 'health', 'Environment': 'environment',
+            'Education': 'politics', 'Opinion': 'opinion'
         };
 
         // ================================
-        // LOAD ARTICLE FROM LOCALSTORAGE
+        // SAFE FIELD HELPER
         // ================================
-    async function loadArticle() {
-    // Check if article ID is in URL
-    const params = new URLSearchParams(window.location.search);
-    const urlArticleId = params.get('id');
-
-    let a;
-
-if (urlArticleId) {
-    // Load directly by document ID — much faster
-    try {
-        const docRef = doc(db, 'articles', urlArticleId);
-        const docSnap = await getDoc(docRef);
-        if (docSnap.exists()) {
-            a = { id: docSnap.id, ...docSnap.data() };
-            // Save to localStorage for faster reload
-            localStorage.setItem('currentArticle', JSON.stringify(a));
+        function safe(value, fallback) {
+            if (value === undefined || value === null || value === '') return fallback;
+            return value;
         }
-    } catch (error) {
-        console.error('Error loading article:', error);
-    }
-    } else {
-        // Load from localStorage
-        const stored = localStorage.getItem('currentArticle');
-        if (stored) {
-            a = JSON.parse(stored);
-        }
-    }
 
-    if (!a) {
-        document.querySelector('.article-main').innerHTML = `
-            <div style="padding:40px; text-align:center;">
-                <h2 style="font-family:Georgia,serif; color:#052962;">No article selected</h2>
-                <p style="color:#767676; margin:10px 0 20px 0;">Please go back to the homepage and click an article to read it.</p>
-                <a href="index.html" style="background:#052962; color:#fff; padding:10px 20px; font-weight:700; border-radius:2px;">← Back to Homepage</a>
-            </div>
-        `;
-        return;
-    }
-                document.querySelector('.article-main').innerHTML = `
-                    <div style="padding:40px; text-align:center;">
-                        <h2 style="font-family:Georgia,serif; color:#052962;">No article selected</h2>
-                        <p style="color:#767676; margin:10px 0 20px 0;">Please go back to the homepage and click an article to read it.</p>
-                        <a href="index.html" style="background:#052962; color:#fff; padding:10px 20px; font-weight:700; border-radius:2px;">← Back to Homepage</a>
-                    </div>
-                `;
+        // ================================
+        // LOAD ARTICLE
+        // First tries URL ?id=, then falls back to localStorage
+        // ================================
+        async function loadArticle() {
+            const params = new URLSearchParams(window.location.search);
+            const urlArticleId = params.get('id');
+            let a = null;
+
+            if (urlArticleId) {
+                // Fast: fetch single document by ID
+                try {
+                    const docRef = doc(db, 'articles', urlArticleId);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        a = { id: docSnap.id, ...docSnap.data() };
+                        localStorage.setItem('currentArticle', JSON.stringify(a));
+                    }
+                } catch (error) {
+                    console.error('Error loading article by ID:', error);
+                }
+            }
+
+            // Fallback to localStorage if no ID in URL or fetch failed
+            if (!a) {
+                const stored = localStorage.getItem('currentArticle');
+                if (stored) {
+                    try { a = JSON.parse(stored); } catch (e) { a = null; }
+                }
+            }
+
+            if (!a) {
+                document.querySelector('.article-main').innerHTML =
+                    '<div style="padding:40px; text-align:center;">' +
+                    '<h2 style="font-family:Georgia,serif; color:#052962;">No article selected</h2>' +
+                    '<p style="color:#767676; margin:10px 0 20px 0;">Please go back to the homepage and click an article to read it.</p>' +
+                    '<a href="index.html" style="background:#052962; color:#fff; padding:10px 20px; font-weight:700; border-radius:2px; text-decoration:none;">← Back to Homepage</a>' +
+                    '</div>';
                 return;
             }
 
-            const a = JSON.parse(stored);
+            // ---- Populate the page ----
             const colorClass = categoryColors[a.category] || 'politics';
+            const title = safe(a.title, 'Untitled Article');
+            const author = safe(a.author, 'Daily News');
+            const date = safe(a.date, '');
+            const standfirst = safe(a.standfirst, '');
+            const category = safe(a.category, 'News');
 
-            document.title = `${a.title} - Daily News`;
+            // Page title & meta
+            document.title = title + ' - Daily News';
 
-            const breadcrumb = document.querySelector('.breadcrumb');
-            if (breadcrumb) {
-                breadcrumb.innerHTML = `
-                    <a href="index.html">Home</a>
-                    <span> › </span>
-                    <a href="index.html?category=${a.category}">${a.category}</a>
-                    <span> › </span>
-                    <span>${a.title.substring(0, 50)}...</span>
-                `;
-            }
+            // Breadcrumb
+            const bcCat = document.getElementById('breadcrumbCategory');
+            const bcTitle = document.getElementById('breadcrumbTitle');
+            if (bcCat) { bcCat.href = 'index.html?category=' + encodeURIComponent(category); bcCat.textContent = category; }
+            if (bcTitle) bcTitle.textContent = title.length > 50 ? title.substring(0, 50) + '...' : title;
 
-            const label = document.querySelector('.article-main .label');
-            if (label) {
-                label.className = `label ${colorClass}-label`;
-                label.textContent = a.category;
-            }
+            // Label
+            const label = document.getElementById('articleLabel');
+            if (label) { label.className = 'label ' + colorClass + '-label'; label.textContent = category; }
 
-            const headline = document.querySelector('.article-headline');
-            if (headline) headline.textContent = a.title;
+            // Headline
+            const headline = document.getElementById('articleHeadline');
+            if (headline) headline.textContent = title;
 
-            const standfirst = document.querySelector('.article-standfirst');
-            if (standfirst) standfirst.textContent = a.standfirst;
+            // Standfirst
+            const standfirstEl = document.getElementById('articleStandfirst');
+            if (standfirstEl) standfirstEl.textContent = standfirst;
 
-            const authorName = document.querySelector('.author-name');
-            if (authorName) authorName.innerHTML = `By <strong>${a.author}</strong>`;
+            // Author & date
+            const authorEl = document.getElementById('articleAuthor');
+            if (authorEl) authorEl.innerHTML = 'By <strong>' + author + '</strong>';
+            const dateEl = document.getElementById('articleDate');
+            if (dateEl) dateEl.textContent = date;
 
-            const authorTitle = document.querySelector('.author-title');
-            if (authorTitle) authorTitle.textContent = 'Daily News Correspondent';
-
-            const articleDate = document.querySelector('.article-date');
-            if (articleDate) articleDate.textContent = a.date;
-
-            const articleImg = document.querySelector('.article-img');
-            if (articleImg) {
+            // Image
+            const imgWrap = document.getElementById('articleImageWrap');
+            if (imgWrap) {
                 if (a.imageUrl) {
-                    const img = document.createElement('img');
-                    img.src = a.imageUrl;
-                    img.style.cssText = 'width:100%; height:420px; object-fit:cover; margin-bottom:8px;';
-                    img.alt = a.title;
-                    articleImg.replaceWith(img);
+                    imgWrap.innerHTML =
+                        '<img src="' + a.imageUrl + '" style="width:100%;height:420px;object-fit:cover;margin-bottom:8px;" alt="' + title + '">' +
+                        '<p class="img-caption">Photograph: ' + safe(a.sourceName, 'Daily News') + '</p>';
                 } else {
-                    articleImg.className = `article-img ${colorClass}-bg`;
+                    imgWrap.innerHTML =
+                        '<div class="article-img ' + colorClass + '-bg"></div>' +
+                        '<p class="img-caption">Photograph: Daily News</p>';
                 }
             }
 
-            const articleBody = document.querySelector('.article-body');
-            if (articleBody && a.body) {
-                const paragraphs = a.body.split('\n\n').filter(p => p.trim() !== '');
-                if (paragraphs.length === 0) {
-                    const lines = a.body.split('\n').filter(p => p.trim() !== '');
-                    articleBody.innerHTML = lines.map(p => `<p>${p.trim()}</p>`).join('');
+            // Body
+            const articleBody = document.getElementById('articleBody');
+            if (articleBody) {
+                if (a.body && a.body.trim() !== '') {
+                    const paragraphs = a.body.split('\n\n').filter(function(p) { return p.trim() !== ''; });
+                    if (paragraphs.length > 0) {
+                        articleBody.innerHTML = paragraphs.map(function(p) { return '<p>' + p.trim() + '</p>'; }).join('');
+                    } else {
+                        // Single newline fallback
+                        const lines = a.body.split('\n').filter(function(p) { return p.trim() !== ''; });
+                        articleBody.innerHTML = lines.map(function(p) { return '<p>' + p.trim() + '</p>'; }).join('');
+                    }
                 } else {
-                    articleBody.innerHTML = paragraphs.map(p => `<p>${p.trim()}</p>`).join('');
+                    articleBody.innerHTML = '<p style="color:#767676;">Full article content is not available. Please read the original source.</p>';
                 }
             }
 
-            const tagsContainer = document.querySelector('.article-tags');
-            if (tagsContainer) {
-                tagsContainer.innerHTML = `
-                    <span class="tag-title">Topics:</span>
-                    <a href="index.html?category=${a.category}" class="article-tag">${a.category}</a>
-                    <a href="index.html" class="article-tag">Daily News</a>
-                `;
+            // Source link for aggregated articles
+            const sourceLinkEl = document.getElementById('sourceLink');
+            if (sourceLinkEl && a.aggregator && a.sourceUrl) {
+                sourceLinkEl.style.cssText = 'margin:20px 0; padding:16px; background:#f6f6f6; border-left:4px solid #052962;';
+                sourceLinkEl.innerHTML =
+                    '<p style="font-size:13px; color:#555; margin-bottom:10px;">This article was originally published by <strong>' + safe(a.sourceName, author) + '</strong>.</p>' +
+                    '<a href="' + a.sourceUrl + '" target="_blank" rel="noopener" ' +
+                    'style="background:#052962; color:#fff; padding:10px 20px; font-weight:700; border-radius:2px; text-decoration:none; font-size:13px;">' +
+                    'Read Full Story on ' + safe(a.sourceName, author) + ' →</a>';
             }
 
-            // Show "Read Original" for aggregated articles
-            if (a.aggregator && a.sourceUrl) {
-                const articleBodyEl = document.querySelector('.article-body');
-                if (articleBodyEl) {
-                    const readOriginal = document.createElement('div');
-                    readOriginal.style.cssText = 'margin:20px 0; padding:16px; background:#f6f6f6; border-left:4px solid #052962;';
-                    readOriginal.innerHTML = `
-                        <p style="font-size:13px; color:#555; margin-bottom:10px;">
-                            This article was originally published by <strong>${a.sourceName || a.author}</strong>.
-                        </p>
-                        <a href="${a.sourceUrl}" target="_blank"
-                           style="background:#052962; color:#fff; padding:10px 20px; font-weight:700; border-radius:2px; text-decoration:none; font-size:13px;">
-                            Read Full Story on ${a.sourceName || a.author} →
-                        </a>
-                    `;
-                    articleBodyEl.appendChild(readOriginal);
-                }
+            // Tags
+            const tagsEl = document.getElementById('articleTags');
+            if (tagsEl) {
+                tagsEl.innerHTML =
+                    '<span class="tag-title">Topics:</span>' +
+                    '<a href="index.html?category=' + encodeURIComponent(category) + '" class="article-tag">' + category + '</a>' +
+                    '<a href="index.html" class="article-tag">Daily News</a>';
             }
 
-            setupShareButtons(a.title, a.id);
+            // Share buttons — now set up ONCE with the correct URL
+            setupShareButtons(title, a.id);
         }
 
         // ================================
         // SHARE BUTTONS
+        // Single clean implementation — no duplicates
         // ================================
-       function setupShareButtons(title, articleId) {
-    // Create a proper shareable URL with article ID
-    const baseUrl = 'https://www.dailynewsug.online/article.html';
-    const shareUrl = articleId
-        ? `${baseUrl}?id=${articleId}`
-        : window.location.href;
-
-    const fbBtn = document.querySelector('.fb-share');
-    const twBtn = document.querySelector('.tw-share');
-    const waBtn = document.querySelector('.wa-share');
-    const emailBtn = document.querySelector('.email-share');
-    const copyBtn = document.querySelector('.copy-share');
-
-    if (fbBtn) {
-        fbBtn.addEventListener('click', () => {
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(shareUrl)}`, '_blank');
-        });
-    }
-
-    if (twBtn) {
-        twBtn.addEventListener('click', () => {
-            window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(shareUrl)}`, '_blank');
-        });
-    }
-
-    if (waBtn) {
-        waBtn.addEventListener('click', () => {
-            window.open(`https://wa.me/?text=${encodeURIComponent(title + '\n\n' + shareUrl)}`, '_blank');
-        });
-    }
-
-    if (emailBtn) {
-        emailBtn.addEventListener('click', () => {
-            window.location.href = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent('I thought you might find this interesting:\n\n' + title + '\n\n' + shareUrl)}`;
-        });
-    }
-
-    if (copyBtn) {
-        copyBtn.addEventListener('click', () => {
-            navigator.clipboard.writeText(shareUrl).then(() => {
-                copyBtn.textContent = '✓ Copied!';
-                copyBtn.style.backgroundColor = '#1a5c38';
-                setTimeout(() => {
-                    copyBtn.textContent = '🔗 Copy Link';
-                    copyBtn.style.backgroundColor = '#767676';
-                }, 2000);
-            });
-        });
-    }
-}
+        function setupShareButtons(title, articleId) {
+            const baseUrl = 'https://www.dailynewsug.online/article.html';
+            const shareUrl = articleId ? baseUrl + '?id=' + articleId : window.location.href;
+            const encodedUrl = encodeURIComponent(shareUrl);
+            const encodedTitle = encodeURIComponent(title);
 
             const fbBtn = document.querySelector('.fb-share');
             const twBtn = document.querySelector('.tw-share');
@@ -483,38 +418,41 @@ if (urlArticleId) {
             const copyBtn = document.querySelector('.copy-share');
 
             if (fbBtn) {
-                fbBtn.addEventListener('click', () => {
-                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+                fbBtn.addEventListener('click', function() {
+                    window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodedUrl, '_blank');
                 });
             }
 
             if (twBtn) {
-                twBtn.addEventListener('click', () => {
-                    window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(title)}&url=${encodeURIComponent(url)}`, '_blank');
+                twBtn.addEventListener('click', function() {
+                    window.open('https://twitter.com/intent/tweet?text=' + encodedTitle + '&url=' + encodedUrl, '_blank');
                 });
             }
 
             if (waBtn) {
-                waBtn.addEventListener('click', () => {
-                    window.open(`https://wa.me/?text=${encodeURIComponent(title + ' ' + url)}`, '_blank');
+                waBtn.addEventListener('click', function() {
+                    window.open('https://wa.me/?text=' + encodeURIComponent(title + '\n\n' + shareUrl), '_blank');
                 });
             }
 
             if (emailBtn) {
-                emailBtn.addEventListener('click', () => {
-                    window.location.href = `mailto:?subject=${encodeURIComponent(title)}&body=${encodeURIComponent('I thought you might find this interesting:\n\n' + title + '\n\n' + url)}`;
+                emailBtn.addEventListener('click', function() {
+                    window.location.href = 'mailto:?subject=' + encodedTitle + '&body=' + encodeURIComponent('I thought you might find this interesting:\n\n' + title + '\n\n' + shareUrl);
                 });
             }
 
             if (copyBtn) {
-                copyBtn.addEventListener('click', () => {
-                    navigator.clipboard.writeText(url).then(() => {
+                copyBtn.addEventListener('click', function() {
+                    navigator.clipboard.writeText(shareUrl).then(function() {
                         copyBtn.textContent = '✓ Copied!';
                         copyBtn.style.backgroundColor = '#1a5c38';
-                        setTimeout(() => {
+                        setTimeout(function() {
                             copyBtn.textContent = '🔗 Copy Link';
-                            copyBtn.style.backgroundColor = '#767676';
+                            copyBtn.style.backgroundColor = '';
                         }, 2000);
+                    }).catch(function() {
+                        // Fallback for browsers that block clipboard
+                        prompt('Copy this link:', shareUrl);
                     });
                 });
             }
@@ -522,50 +460,51 @@ if (urlArticleId) {
 
         // ================================
         // LOAD MORE STORIES
+        // Uses limit() — no full collection scan
         // ================================
         async function loadMoreStories() {
-            const moreGrid = document.querySelector('.more-grid');
+            const moreGrid = document.getElementById('moreGrid');
             if (!moreGrid) return;
 
             try {
                 const stored = localStorage.getItem('currentArticle');
                 const currentArticle = stored ? JSON.parse(stored) : null;
+                const currentId = currentArticle ? currentArticle.id : null;
 
-                const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'));
+                // Fetch a small batch and filter out current article
+                const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'), limit(10));
                 const snapshot = await getDocs(q);
-
-                if (snapshot.empty) return;
 
                 moreGrid.innerHTML = '';
                 let count = 0;
 
-                snapshot.forEach(docSnap => {
+                snapshot.forEach(function(docSnap) {
                     if (count >= 3) return;
-                    const a = docSnap.data();
-                    const id = docSnap.id;
+                    if (docSnap.id === currentId) return;
 
-                    if (currentArticle && currentArticle.id === id) return;
-
+                    const a = { id: docSnap.id, ...docSnap.data() };
                     const colorClass = categoryColors[a.category] || 'politics';
 
                     const card = document.createElement('article');
                     card.className = 'more-card';
                     card.style.cursor = 'pointer';
-                    card.innerHTML = `
-                        <span class="label ${colorClass}-label">${a.category}</span>
-                        <h4>${a.title}</h4>
-                        <span class="time">${a.date}</span>
-                    `;
+                    card.innerHTML =
+                        '<span class="label ' + colorClass + '-label">' + safe(a.category, 'News') + '</span>' +
+                        '<h4>' + safe(a.title, 'Untitled') + '</h4>' +
+                        '<span class="time">' + safe(a.date, '') + '</span>';
 
-                    card.addEventListener('click', () => {
-                        localStorage.setItem('currentArticle', JSON.stringify({ id, ...a }));
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                        setTimeout(() => window.location.reload(), 300);
+                    card.addEventListener('click', function() {
+                        localStorage.setItem('currentArticle', JSON.stringify(a));
+                        window.location.href = 'article.html?id=' + a.id;
                     });
 
                     moreGrid.appendChild(card);
                     count++;
                 });
+
+                if (count === 0) {
+                    moreGrid.innerHTML = '<p style="color:#767676;font-size:13px;">No other stories available.</p>';
+                }
 
             } catch (error) {
                 console.error('Error loading more stories:', error);
@@ -574,13 +513,14 @@ if (urlArticleId) {
 
         // ================================
         // LOAD MOST VIEWED SIDEBAR
+        // Uses limit() — no full collection scan
         // ================================
         async function loadMostViewed() {
             const list = document.getElementById('mostViewedList');
             if (!list) return;
 
             try {
-                const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'));
+                const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'), limit(5));
                 const snapshot = await getDocs(q);
 
                 if (snapshot.empty) {
@@ -591,24 +531,18 @@ if (urlArticleId) {
                 list.innerHTML = '';
                 let count = 0;
 
-                snapshot.forEach(docSnap => {
-                    if (count >= 5) return;
-                    const a = docSnap.data();
-                    const id = docSnap.id;
-
+                snapshot.forEach(function(docSnap) {
+                    const a = { id: docSnap.id, ...docSnap.data() };
                     const li = document.createElement('li');
-                    li.innerHTML = `
-                        <span class="mv-num">${count + 1}</span>
-                        <a href="#">${a.title}</a>
-                    `;
+                    li.innerHTML =
+                        '<span class="mv-num">' + (count + 1) + '</span>' +
+                        '<a href="#">' + safe(a.title, 'Untitled') + '</a>';
                     li.style.cursor = 'pointer';
-                    li.querySelector('a').addEventListener('click', (e) => {
+                    li.querySelector('a').addEventListener('click', function(e) {
                         e.preventDefault();
-                        localStorage.setItem('currentArticle', JSON.stringify({ id, ...a }));
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                        setTimeout(() => window.location.reload(), 300);
+                        localStorage.setItem('currentArticle', JSON.stringify(a));
+                        window.location.href = 'article.html?id=' + a.id;
                     });
-
                     list.appendChild(li);
                     count++;
                 });
@@ -628,23 +562,22 @@ if (urlArticleId) {
 
             const stored = localStorage.getItem('currentArticle');
             if (!stored) return;
-            const currentArticle = JSON.parse(stored);
+            let currentArticle;
+            try { currentArticle = JSON.parse(stored); } catch (e) { return; }
 
             try {
                 const q = query(collection(db, 'comments'), orderBy('createdAt', 'desc'));
                 const snapshot = await getDocs(q);
 
                 const comments = [];
-                snapshot.forEach(docSnap => {
+                snapshot.forEach(function(docSnap) {
                     const c = docSnap.data();
                     if (c.articleId === currentArticle.id) {
                         comments.push({ id: docSnap.id, ...c });
                     }
                 });
 
-                if (commentsTitle) {
-                    commentsTitle.textContent = `Comments (${comments.length})`;
-                }
+                if (commentsTitle) commentsTitle.textContent = 'Comments (' + comments.length + ')';
 
                 if (comments.length === 0) {
                     commentsList.innerHTML = '<div class="no-comments">Be the first to comment on this story.</div>';
@@ -652,25 +585,21 @@ if (urlArticleId) {
                 }
 
                 commentsList.innerHTML = '';
-                comments.forEach(c => {
+                comments.forEach(function(c) {
                     const card = document.createElement('div');
                     card.className = 'comment-card';
-                    const initials = c.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-                    card.innerHTML = `
-                        <div class="comment-header">
-                            <div class="comment-avatar">${initials}</div>
-                            <div>
-                                <div class="comment-author">${c.name}</div>
-                                <div class="comment-date">${c.date}</div>
-                            </div>
-                        </div>
-                        <div class="comment-text">${c.text}</div>
-                        <div class="comment-likes">
-                            <button class="like-btn" onclick="this.textContent = '👍 ' + (parseInt(this.textContent.replace(/\\D/g,'') || 0) + 1)">
-                                👍 Like
-                            </button>
-                        </div>
-                    `;
+                    const initials = c.name.split(' ').map(function(n) { return n[0]; }).join('').toUpperCase().substring(0, 2);
+                    card.innerHTML =
+                        '<div class="comment-header">' +
+                        '<div class="comment-avatar">' + initials + '</div>' +
+                        '<div>' +
+                        '<div class="comment-author">' + c.name + '</div>' +
+                        '<div class="comment-date">' + safe(c.date, '') + '</div>' +
+                        '</div></div>' +
+                        '<div class="comment-text">' + c.text + '</div>' +
+                        '<div class="comment-likes">' +
+                        '<button class="like-btn" onclick="this.textContent = \'👍 \' + (parseInt(this.textContent.replace(/\\D/g,\'\') || 0) + 1)">👍 Like</button>' +
+                        '</div>';
                     commentsList.appendChild(card);
                 });
 
@@ -688,9 +617,10 @@ if (urlArticleId) {
 
             const stored = localStorage.getItem('currentArticle');
             if (!stored) return;
-            const currentArticle = JSON.parse(stored);
+            let currentArticle;
+            try { currentArticle = JSON.parse(stored); } catch (e) { return; }
 
-            submitBtn.addEventListener('click', async () => {
+            submitBtn.addEventListener('click', async function() {
                 const name = document.getElementById('commentName').value.trim();
                 const text = document.getElementById('commentText').value.trim();
 
@@ -705,15 +635,12 @@ if (urlArticleId) {
                 try {
                     await addDoc(collection(db, 'comments'), {
                         articleId: currentArticle.id,
-                        articleTitle: currentArticle.title,
-                        name,
-                        text,
+                        articleTitle: safe(currentArticle.title, ''),
+                        name: name,
+                        text: text,
                         date: new Date().toLocaleDateString('en-GB', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                            hour: '2-digit',
-                            minute: '2-digit'
+                            year: 'numeric', month: 'long', day: 'numeric',
+                            hour: '2-digit', minute: '2-digit'
                         }),
                         createdAt: new Date().toISOString()
                     });
@@ -725,7 +652,7 @@ if (urlArticleId) {
                     const successMsg = document.getElementById('commentSuccess');
                     if (successMsg) {
                         successMsg.style.display = 'block';
-                        setTimeout(() => { successMsg.style.display = 'none'; }, 3000);
+                        setTimeout(function() { successMsg.style.display = 'none'; }, 3000);
                     }
 
                     loadComments();
@@ -750,13 +677,9 @@ if (urlArticleId) {
         setupCommentForm();
 
     </script>
+
     <!-- Monetag Push Notifications -->
     <script src="https://5gvci.com/act/files/tag.min.js?z=11022493" data-cfasync="false" async></script>
-    <script src="https://5gvci.com/act/files/tag.min.js?z=11022493" data-cfasync="false" async></script>
 
-</body>
-</html>
-</body>
-</html>
 </body>
 </html>

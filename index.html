@@ -11,6 +11,7 @@
         gtag('js', new Date());
         gtag('config', 'G-G6SX3WSJRK');
     </script>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3178797910676300" crossorigin="anonymous"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily News | Latest News from Uganda, East Africa and the World</title>
     <meta name="description" content="Daily News brings you the latest breaking news, analysis and updates from Uganda, East Africa and around the world.">
@@ -31,6 +32,9 @@
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
+        /* ================================
+           DATE NAVIGATION
+           ================================ */
         .date-nav {
             display: flex;
             gap: 0;
@@ -55,6 +59,10 @@
         .date-nav-btn:last-child { border-right: none; }
         .date-nav-btn.active { background-color: #052962; color: #ffffff; }
         .date-nav-btn:hover:not(.active) { background-color: #dcdcdc; color: #121212; }
+
+        /* ================================
+           LOCAL / INTERNATIONAL TABS
+           ================================ */
         .origin-tabs {
             display: flex;
             gap: 0;
@@ -77,6 +85,10 @@
         .origin-tab.active { color: #052962; border-bottom-color: #052962; }
         .origin-tab.active.international { color: #1a5c38; border-bottom-color: #1a5c38; }
         .origin-tab:hover:not(.active) { color: #121212; background-color: #f6f6f6; }
+
+        /* ================================
+           CATEGORY SECTIONS
+           ================================ */
         .category-section { margin-bottom: 28px; }
         .category-section-heading {
             font-family: 'Libre Baskerville', Georgia, serif;
@@ -96,30 +108,102 @@
         .category-section-heading.health    { color: #a1845c; border-bottom-color: #a1845c; }
         .category-section-heading.environment { color: #185a1a; border-bottom-color: #185a1a; }
         .category-section-heading.opinion   { color: #c70000; border-bottom-color: #c70000; }
+
         .see-more-btn {
-            font-size: 12px; font-weight: 600; color: #767676;
-            cursor: pointer; background: none; border: none;
-            font-family: 'Source Sans 3', Arial, sans-serif; padding: 0;
+            font-size: 12px;
+            font-weight: 600;
+            color: #767676;
+            cursor: pointer;
+            background: none;
+            border: none;
+            font-family: 'Source Sans 3', Arial, sans-serif;
+            padding: 0;
         }
         .see-more-btn:hover { color: #052962; }
+
+        /* ================================
+           SOURCE BADGE
+           ================================ */
         .source-badge {
-            display: inline-block; font-size: 10px; font-weight: 700;
-            padding: 2px 6px; border-radius: 2px; margin-bottom: 4px;
-            text-transform: uppercase; letter-spacing: 0.5px;
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 700;
+            padding: 2px 6px;
+            border-radius: 2px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         .source-badge.uganda    { background-color: #c70000; color: #fff; }
         .source-badge.eastafrica { background-color: #005689; color: #fff; }
         .source-badge.world     { background-color: #1a5c38; color: #fff; }
+
+        /* ================================
+           NO ARTICLES MESSAGE
+           ================================ */
         .no-articles-msg {
-            padding: 30px 20px; color: #767676; font-size: 14px;
-            text-align: center; background: #f6f6f6; border-radius: 2px;
+            padding: 30px 20px;
+            color: #767676;
+            font-size: 14px;
+            text-align: center;
+            background: #f6f6f6;
+            border-radius: 2px;
         }
+
+        /* ================================
+           SECTION HEADER ROW
+           ================================ */
         .section-header-row {
-            display: flex; justify-content: space-between;
-            align-items: center; margin-bottom: 16px;
-            flex-wrap: wrap; gap: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+            gap: 12px;
         }
         .section-header-row h2 { margin-bottom: 0; }
+
+        /* ================================
+           SKELETON LOADING
+           ================================ */
+        .skeleton-card {
+            background: #fff;
+            border-radius: 2px;
+            overflow: hidden;
+            border: 1px solid #e8e8e8;
+        }
+        .skeleton-img {
+            width: 100%;
+            height: 140px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+        }
+        .skeleton-body { padding: 12px; }
+        .skeleton-line {
+            height: 12px;
+            border-radius: 2px;
+            margin-bottom: 8px;
+            background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.4s infinite;
+        }
+        .skeleton-line.short { width: 60%; }
+        .skeleton-line.medium { width: 80%; }
+        .skeleton-line.full { width: 100%; }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .skeleton-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        @media (max-width: 768px) {
+            .skeleton-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -235,7 +319,12 @@
 
                 <!-- NEWS CONTAINER -->
                 <div id="newsContainer">
-                    <p class="no-articles-msg">Loading articles...</p>
+                    <!-- Skeleton loading placeholders -->
+                    <div class="skeleton-grid">
+                        <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line full"></div><div class="skeleton-line medium"></div><div class="skeleton-line short"></div></div></div>
+                        <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line full"></div><div class="skeleton-line medium"></div><div class="skeleton-line short"></div></div></div>
+                        <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line full"></div><div class="skeleton-line medium"></div><div class="skeleton-line short"></div></div></div>
+                    </div>
                 </div>
 
             </main>
@@ -308,7 +397,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, orderBy, query, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC4U6MWTPKDQZ_oICtSLdfnFP3a-HFILb4",
@@ -361,14 +450,28 @@
         let currentCategory = 'Top Stories';
 
         // ================================
+        // SAFE FIELD HELPER
+        // Returns a fallback if the field is missing/empty
+        // ================================
+        function safe(value, fallback) {
+            if (value === undefined || value === null || value === '') return fallback;
+            return value;
+        }
+
+        // ================================
         // FETCH ALL ARTICLES
+        // Uses limit(200) for speed — adjust if you need more
         // ================================
         async function fetchAllArticles() {
             try {
-                const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'));
+                const q = query(
+                    collection(db, 'articles'),
+                    orderBy('createdAt', 'desc'),
+                    limit(200)
+                );
                 const snapshot = await getDocs(q);
                 allArticles = [];
-                snapshot.forEach(docSnap => {
+                snapshot.forEach(function(docSnap) {
                     allArticles.push({ id: docSnap.id, ...docSnap.data() });
                 });
                 window.allArticles = allArticles;
@@ -376,7 +479,7 @@
             } catch (error) {
                 console.error('Error fetching articles:', error);
                 document.getElementById('newsContainer').innerHTML =
-                    '<p class="no-articles-msg">Error loading articles. Please refresh.</p>';
+                    '<p class="no-articles-msg">Error loading articles. Please refresh the page.</p>';
             }
         }
 
@@ -384,9 +487,9 @@
         // GET ORIGIN
         // ================================
         function getOrigin(article) {
-            const source = article.sourceName || article.author || '';
-            if (LOCAL_SOURCES.some(s => source.includes(s))) return 'uganda';
-            if (EAST_AFRICA_SOURCES.some(s => source.includes(s))) return 'eastafrica';
+            const source = safe(article.sourceName, '') + safe(article.author, '');
+            if (LOCAL_SOURCES.some(function(s) { return source.includes(s); })) return 'uganda';
+            if (EAST_AFRICA_SOURCES.some(function(s) { return source.includes(s); })) return 'eastafrica';
             return 'international';
         }
 
@@ -403,7 +506,7 @@
             const monthAgo = new Date(today);
             monthAgo.setDate(monthAgo.getDate() - 30);
 
-            return articles.filter(a => {
+            return articles.filter(function(a) {
                 if (!a.createdAt) return true;
                 const articleDate = new Date(a.createdAt);
                 if (dateFilter === 'today') return articleDate >= today;
@@ -419,13 +522,13 @@
         // ================================
         function filterByOrigin(articles, origin) {
             if (origin === 'local') {
-                return articles.filter(a => {
+                return articles.filter(function(a) {
                     const o = getOrigin(a);
                     return o === 'uganda' || o === 'eastafrica';
                 });
             }
             if (origin === 'international') {
-                return articles.filter(a => getOrigin(a) === 'international');
+                return articles.filter(function(a) { return getOrigin(a) === 'international'; });
             }
             return articles;
         }
@@ -442,27 +545,34 @@
 
         // ================================
         // CREATE CARD
+        // Safely handles missing fields
         // ================================
         function createCard(a) {
             const colorClass = categoryColors[a.category] || 'politics';
+            const title = safe(a.title, 'Untitled Article');
+            const author = safe(a.author, 'Daily News');
+            const date = safe(a.date, '');
+            const standfirst = a.standfirst ? a.standfirst.substring(0, 120) + '...' : '';
+
             const card = document.createElement('article');
             card.className = 'news-card';
             card.innerHTML =
                 (a.imageUrl
-                    ? '<img src="' + a.imageUrl + '" class="news-card-img" style="object-fit:cover;width:100%;height:140px;" alt="' + a.title + '">'
+                    ? '<img src="' + a.imageUrl + '" class="news-card-img" style="object-fit:cover;width:100%;height:140px;" alt="' + title + '" loading="lazy">'
                     : '<div class="news-card-img ' + colorClass + '-bg"></div>'
                 ) +
                 '<div class="news-card-body">' +
                 '<div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:4px;">' +
-                '<span class="label ' + colorClass + '-label">' + a.category + '</span>' +
+                '<span class="label ' + colorClass + '-label">' + safe(a.category, 'News') + '</span>' +
                 getBadge(a) +
                 '</div>' +
-                '<h3>' + a.title + '</h3>' +
-                '<p>' + (a.standfirst ? a.standfirst.substring(0, 120) + '...' : '') + '</p>' +
+                '<h3>' + title + '</h3>' +
+                (standfirst ? '<p>' + standfirst + '</p>' : '') +
                 '<div class="card-meta">' +
-                '<span>' + a.author + '</span>' +
-                '<span>' + a.date + '</span>' +
+                '<span>' + author + '</span>' +
+                '<span>' + date + '</span>' +
                 '</div></div>';
+
             card.style.cursor = 'pointer';
             card.addEventListener('click', function() {
                 localStorage.setItem('currentArticle', JSON.stringify(a));
@@ -481,14 +591,14 @@
 
             CATEGORIES.forEach(function(cat) {
                 const catArticles = articles.filter(function(a) {
-                    return a.category.toLowerCase() === cat.toLowerCase();
+                    return safe(a.category, '').toLowerCase() === cat.toLowerCase();
                 }).slice(0, 3);
 
                 if (catArticles.length === 0) return;
                 hasAny = true;
 
                 const allCatArticles = articles.filter(function(a) {
-                    return a.category.toLowerCase() === cat.toLowerCase();
+                    return safe(a.category, '').toLowerCase() === cat.toLowerCase();
                 });
 
                 const section = document.createElement('div');
@@ -514,7 +624,7 @@
                         currentCategory = cat;
                         const filtered = getArticlesForDisplay();
                         const catFiltered = filtered.filter(function(a) {
-                            return a.category.toLowerCase() === cat.toLowerCase();
+                            return safe(a.category, '').toLowerCase() === cat.toLowerCase();
                         });
                         renderSingleCategory(cat, catFiltered);
                         const sectionTitle = document.getElementById('sectionTitle');
@@ -568,7 +678,7 @@
                 renderByCategories(articles);
             } else {
                 const catFiltered = articles.filter(function(a) {
-                    return a.category.toLowerCase() === currentCategory.toLowerCase();
+                    return safe(a.category, '').toLowerCase() === currentCategory.toLowerCase();
                 });
                 renderSingleCategory(currentCategory, catFiltered);
             }
@@ -584,19 +694,23 @@
             const featured = document.querySelector('.featured-story');
             const a = recentArticles[0];
             const colorClass = categoryColors[a.category] || 'politics';
+            const title = safe(a.title, 'Untitled Article');
+            const standfirst = safe(a.standfirst, '');
+            const author = safe(a.author, 'Daily News');
+            const date = safe(a.date, 'Today');
 
             featured.innerHTML =
                 (a.imageUrl
-                    ? '<img src="' + a.imageUrl + '" class="featured-img" style="object-fit:cover;width:100%;height:320px;" alt="' + a.title + '">'
+                    ? '<img src="' + a.imageUrl + '" class="featured-img" style="object-fit:cover;width:100%;height:320px;" alt="' + title + '" loading="lazy">'
                     : '<div class="featured-img ' + colorClass + '-bg"></div>'
                 ) +
                 '<div class="featured-text">' +
-                '<span class="label ' + colorClass + '-label">' + a.category + '</span>' +
-                '<h1 class="featured-headline">' + a.title + '</h1>' +
-                '<p class="featured-standfirst">' + a.standfirst + '</p>' +
+                '<span class="label ' + colorClass + '-label">' + safe(a.category, 'News') + '</span>' +
+                '<h1 class="featured-headline">' + title + '</h1>' +
+                (standfirst ? '<p class="featured-standfirst">' + standfirst + '</p>' : '') +
                 '<div class="byline">' +
-                '<span class="author">By <strong>' + a.author + '</strong></span>' +
-                '<span class="time">' + a.date + '</span>' +
+                '<span class="author">By <strong>' + author + '</strong></span>' +
+                '<span class="time">' + date + '</span>' +
                 '</div></div>';
 
             featured.style.cursor = 'pointer';
@@ -615,12 +729,14 @@
                     const el = document.createElement('article');
                     el.className = 'side-story ' + (borderClasses[i] || 'border-sport');
                     el.style.cursor = 'pointer';
+                    const sTitle = safe(a.title, 'Untitled Article');
+                    const sStand = a.standfirst ? a.standfirst.substring(0, 100) + '...' : '';
                     el.innerHTML =
                         '<div class="side-story-text">' +
-                        '<span class="label ' + colorClass + '-label">' + a.category + '</span>' +
-                        '<h3>' + a.title + '</h3>' +
-                        '<p class="side-standfirst">' + (a.standfirst ? a.standfirst.substring(0, 100) + '...' : '') + '</p>' +
-                        '<span class="time">' + a.date + '</span>' +
+                        '<span class="label ' + colorClass + '-label">' + safe(a.category, 'News') + '</span>' +
+                        '<h3>' + sTitle + '</h3>' +
+                        (sStand ? '<p class="side-standfirst">' + sStand + '</p>' : '') +
+                        '<span class="time">' + safe(a.date, '') + '</span>' +
                         '</div>' +
                         '<div class="side-story-img ' + colorClass + '-bg"></div>';
                     el.addEventListener('click', function() {
@@ -643,7 +759,9 @@
                 tickerContent.textContent = 'Stay tuned for the latest news...';
                 return;
             }
-            tickerContent.textContent = recent.map(function(a) { return a.title; }).join('   ●   ');
+            tickerContent.textContent = recent.map(function(a) {
+                return safe(a.title, 'Untitled');
+            }).join('   ●   ');
         }
 
         // ================================
@@ -659,7 +777,7 @@
             list.innerHTML = '';
             allArticles.slice(0, 5).forEach(function(a, i) {
                 const li = document.createElement('li');
-                li.innerHTML = '<span class="mv-num">' + (i + 1) + '</span><a href="#">' + a.title + '</a>';
+                li.innerHTML = '<span class="mv-num">' + (i + 1) + '</span><a href="#">' + safe(a.title, 'Untitled') + '</a>';
                 li.style.cursor = 'pointer';
                 li.querySelector('a').addEventListener('click', function(e) {
                     e.preventDefault();
@@ -752,11 +870,11 @@
                 const keyword = searchInput.value.trim().toLowerCase();
                 if (keyword === '') { render(); return; }
                 const results = allArticles.filter(function(a) {
-                    return a.title.toLowerCase().includes(keyword) ||
-                        (a.standfirst && a.standfirst.toLowerCase().includes(keyword)) ||
-                        (a.body && a.body.toLowerCase().includes(keyword)) ||
-                        a.author.toLowerCase().includes(keyword) ||
-                        a.category.toLowerCase().includes(keyword);
+                    return safe(a.title, '').toLowerCase().includes(keyword) ||
+                        safe(a.standfirst, '').toLowerCase().includes(keyword) ||
+                        safe(a.body, '').toLowerCase().includes(keyword) ||
+                        safe(a.author, '').toLowerCase().includes(keyword) ||
+                        safe(a.category, '').toLowerCase().includes(keyword);
                 });
                 const sectionTitle = document.getElementById('sectionTitle');
                 if (sectionTitle) sectionTitle.textContent = 'Search: "' + searchInput.value.trim() + '"';
@@ -830,9 +948,6 @@
         // INIT
         // ================================
         async function init() {
-            document.getElementById('newsContainer').innerHTML =
-                '<p class="no-articles-msg">Loading latest news...</p>';
-
             await fetchAllArticles();
 
             if (allArticles.length > 0) {
