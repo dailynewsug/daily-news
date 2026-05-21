@@ -395,7 +395,7 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+     import { getFirestore, collection, getDocs, orderBy, query, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC4U6MWTPKDQZ_oICtSLdfnFP3a-HFILb4",
@@ -461,10 +461,11 @@
         // ================================
 async function fetchAllArticles() {
     try {
-        // Limit to last 500 articles for speed
+        // Only load latest 100 articles for speed
         const q = query(
             collection(db, 'articles'),
-            orderBy('createdAt', 'desc')
+            orderBy('createdAt', 'desc'),
+            limit(100)
         );
         const snapshot = await getDocs(q);
         allArticles = [];
@@ -474,8 +475,6 @@ async function fetchAllArticles() {
         window.allArticles = allArticles;
     } catch (error) {
         console.error('Error fetching articles:', error);
-        document.getElementById('newsContainer').innerHTML =
-            '<p class="no-articles-msg">Error loading articles. Please refresh the page.</p>';
     }
 }
 
