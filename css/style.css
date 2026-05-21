@@ -2094,3 +2094,24 @@ html, body {
     width: 100% !important;
     display: block !important;
 }
+/* Force Monetag floating ads to bottom-right */
+div[class*="monetag"],
+div[id*="monetag"],
+div[class*="push-notification"],
+div[class*="vignette"],
+iframe[src*="monetag"],
+iframe[src*="n6wxm"],
+iframe[src*="nap5k"],
+iframe[src*="al5sm"] {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    top: auto !important;
+    left: auto !important;
+    flex-direction: column !important;
+    display: flex !important;
+    gap: 10px !important;
+    z-index: 9999 !important;
+    max-width: 340px !important;
+    width: auto !important;
+}
