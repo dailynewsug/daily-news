@@ -253,7 +253,7 @@
     <script src="js/main.js"></script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, getDocs, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, getDoc, doc, orderBy, query } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
         const firebaseConfig = {
             apiKey: "AIzaSyC4U6MWTPKDQZ_oICtSLdfnFP3a-HFILb4",
@@ -288,18 +288,19 @@
 
     let a;
 
-    if (urlArticleId) {
-        // Load from Firebase using ID
-        try {
-            const snapshot = await getDocs(collection(db, 'articles'));
-            snapshot.forEach(docSnap => {
-                if (docSnap.id === urlArticleId) {
-                    a = { id: docSnap.id, ...docSnap.data() };
-                }
-            });
-        } catch (error) {
-            console.error('Error loading article:', error);
+if (urlArticleId) {
+    // Load directly by document ID — much faster
+    try {
+        const docRef = doc(db, 'articles', urlArticleId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+            a = { id: docSnap.id, ...docSnap.data() };
+            // Save to localStorage for faster reload
+            localStorage.setItem('currentArticle', JSON.stringify(a));
         }
+    } catch (error) {
+        console.error('Error loading article:', error);
+    }
     } else {
         // Load from localStorage
         const stored = localStorage.getItem('currentArticle');
