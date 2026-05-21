@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <script>(function(s){s.dataset.zone='11034887',s.src='https://al5sm.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-<script>(function(s){s.dataset.zone='11034900',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-<script>(function(s){s.dataset.zone='11028744',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    <script>(function(s){s.dataset.zone='11034900',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    <script>(function(s){s.dataset.zone='11028744',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
     <meta name="monetag" content="a7697520531dbf6c26debbd85afb3fc0">
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-G6SX3WSJRK"></script>
@@ -35,9 +35,6 @@
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ================================
-           DATE NAVIGATION
-           ================================ */
         .date-nav {
             display: flex;
             gap: 0;
@@ -62,10 +59,6 @@
         .date-nav-btn:last-child { border-right: none; }
         .date-nav-btn.active { background-color: #052962; color: #ffffff; }
         .date-nav-btn:hover:not(.active) { background-color: #dcdcdc; color: #121212; }
-
-        /* ================================
-           LOCAL / INTERNATIONAL TABS
-           ================================ */
         .origin-tabs {
             display: flex;
             gap: 0;
@@ -88,10 +81,6 @@
         .origin-tab.active { color: #052962; border-bottom-color: #052962; }
         .origin-tab.active.international { color: #1a5c38; border-bottom-color: #1a5c38; }
         .origin-tab:hover:not(.active) { color: #121212; background-color: #f6f6f6; }
-
-        /* ================================
-           CATEGORY SECTIONS
-           ================================ */
         .category-section { margin-bottom: 28px; }
         .category-section-heading {
             font-family: 'Libre Baskerville', Georgia, serif;
@@ -111,7 +100,6 @@
         .category-section-heading.health    { color: #a1845c; border-bottom-color: #a1845c; }
         .category-section-heading.environment { color: #185a1a; border-bottom-color: #185a1a; }
         .category-section-heading.opinion   { color: #c70000; border-bottom-color: #c70000; }
-
         .see-more-btn {
             font-size: 12px;
             font-weight: 600;
@@ -123,10 +111,6 @@
             padding: 0;
         }
         .see-more-btn:hover { color: #052962; }
-
-        /* ================================
-           SOURCE BADGE
-           ================================ */
         .source-badge {
             display: inline-block;
             font-size: 10px;
@@ -140,10 +124,6 @@
         .source-badge.uganda    { background-color: #c70000; color: #fff; }
         .source-badge.eastafrica { background-color: #005689; color: #fff; }
         .source-badge.world     { background-color: #1a5c38; color: #fff; }
-
-        /* ================================
-           NO ARTICLES MESSAGE
-           ================================ */
         .no-articles-msg {
             padding: 30px 20px;
             color: #767676;
@@ -152,10 +132,6 @@
             background: #f6f6f6;
             border-radius: 2px;
         }
-
-        /* ================================
-           SECTION HEADER ROW
-           ================================ */
         .section-header-row {
             display: flex;
             justify-content: space-between;
@@ -165,10 +141,6 @@
             gap: 12px;
         }
         .section-header-row h2 { margin-bottom: 0; }
-
-        /* ================================
-           SKELETON LOADING
-           ================================ */
         .skeleton-card {
             background: #fff;
             border-radius: 2px;
@@ -210,13 +182,13 @@
     </style>
 </head>
 <body>
-
+ 
     <!-- TOP THIN BAR -->
     <div class="top-bar">
         <span id="currentDate"></span>
         <span>Support Daily News — become a subscriber</span>
     </div>
-
+ 
     <!-- HEADER -->
     <header class="header">
         <div class="header-inner">
@@ -237,7 +209,7 @@
                 <button class="search-btn" id="searchToggle">🔍</button>
             </div>
         </div>
-
+ 
         <!-- SEARCH BAR -->
         <div class="search-bar-wrap" id="searchBarWrap">
             <div class="search-bar-inner">
@@ -245,7 +217,7 @@
                 <button id="searchClearBtn">✕</button>
             </div>
         </div>
-
+ 
         <!-- SECTION NAV -->
         <nav class="section-nav">
             <div class="section-nav-inner">
@@ -263,7 +235,7 @@
             </div>
         </nav>
     </header>
-
+ 
     <!-- BREAKING NEWS TICKER -->
     <div class="ticker-wrap">
         <span class="ticker-label">BREAKING</span>
@@ -271,10 +243,10 @@
             <span id="tickerContent">Loading today's headlines...</span>
         </div>
     </div>
-
+ 
     <!-- MAIN WRAPPER -->
     <div class="page-wrap">
-
+ 
         <!-- FEATURED STORY -->
         <section class="top-stories">
             <article class="featured-story" id="featuredStory">
@@ -289,19 +261,19 @@
                     </div>
                 </div>
             </article>
-
+ 
             <div class="right-stories" id="rightStories">
                 <div style="padding:20px; color:#767676; font-size:13px;">Loading stories...</div>
             </div>
         </section>
-
+ 
         <div class="divider"></div>
-
+ 
         <!-- CONTENT + SIDEBAR -->
         <div class="content-sidebar">
-
+ 
             <main class="main-content">
-
+ 
                 <!-- DATE NAVIGATION -->
                 <div class="section-header-row">
                     <h2 class="section-heading" style="margin-bottom:0;"><span id="sectionTitle">Latest News</span></h2>
@@ -312,26 +284,25 @@
                         <button class="date-nav-btn active" id="btnThisMonth">This Month</button>
                     </div>
                 </div>
-
+ 
                 <!-- LOCAL / INTERNATIONAL TABS -->
                 <div class="origin-tabs">
                     <button class="origin-tab active" id="tabLocal">🇺🇬 Uganda & East Africa</button>
                     <button class="origin-tab" id="tabInternational">🌐 International</button>
                     <button class="origin-tab" id="tabAll">📰 All News</button>
                 </div>
-
+ 
                 <!-- NEWS CONTAINER -->
                 <div id="newsContainer">
-                    <!-- Skeleton loading placeholders -->
                     <div class="skeleton-grid">
                         <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line full"></div><div class="skeleton-line medium"></div><div class="skeleton-line short"></div></div></div>
                         <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line full"></div><div class="skeleton-line medium"></div><div class="skeleton-line short"></div></div></div>
                         <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line full"></div><div class="skeleton-line medium"></div><div class="skeleton-line short"></div></div></div>
                     </div>
                 </div>
-
+ 
             </main>
-
+ 
             <!-- SIDEBAR -->
             <aside class="sidebar">
                 <div class="sidebar-widget">
@@ -356,11 +327,11 @@
                     </div>
                 </div>
             </aside>
-
+ 
         </div>
-
+ 
     </div>
-
+ 
     <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-inner">
@@ -395,13 +366,13 @@
             <p>© 2026 Daily News. All rights reserved. | Kampala, Uganda</p>
         </div>
     </footer>
-
+ 
     <script src="js/main.js"></script>
-
+ 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getFirestore, collection, getDocs, orderBy, query, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
+ 
         const firebaseConfig = {
             apiKey: "AIzaSyC4U6MWTPKDQZ_oICtSLdfnFP3a-HFILb4",
             authDomain: "daily-news-a8c64.firebaseapp.com",
@@ -410,35 +381,35 @@
             messagingSenderId: "75335342698",
             appId: "1:75335342698:web:3e65f3d773eca7730b4813"
         };
-
+ 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-
+ 
         const categoryColors = {
             'Politics': 'politics', 'Business': 'business', 'Sports': 'sport',
             'Technology': 'tech', 'Health': 'health', 'Environment': 'environment',
             'Education': 'politics', 'Opinion': 'opinion'
         };
-
+ 
         const CATEGORIES = ['Politics', 'Business', 'Sports', 'Technology', 'Health', 'Environment', 'Education'];
-
+ 
         const categoryIcons = {
             'Politics': '🏛️', 'Business': '📈', 'Sports': '⚽',
             'Technology': '💻', 'Health': '🏥', 'Environment': '🌿', 'Education': '📚'
         };
-
+ 
         const categoryClasses = {
             'Politics': 'politics', 'Business': 'business', 'Sports': 'sport',
             'Technology': 'tech', 'Health': 'health', 'Environment': 'environment',
             'Education': 'education', 'Opinion': 'opinion'
         };
-
+ 
         const LOCAL_SOURCES = [
             'Chimp Reports', 'Watchdog Uganda', 'The Scribe Uganda',
             'Uganda Radio Network', 'Daily Monitor', 'New Vision',
             'Nile Post', 'Sports Ocean Uganda', 'Exclusive Uganda', 'AllAfrica Uganda'
         ];
-
+ 
         const EAST_AFRICA_SOURCES = [
             'The East African', 'East African Community', 'ReliefWeb Uganda',
             'ReliefWeb Uganda Health', 'ReliefWeb Uganda Education',
@@ -446,25 +417,17 @@
             'AllAfrica East Africa', 'AllAfrica Health', 'AllAfrica Sports',
             'AllAfrica Business', 'AllAfrica Environment', 'WHO Africa', 'Africa News'
         ];
-
+ 
         let allArticles = [];
         let currentOrigin = 'all';
         let currentDateFilter = 'month';
         let currentCategory = 'Top Stories';
-
-        // ================================
-        // SAFE FIELD HELPER
-        // Returns a fallback if the field is missing/empty
-        // ================================
+ 
         function safe(value, fallback) {
             if (value === undefined || value === null || value === '') return fallback;
             return value;
         }
-
-        // ================================
-        // FETCH ALL ARTICLES
-        // Uses limit(200) for speed — adjust if you need more
-        // ================================
+ 
         async function fetchAllArticles() {
             try {
                 const q = query(
@@ -485,20 +448,14 @@
                     '<p class="no-articles-msg">Error loading articles. Please refresh the page.</p>';
             }
         }
-
-        // ================================
-        // GET ORIGIN
-        // ================================
+ 
         function getOrigin(article) {
             const source = safe(article.sourceName, '') + safe(article.author, '');
             if (LOCAL_SOURCES.some(function(s) { return source.includes(s); })) return 'uganda';
             if (EAST_AFRICA_SOURCES.some(function(s) { return source.includes(s); })) return 'eastafrica';
             return 'international';
         }
-
-        // ================================
-        // DATE FILTER
-        // ================================
+ 
         function filterByDate(articles, dateFilter) {
             const now = new Date();
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -508,7 +465,7 @@
             weekAgo.setDate(weekAgo.getDate() - 7);
             const monthAgo = new Date(today);
             monthAgo.setDate(monthAgo.getDate() - 30);
-
+ 
             return articles.filter(function(a) {
                 if (!a.createdAt) return true;
                 const articleDate = new Date(a.createdAt);
@@ -519,10 +476,7 @@
                 return true;
             });
         }
-
-        // ================================
-        // FILTER BY ORIGIN
-        // ================================
+ 
         function filterByOrigin(articles, origin) {
             if (origin === 'local') {
                 return articles.filter(function(a) {
@@ -535,28 +489,21 @@
             }
             return articles;
         }
-
-        // ================================
-        // GET BADGE
-        // ================================
+ 
         function getBadge(article) {
             const origin = getOrigin(article);
             if (origin === 'uganda') return '<span class="source-badge uganda">🇺🇬 Uganda</span>';
             if (origin === 'eastafrica') return '<span class="source-badge eastafrica">🌍 East Africa</span>';
             return '<span class="source-badge world">🌐 International</span>';
         }
-
-        // ================================
-        // CREATE CARD
-        // Safely handles missing fields
-        // ================================
+ 
         function createCard(a) {
             const colorClass = categoryColors[a.category] || 'politics';
             const title = safe(a.title, 'Untitled Article');
             const author = safe(a.author, 'Daily News');
             const date = safe(a.date, '');
             const standfirst = a.standfirst ? a.standfirst.substring(0, 120) + '...' : '';
-
+ 
             const card = document.createElement('article');
             card.className = 'news-card';
             card.innerHTML =
@@ -575,7 +522,7 @@
                 '<span>' + author + '</span>' +
                 '<span>' + date + '</span>' +
                 '</div></div>';
-
+ 
             card.style.cursor = 'pointer';
             card.addEventListener('click', function() {
                 localStorage.setItem('currentArticle', JSON.stringify(a));
@@ -583,30 +530,27 @@
             });
             return card;
         }
-
-        // ================================
-        // RENDER BY CATEGORIES
-        // ================================
+ 
         function renderByCategories(articles) {
             const container = document.getElementById('newsContainer');
             container.innerHTML = '';
             let hasAny = false;
-
+ 
             CATEGORIES.forEach(function(cat) {
                 const catArticles = articles.filter(function(a) {
                     return safe(a.category, '').toLowerCase() === cat.toLowerCase();
                 }).slice(0, 3);
-
+ 
                 if (catArticles.length === 0) return;
                 hasAny = true;
-
+ 
                 const allCatArticles = articles.filter(function(a) {
                     return safe(a.category, '').toLowerCase() === cat.toLowerCase();
                 });
-
+ 
                 const section = document.createElement('div');
                 section.className = 'category-section';
-
+ 
                 const heading = document.createElement('div');
                 heading.className = 'category-section-heading ' + (categoryClasses[cat] || '');
                 heading.innerHTML =
@@ -615,12 +559,12 @@
                         ? '<button class="see-more-btn" data-cat="' + cat + '">See all ' + allCatArticles.length + ' →</button>'
                         : '');
                 section.appendChild(heading);
-
+ 
                 const grid = document.createElement('div');
                 grid.className = 'news-grid';
                 catArticles.forEach(function(a) { grid.appendChild(createCard(a)); });
                 section.appendChild(grid);
-
+ 
                 const seeMore = heading.querySelector('.see-more-btn');
                 if (seeMore) {
                     seeMore.addEventListener('click', function() {
@@ -634,21 +578,18 @@
                         if (sectionTitle) sectionTitle.textContent = cat;
                     });
                 }
-
+ 
                 container.appendChild(section);
                 const divider = document.createElement('div');
                 divider.className = 'divider';
                 container.appendChild(divider);
             });
-
+ 
             if (!hasAny) {
                 container.innerHTML = '<p class="no-articles-msg">No articles found. Try "All News" tab or "This Month".</p>';
             }
         }
-
-        // ================================
-        // RENDER SINGLE CATEGORY
-        // ================================
+ 
         function renderSingleCategory(category, articles) {
             const container = document.getElementById('newsContainer');
             container.innerHTML = '';
@@ -661,20 +602,14 @@
             articles.forEach(function(a) { grid.appendChild(createCard(a)); });
             container.appendChild(grid);
         }
-
-        // ================================
-        // GET ARTICLES FOR DISPLAY
-        // ================================
+ 
         function getArticlesForDisplay() {
             let articles = allArticles.slice();
             articles = filterByDate(articles, currentDateFilter);
             articles = filterByOrigin(articles, currentOrigin);
             return articles;
         }
-
-        // ================================
-        // MAIN RENDER
-        // ================================
+ 
         function render() {
             const articles = getArticlesForDisplay();
             if (currentCategory === 'Top Stories') {
@@ -686,14 +621,11 @@
                 renderSingleCategory(currentCategory, catFiltered);
             }
         }
-
-        // ================================
-        // RENDER FEATURED
-        // ================================
+ 
         function renderFeatured() {
             const recentArticles = allArticles.slice(0, 4);
             if (recentArticles.length === 0) return;
-
+ 
             const featured = document.querySelector('.featured-story');
             const a = recentArticles[0];
             const colorClass = categoryColors[a.category] || 'politics';
@@ -701,7 +633,7 @@
             const standfirst = safe(a.standfirst, '');
             const author = safe(a.author, 'Daily News');
             const date = safe(a.date, 'Today');
-
+ 
             featured.innerHTML =
                 (a.imageUrl
                     ? '<img src="' + a.imageUrl + '" class="featured-img" style="object-fit:cover;width:100%;height:320px;" alt="' + title + '" loading="lazy">'
@@ -715,13 +647,13 @@
                 '<span class="author">By <strong>' + author + '</strong></span>' +
                 '<span class="time">' + date + '</span>' +
                 '</div></div>';
-
+ 
             featured.style.cursor = 'pointer';
             featured.onclick = function() {
                 localStorage.setItem('currentArticle', JSON.stringify(a));
                 window.location.href = 'article.html?id=' + a.id;
             };
-
+ 
             const rightStories = document.getElementById('rightStories');
             const rightArticles = recentArticles.slice(1, 4);
             if (rightArticles.length > 0) {
@@ -750,10 +682,7 @@
                 });
             }
         }
-
-        // ================================
-        // DYNAMIC TICKER
-        // ================================
+ 
         function updateTicker() {
             const tickerContent = document.getElementById('tickerContent');
             if (!tickerContent) return;
@@ -766,10 +695,7 @@
                 return safe(a.title, 'Untitled');
             }).join('   ●   ');
         }
-
-        // ================================
-        // RENDER MOST VIEWED
-        // ================================
+ 
         function renderMostViewed() {
             const list = document.getElementById('mostViewedList');
             if (!list) return;
@@ -790,14 +716,11 @@
                 list.appendChild(li);
             });
         }
-
-        // ================================
-        // SETUP DATE NAV
-        // ================================
+ 
         function setupDateNav() {
             const buttons = { btnToday: 'today', btnYesterday: 'yesterday', btnThisWeek: 'week', btnThisMonth: 'month' };
             const labels = { today: "Today's News", yesterday: "Yesterday's News", week: "This Week's News", month: "This Month's News" };
-
+ 
             Object.keys(buttons).forEach(function(id) {
                 const filter = buttons[id];
                 const btn = document.getElementById(id);
@@ -812,29 +735,26 @@
                 });
             });
         }
-
-        // ================================
-        // SETUP ORIGIN TABS
-        // ================================
+ 
         function setupOriginTabs() {
             const tabLocal = document.getElementById('tabLocal');
             const tabInternational = document.getElementById('tabInternational');
             const tabAll = document.getElementById('tabAll');
-
+ 
             tabLocal.addEventListener('click', function() {
                 document.querySelectorAll('.origin-tab').forEach(function(t) { t.classList.remove('active', 'international'); });
                 tabLocal.classList.add('active');
                 currentOrigin = 'local';
                 render();
             });
-
+ 
             tabInternational.addEventListener('click', function() {
                 document.querySelectorAll('.origin-tab').forEach(function(t) { t.classList.remove('active', 'international'); });
                 tabInternational.classList.add('active', 'international');
                 currentOrigin = 'international';
                 render();
             });
-
+ 
             tabAll.addEventListener('click', function() {
                 document.querySelectorAll('.origin-tab').forEach(function(t) { t.classList.remove('active', 'international'); });
                 tabAll.classList.add('active');
@@ -842,17 +762,14 @@
                 render();
             });
         }
-
-        // ================================
-        // SEARCH
-        // ================================
+ 
         function setupSearch() {
             const searchToggle = document.getElementById('searchToggle');
             const searchBarWrap = document.getElementById('searchBarWrap');
             const searchInput = document.getElementById('searchInput');
             const searchClearBtn = document.getElementById('searchClearBtn');
             if (!searchToggle) return;
-
+ 
             searchToggle.addEventListener('click', function() {
                 searchBarWrap.classList.toggle('active');
                 if (searchBarWrap.classList.contains('active')) {
@@ -862,13 +779,13 @@
                     render();
                 }
             });
-
+ 
             searchClearBtn.addEventListener('click', function() {
                 searchInput.value = '';
                 searchBarWrap.classList.remove('active');
                 render();
             });
-
+ 
             searchInput.addEventListener('input', function() {
                 const keyword = searchInput.value.trim().toLowerCase();
                 if (keyword === '') { render(); return; }
@@ -884,10 +801,7 @@
                 renderSingleCategory('Search Results', results);
             });
         }
-
-        // ================================
-        // SETUP NAV LINKS
-        // ================================
+ 
         function setupNavLinks() {
             const sectionLinks = document.querySelectorAll('.section-nav a');
             sectionLinks.forEach(function(link) {
@@ -906,7 +820,7 @@
                     document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
             });
-
+ 
             const topNavLinks = document.querySelectorAll('.top-nav a');
             const categoryMap = { 'News': 'Top Stories', 'Opinion': 'Opinion', 'Sport': 'Sports', 'Culture': 'Top Stories', 'Lifestyle': 'Top Stories' };
             topNavLinks.forEach(function(link) {
@@ -916,7 +830,7 @@
                     render();
                 });
             });
-
+ 
             document.querySelectorAll('.footer-col a[href^="index.html?category="]').forEach(function(link) {
                 link.addEventListener('click', function(e) {
                     e.preventDefault();
@@ -929,10 +843,7 @@
                 });
             });
         }
-
-        // ================================
-        // CHECK URL PARAMS
-        // ================================
+ 
         function checkUrlCategory() {
             const params = new URLSearchParams(window.location.search);
             const category = params.get('category');
@@ -946,19 +857,16 @@
                 render();
             }
         }
-
-        // ================================
-        // INIT
-        // ================================
+ 
         async function init() {
             await fetchAllArticles();
-
+ 
             if (allArticles.length > 0) {
                 renderFeatured();
                 updateTicker();
                 renderMostViewed();
             }
-
+ 
             render();
             setupDateNav();
             setupOriginTabs();
@@ -966,12 +874,12 @@
             setupSearch();
             checkUrlCategory();
         }
-
+ 
         init();
     </script>
-
+ 
     <!-- Monetag Push Notifications -->
     <script src="https://5gvci.com/act/files/tag.min.js?z=11022493" data-cfasync="false" async></script>
-
+ 
 </body>
 </html>

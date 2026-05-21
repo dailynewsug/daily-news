@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <script>(function(s){s.dataset.zone='11034900',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-<script>(function(s){s.dataset.zone='11034907',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
-<script>(function(s){s.dataset.zone='11035918',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    <script>(function(s){s.dataset.zone='11034907',s.src='https://nap5k.com/tag.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
+    <script>(function(s){s.dataset.zone='11035918',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
     <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-G6SX3WSJRK"></script>
     <script>
@@ -23,15 +23,43 @@
     <meta property="og:site_name" content="Daily News">
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+3:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ================================
+           PUSH ADS SECTION
+           ================================ */
+        .push-ads-section {
+            margin-top: 32px;
+            margin-bottom: 16px;
+        }
+        .push-ads-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: #aaaaaa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-family: 'Source Sans 3', Arial, sans-serif;
+        }
+        #pushAdsContainer {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            width: 100%;
+        }
+        #pushAdsContainer > * {
+            width: 100% !important;
+            display: block !important;
+        }
+    </style>
 </head>
 <body>
-
+ 
     <!-- TOP THIN BAR -->
     <div class="top-bar">
         <span id="currentDate"></span>
         <span>Support Daily News — become a subscriber</span>
     </div>
-
+ 
     <!-- HEADER -->
     <header class="header">
         <div class="header-inner">
@@ -53,7 +81,7 @@
             </div>
         </div>
     </header>
-
+ 
     <!-- SECTION NAV -->
     <nav class="section-nav">
         <div class="section-nav-inner">
@@ -70,14 +98,14 @@
             <a href="contact.html">Contact</a>
         </div>
     </nav>
-
+ 
     <!-- ARTICLE PAGE WRAP -->
     <div class="page-wrap">
         <div class="article-layout">
-
+ 
             <!-- ARTICLE MAIN -->
             <article class="article-main">
-
+ 
                 <!-- BREADCRUMB -->
                 <div class="breadcrumb">
                     <a href="index.html">Home</a>
@@ -86,16 +114,16 @@
                     <span> › </span>
                     <span id="breadcrumbTitle">Article</span>
                 </div>
-
+ 
                 <!-- ARTICLE LABEL -->
                 <span class="label politics-label" id="articleLabel">Politics</span>
-
+ 
                 <!-- HEADLINE -->
                 <h1 class="article-headline" id="articleHeadline">Loading article...</h1>
-
+ 
                 <!-- STANDFIRST -->
                 <p class="article-standfirst" id="articleStandfirst"></p>
-
+ 
                 <!-- ARTICLE META -->
                 <div class="article-meta">
                     <div class="article-author-info">
@@ -116,45 +144,45 @@
                         </div>
                     </div>
                 </div>
-
+ 
                 <div class="divider"></div>
-
+ 
                 <!-- ARTICLE IMAGE -->
                 <div id="articleImageWrap">
                     <div class="article-img politics-bg"></div>
                     <p class="img-caption">Photograph: Daily News</p>
                 </div>
-
+ 
                 <!-- ARTICLE BODY -->
                 <div class="article-body" id="articleBody">
                     <p style="color:#767676;">Loading article content...</p>
                 </div>
-
+ 
                 <!-- SOURCE LINK (for aggregated articles) -->
                 <div id="sourceLink"></div>
-
+ 
                 <div class="divider"></div>
-
+ 
                 <!-- TAGS -->
                 <div class="article-tags" id="articleTags">
                     <span class="tag-title">Topics:</span>
                     <a href="index.html" class="article-tag">Daily News</a>
                 </div>
-
+ 
                 <div class="divider"></div>
-
+ 
                 <!-- MORE ON THIS STORY -->
                 <section class="more-stories">
                     <h3 class="section-heading">More Stories</h3>
                     <div class="more-grid" id="moreGrid"></div>
                 </section>
-
+ 
                 <div class="divider"></div>
-
+ 
                 <!-- COMMENTS SECTION -->
                 <div class="comments-section">
                     <h3 id="commentsTitle">Comments (0)</h3>
-
+ 
                     <div class="comment-form">
                         <h4>Leave a Comment</h4>
                         <div class="comment-form-row">
@@ -167,14 +195,24 @@
                             ✓ Your comment has been posted successfully!
                         </div>
                     </div>
-
+ 
                     <div class="comments-list" id="commentsList">
                         <div class="no-comments">Be the first to comment on this story.</div>
                     </div>
                 </div>
-
+ 
+                <div class="divider"></div>
+ 
+                <!-- PUSH NOTIFICATION ADS — stack vertically at bottom -->
+                <div class="push-ads-section">
+                    <p class="push-ads-label">Advertisement</p>
+                    <div id="pushAdsContainer">
+                        <script src="https://5gvci.com/act/files/tag.min.js?z=11022493" data-cfasync="false"></script>
+                    </div>
+                </div>
+ 
             </article>
-
+ 
             <!-- ARTICLE SIDEBAR -->
             <aside class="sidebar">
                 <div class="sidebar-widget">
@@ -199,10 +237,10 @@
                     </div>
                 </div>
             </aside>
-
+ 
         </div>
     </div>
-
+ 
     <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-inner">
@@ -237,16 +275,16 @@
             <p>© 2026 Daily News. All rights reserved. | Kampala, Uganda</p>
         </div>
     </footer>
-
+ 
     <script src="js/main.js"></script>
-
+ 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import {
             getFirestore, collection, getDocs, getDoc,
             addDoc, orderBy, query, limit, doc
         } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
+ 
         const firebaseConfig = {
             apiKey: "AIzaSyC4U6MWTPKDQZ_oICtSLdfnFP3a-HFILb4",
             authDomain: "daily-news-a8c64.firebaseapp.com",
@@ -255,35 +293,30 @@
             messagingSenderId: "75335342698",
             appId: "1:75335342698:web:3e65f3d773eca7730b4813"
         };
-
+ 
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
-
+ 
         const categoryColors = {
             'Politics': 'politics', 'Business': 'business', 'Sports': 'sport',
             'Technology': 'tech', 'Health': 'health', 'Environment': 'environment',
             'Education': 'politics', 'Opinion': 'opinion'
         };
-
-        // ================================
-        // SAFE FIELD HELPER
-        // ================================
+ 
         function safe(value, fallback) {
             if (value === undefined || value === null || value === '') return fallback;
             return value;
         }
-
+ 
         // ================================
         // LOAD ARTICLE
-        // First tries URL ?id=, then falls back to localStorage
         // ================================
         async function loadArticle() {
             const params = new URLSearchParams(window.location.search);
             const urlArticleId = params.get('id');
             let a = null;
-
+ 
             if (urlArticleId) {
-                // Fast: fetch single document by ID
                 try {
                     const docRef = doc(db, 'articles', urlArticleId);
                     const docSnap = await getDoc(docRef);
@@ -295,15 +328,14 @@
                     console.error('Error loading article by ID:', error);
                 }
             }
-
-            // Fallback to localStorage if no ID in URL or fetch failed
+ 
             if (!a) {
                 const stored = localStorage.getItem('currentArticle');
                 if (stored) {
                     try { a = JSON.parse(stored); } catch (e) { a = null; }
                 }
             }
-
+ 
             if (!a) {
                 document.querySelector('.article-main').innerHTML =
                     '<div style="padding:40px; text-align:center;">' +
@@ -313,43 +345,35 @@
                     '</div>';
                 return;
             }
-
-            // ---- Populate the page ----
+ 
             const colorClass = categoryColors[a.category] || 'politics';
             const title = safe(a.title, 'Untitled Article');
             const author = safe(a.author, 'Daily News');
             const date = safe(a.date, '');
             const standfirst = safe(a.standfirst, '');
             const category = safe(a.category, 'News');
-
-            // Page title & meta
+ 
             document.title = title + ' - Daily News';
-
-            // Breadcrumb
+ 
             const bcCat = document.getElementById('breadcrumbCategory');
             const bcTitle = document.getElementById('breadcrumbTitle');
             if (bcCat) { bcCat.href = 'index.html?category=' + encodeURIComponent(category); bcCat.textContent = category; }
             if (bcTitle) bcTitle.textContent = title.length > 50 ? title.substring(0, 50) + '...' : title;
-
-            // Label
+ 
             const label = document.getElementById('articleLabel');
             if (label) { label.className = 'label ' + colorClass + '-label'; label.textContent = category; }
-
-            // Headline
+ 
             const headline = document.getElementById('articleHeadline');
             if (headline) headline.textContent = title;
-
-            // Standfirst
+ 
             const standfirstEl = document.getElementById('articleStandfirst');
             if (standfirstEl) standfirstEl.textContent = standfirst;
-
-            // Author & date
+ 
             const authorEl = document.getElementById('articleAuthor');
             if (authorEl) authorEl.innerHTML = 'By <strong>' + author + '</strong>';
             const dateEl = document.getElementById('articleDate');
             if (dateEl) dateEl.textContent = date;
-
-            // Image
+ 
             const imgWrap = document.getElementById('articleImageWrap');
             if (imgWrap) {
                 if (a.imageUrl) {
@@ -362,8 +386,7 @@
                         '<p class="img-caption">Photograph: Daily News</p>';
                 }
             }
-
-            // Body
+ 
             const articleBody = document.getElementById('articleBody');
             if (articleBody) {
                 if (a.body && a.body.trim() !== '') {
@@ -371,7 +394,6 @@
                     if (paragraphs.length > 0) {
                         articleBody.innerHTML = paragraphs.map(function(p) { return '<p>' + p.trim() + '</p>'; }).join('');
                     } else {
-                        // Single newline fallback
                         const lines = a.body.split('\n').filter(function(p) { return p.trim() !== ''; });
                         articleBody.innerHTML = lines.map(function(p) { return '<p>' + p.trim() + '</p>'; }).join('');
                     }
@@ -379,8 +401,7 @@
                     articleBody.innerHTML = '<p style="color:#767676;">Full article content is not available. Please read the original source.</p>';
                 }
             }
-
-            // Source link for aggregated articles
+ 
             const sourceLinkEl = document.getElementById('sourceLink');
             if (sourceLinkEl && a.aggregator && a.sourceUrl) {
                 sourceLinkEl.style.cssText = 'margin:20px 0; padding:16px; background:#f6f6f6; border-left:4px solid #052962;';
@@ -390,8 +411,7 @@
                     'style="background:#052962; color:#fff; padding:10px 20px; font-weight:700; border-radius:2px; text-decoration:none; font-size:13px;">' +
                     'Read Full Story on ' + safe(a.sourceName, author) + ' →</a>';
             }
-
-            // Tags
+ 
             const tagsEl = document.getElementById('articleTags');
             if (tagsEl) {
                 tagsEl.innerHTML =
@@ -399,51 +419,45 @@
                     '<a href="index.html?category=' + encodeURIComponent(category) + '" class="article-tag">' + category + '</a>' +
                     '<a href="index.html" class="article-tag">Daily News</a>';
             }
-
-            // Share buttons — now set up ONCE with the correct URL
+ 
             setupShareButtons(title, a.id);
         }
-
+ 
         // ================================
         // SHARE BUTTONS
-        // Single clean implementation — no duplicates
         // ================================
         function setupShareButtons(title, articleId) {
             const baseUrl = 'https://www.dailynewsug.online/article.html';
             const shareUrl = articleId ? baseUrl + '?id=' + articleId : window.location.href;
             const encodedUrl = encodeURIComponent(shareUrl);
             const encodedTitle = encodeURIComponent(title);
-
+ 
             const fbBtn = document.querySelector('.fb-share');
             const twBtn = document.querySelector('.tw-share');
             const waBtn = document.querySelector('.wa-share');
             const emailBtn = document.querySelector('.email-share');
             const copyBtn = document.querySelector('.copy-share');
-
+ 
             if (fbBtn) {
                 fbBtn.addEventListener('click', function() {
                     window.open('https://www.facebook.com/sharer/sharer.php?u=' + encodedUrl, '_blank');
                 });
             }
-
             if (twBtn) {
                 twBtn.addEventListener('click', function() {
                     window.open('https://twitter.com/intent/tweet?text=' + encodedTitle + '&url=' + encodedUrl, '_blank');
                 });
             }
-
             if (waBtn) {
                 waBtn.addEventListener('click', function() {
                     window.open('https://wa.me/?text=' + encodeURIComponent(title + '\n\n' + shareUrl), '_blank');
                 });
             }
-
             if (emailBtn) {
                 emailBtn.addEventListener('click', function() {
                     window.location.href = 'mailto:?subject=' + encodedTitle + '&body=' + encodeURIComponent('I thought you might find this interesting:\n\n' + title + '\n\n' + shareUrl);
                 });
             }
-
             if (copyBtn) {
                 copyBtn.addEventListener('click', function() {
                     navigator.clipboard.writeText(shareUrl).then(function() {
@@ -454,40 +468,35 @@
                             copyBtn.style.backgroundColor = '';
                         }, 2000);
                     }).catch(function() {
-                        // Fallback for browsers that block clipboard
                         prompt('Copy this link:', shareUrl);
                     });
                 });
             }
         }
-
+ 
         // ================================
         // LOAD MORE STORIES
-        // Uses limit() — no full collection scan
         // ================================
         async function loadMoreStories() {
             const moreGrid = document.getElementById('moreGrid');
             if (!moreGrid) return;
-
+ 
             try {
                 const stored = localStorage.getItem('currentArticle');
                 const currentArticle = stored ? JSON.parse(stored) : null;
                 const currentId = currentArticle ? currentArticle.id : null;
-
-                // Fetch a small batch and filter out current article
+ 
                 const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'), limit(10));
                 const snapshot = await getDocs(q);
-
+ 
                 moreGrid.innerHTML = '';
                 let count = 0;
-
+ 
                 snapshot.forEach(function(docSnap) {
                     if (count >= 3) return;
                     if (docSnap.id === currentId) return;
-
                     const a = { id: docSnap.id, ...docSnap.data() };
                     const colorClass = categoryColors[a.category] || 'politics';
-
                     const card = document.createElement('article');
                     card.className = 'more-card';
                     card.style.cursor = 'pointer';
@@ -495,45 +504,41 @@
                         '<span class="label ' + colorClass + '-label">' + safe(a.category, 'News') + '</span>' +
                         '<h4>' + safe(a.title, 'Untitled') + '</h4>' +
                         '<span class="time">' + safe(a.date, '') + '</span>';
-
                     card.addEventListener('click', function() {
                         localStorage.setItem('currentArticle', JSON.stringify(a));
                         window.location.href = 'article.html?id=' + a.id;
                     });
-
                     moreGrid.appendChild(card);
                     count++;
                 });
-
+ 
                 if (count === 0) {
                     moreGrid.innerHTML = '<p style="color:#767676;font-size:13px;">No other stories available.</p>';
                 }
-
             } catch (error) {
                 console.error('Error loading more stories:', error);
             }
         }
-
+ 
         // ================================
-        // LOAD MOST VIEWED SIDEBAR
-        // Uses limit() — no full collection scan
+        // LOAD MOST VIEWED
         // ================================
         async function loadMostViewed() {
             const list = document.getElementById('mostViewedList');
             if (!list) return;
-
+ 
             try {
                 const q = query(collection(db, 'articles'), orderBy('createdAt', 'desc'), limit(5));
                 const snapshot = await getDocs(q);
-
+ 
                 if (snapshot.empty) {
                     list.innerHTML = '<li style="color:#767676;font-size:13px;">No articles yet.</li>';
                     return;
                 }
-
+ 
                 list.innerHTML = '';
                 let count = 0;
-
+ 
                 snapshot.forEach(function(docSnap) {
                     const a = { id: docSnap.id, ...docSnap.data() };
                     const li = document.createElement('li');
@@ -549,12 +554,11 @@
                     list.appendChild(li);
                     count++;
                 });
-
             } catch (error) {
                 console.error('Error loading most viewed:', error);
             }
         }
-
+ 
         // ================================
         // LOAD COMMENTS
         // ================================
@@ -562,16 +566,16 @@
             const commentsList = document.getElementById('commentsList');
             const commentsTitle = document.getElementById('commentsTitle');
             if (!commentsList) return;
-
+ 
             const stored = localStorage.getItem('currentArticle');
             if (!stored) return;
             let currentArticle;
             try { currentArticle = JSON.parse(stored); } catch (e) { return; }
-
+ 
             try {
                 const q = query(collection(db, 'comments'), orderBy('createdAt', 'desc'));
                 const snapshot = await getDocs(q);
-
+ 
                 const comments = [];
                 snapshot.forEach(function(docSnap) {
                     const c = docSnap.data();
@@ -579,14 +583,14 @@
                         comments.push({ id: docSnap.id, ...c });
                     }
                 });
-
+ 
                 if (commentsTitle) commentsTitle.textContent = 'Comments (' + comments.length + ')';
-
+ 
                 if (comments.length === 0) {
                     commentsList.innerHTML = '<div class="no-comments">Be the first to comment on this story.</div>';
                     return;
                 }
-
+ 
                 commentsList.innerHTML = '';
                 comments.forEach(function(c) {
                     const card = document.createElement('div');
@@ -605,36 +609,35 @@
                         '</div>';
                     commentsList.appendChild(card);
                 });
-
             } catch (error) {
                 console.error('Error loading comments:', error);
             }
         }
-
+ 
         // ================================
         // SETUP COMMENT FORM
         // ================================
         async function setupCommentForm() {
             const submitBtn = document.getElementById('commentSubmitBtn');
             if (!submitBtn) return;
-
+ 
             const stored = localStorage.getItem('currentArticle');
             if (!stored) return;
             let currentArticle;
             try { currentArticle = JSON.parse(stored); } catch (e) { return; }
-
+ 
             submitBtn.addEventListener('click', async function() {
                 const name = document.getElementById('commentName').value.trim();
                 const text = document.getElementById('commentText').value.trim();
-
+ 
                 if (!name || !text) {
                     alert('Please enter your name and comment.');
                     return;
                 }
-
+ 
                 submitBtn.textContent = 'Posting...';
                 submitBtn.disabled = true;
-
+ 
                 try {
                     await addDoc(collection(db, 'comments'), {
                         articleId: currentArticle.id,
@@ -647,19 +650,18 @@
                         }),
                         createdAt: new Date().toISOString()
                     });
-
+ 
                     document.getElementById('commentName').value = '';
                     document.getElementById('commentEmail').value = '';
                     document.getElementById('commentText').value = '';
-
+ 
                     const successMsg = document.getElementById('commentSuccess');
                     if (successMsg) {
                         successMsg.style.display = 'block';
                         setTimeout(function() { successMsg.style.display = 'none'; }, 3000);
                     }
-
+ 
                     loadComments();
-
                 } catch (error) {
                     alert('Error posting comment. Please try again.');
                     console.error(error);
@@ -669,7 +671,7 @@
                 }
             });
         }
-
+ 
         // ================================
         // INIT
         // ================================
@@ -678,11 +680,8 @@
         loadMostViewed();
         loadComments();
         setupCommentForm();
-
+ 
     </script>
-
-    <!-- Monetag Push Notifications -->
-    <script src="https://5gvci.com/act/files/tag.min.js?z=11022493" data-cfasync="false" async></script>
-
+ 
 </body>
 </html>
