@@ -6,7 +6,6 @@
     <script>(function(s){s.dataset.zone='11034900',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
     <script>(function(s){s.dataset.zone='11028744',s.src='https://n6wxm.com/vignette.min.js'})([document.documentElement, document.body].filter(Boolean).pop().appendChild(document.createElement('script')))</script>
     <meta name="monetag" content="a7697520531dbf6c26debbd85afb3fc0">
-    <!-- Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-G6SX3WSJRK"></script>
     <script>
         window.dataLayer = window.dataLayer || [];
@@ -182,23 +181,26 @@
     </style>
 </head>
 <body>
- 
+
     <!-- TOP THIN BAR -->
     <div class="top-bar">
         <span id="currentDate"></span>
         <span>Support Daily News — become a subscriber</span>
     </div>
- 
+
     <!-- HEADER -->
     <header class="header">
         <div class="header-inner">
             <div class="header-left">
-<nav class="top-nav">
-    <a href="index.html" style="font-weight:800; color:#ffffff;">News</a>
-    <a href="index.html?category=Opinion">Opinion</a>
-    <a href="index.html?category=Sports">Sport</a>
-    <a href="jobs.html" style="font-weight:800; color:#c70000; background:#ffffff; padding:3px 10px; border-radius:2px;">Jobs</a>
-</nav>
+                <!-- FIX: All nav links now use real hrefs and will navigate correctly.
+                     News stays on index.html, Opinion/Sport filter by category param,
+                     Jobs goes to jobs.html. No JS interception on these links. -->
+                <nav class="top-nav">
+                    <a href="index.html" id="navNews">News</a>
+                    <a href="index.html?category=Opinion" id="navOpinion">Opinion</a>
+                    <a href="index.html?category=Sports" id="navSport">Sport</a>
+                    <a href="jobs.html" id="navJobs" style="font-weight:800; color:#c70000; background:#ffffff; padding:3px 10px; border-radius:2px;">Jobs</a>
+                </nav>
             </div>
             <div class="header-logo">
                 <a href="index.html">Daily News</a>
@@ -208,7 +210,7 @@
                 <button class="search-btn" id="searchToggle">🔍</button>
             </div>
         </div>
- 
+
         <!-- SEARCH BAR -->
         <div class="search-bar-wrap" id="searchBarWrap">
             <div class="search-bar-inner">
@@ -216,25 +218,26 @@
                 <button id="searchClearBtn">✕</button>
             </div>
         </div>
- 
+
         <!-- SECTION NAV -->
         <nav class="section-nav">
             <div class="section-nav-inner">
-                <a href="#" class="active">Top Stories</a>
-                <a href="#">Politics</a>
-                <a href="#">Business</a>
-                <a href="#">Technology</a>
-                <a href="#">Sports</a>
-                <a href="#">Health</a>
-                <a href="#">Environment</a>
-                <a href="#">Education</a>
-                <a href="#">Opinion</a>
+                <!-- FIX: href="#" for in-page category filters, real hrefs for page links -->
+                <a href="#" class="active" data-category="Top Stories">Top Stories</a>
+                <a href="#" data-category="Politics">Politics</a>
+                <a href="#" data-category="Business">Business</a>
+                <a href="#" data-category="Technology">Technology</a>
+                <a href="#" data-category="Sports">Sports</a>
+                <a href="#" data-category="Health">Health</a>
+                <a href="#" data-category="Environment">Environment</a>
+                <a href="#" data-category="Education">Education</a>
+                <a href="#" data-category="Opinion">Opinion</a>
                 <a href="about.html">About</a>
                 <a href="contact.html">Contact</a>
             </div>
         </nav>
     </header>
- 
+
     <!-- BREAKING NEWS TICKER -->
     <div class="ticker-wrap">
         <span class="ticker-label">BREAKING</span>
@@ -242,10 +245,10 @@
             <span id="tickerContent">Loading today's headlines...</span>
         </div>
     </div>
- 
+
     <!-- MAIN WRAPPER -->
     <div class="page-wrap">
- 
+
         <!-- FEATURED STORY -->
         <section class="top-stories">
             <article class="featured-story" id="featuredStory">
@@ -260,19 +263,19 @@
                     </div>
                 </div>
             </article>
- 
+
             <div class="right-stories" id="rightStories">
                 <div style="padding:20px; color:#767676; font-size:13px;">Loading stories...</div>
             </div>
         </section>
- 
+
         <div class="divider"></div>
- 
+
         <!-- CONTENT + SIDEBAR -->
         <div class="content-sidebar">
- 
+
             <main class="main-content">
- 
+
                 <!-- DATE NAVIGATION -->
                 <div class="section-header-row">
                     <h2 class="section-heading" style="margin-bottom:0;"><span id="sectionTitle">Latest News</span></h2>
@@ -283,14 +286,14 @@
                         <button class="date-nav-btn active" id="btnThisMonth">This Month</button>
                     </div>
                 </div>
- 
+
                 <!-- LOCAL / INTERNATIONAL TABS -->
                 <div class="origin-tabs">
                     <button class="origin-tab active" id="tabLocal">🇺🇬 Uganda & East Africa</button>
                     <button class="origin-tab" id="tabInternational">🌐 International</button>
                     <button class="origin-tab" id="tabAll">📰 All News</button>
                 </div>
- 
+
                 <!-- NEWS CONTAINER -->
                 <div id="newsContainer">
                     <div class="skeleton-grid">
@@ -299,9 +302,9 @@
                         <div class="skeleton-card"><div class="skeleton-img"></div><div class="skeleton-body"><div class="skeleton-line short"></div><div class="skeleton-line full"></div><div class="skeleton-line medium"></div><div class="skeleton-line short"></div></div></div>
                     </div>
                 </div>
- 
+
             </main>
- 
+
             <!-- SIDEBAR -->
             <aside class="sidebar">
                 <div class="sidebar-widget">
@@ -326,11 +329,11 @@
                     </div>
                 </div>
             </aside>
- 
+
         </div>
- 
+
     </div>
- 
+
     <!-- FOOTER -->
     <footer class="footer">
         <div class="footer-inner">
@@ -365,13 +368,13 @@
             <p>© 2026 Daily News. All rights reserved. | Kampala, Uganda</p>
         </div>
     </footer>
- 
+
     <script src="js/main.js"></script>
- 
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
         import { getFirestore, collection, getDocs, orderBy, query, limit } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
- 
+
         const firebaseConfig = {
             apiKey: "AIzaSyC4U6MWTPKDQZ_oICtSLdfnFP3a-HFILb4",
             authDomain: "daily-news-a8c64.firebaseapp.com",
@@ -380,35 +383,35 @@
             messagingSenderId: "75335342698",
             appId: "1:75335342698:web:3e65f3d773eca7730b4813"
         };
- 
+
         const app = initializeApp(firebaseConfig);
         const db = getFirestore(app);
- 
+
         const categoryColors = {
             'Politics': 'politics', 'Business': 'business', 'Sports': 'sport',
             'Technology': 'tech', 'Health': 'health', 'Environment': 'environment',
             'Education': 'politics', 'Opinion': 'opinion'
         };
- 
+
         const CATEGORIES = ['Politics', 'Business', 'Sports', 'Technology', 'Health', 'Environment', 'Education'];
- 
+
         const categoryIcons = {
             'Politics': '🏛️', 'Business': '📈', 'Sports': '⚽',
             'Technology': '💻', 'Health': '🏥', 'Environment': '🌿', 'Education': '📚'
         };
- 
+
         const categoryClasses = {
             'Politics': 'politics', 'Business': 'business', 'Sports': 'sport',
             'Technology': 'tech', 'Health': 'health', 'Environment': 'environment',
             'Education': 'education', 'Opinion': 'opinion'
         };
- 
+
         const LOCAL_SOURCES = [
             'Chimp Reports', 'Watchdog Uganda', 'The Scribe Uganda',
             'Uganda Radio Network', 'Daily Monitor', 'New Vision',
             'Nile Post', 'Sports Ocean Uganda', 'Exclusive Uganda', 'AllAfrica Uganda'
         ];
- 
+
         const EAST_AFRICA_SOURCES = [
             'The East African', 'East African Community', 'ReliefWeb Uganda',
             'ReliefWeb Uganda Health', 'ReliefWeb Uganda Education',
@@ -416,17 +419,17 @@
             'AllAfrica East Africa', 'AllAfrica Health', 'AllAfrica Sports',
             'AllAfrica Business', 'AllAfrica Environment', 'WHO Africa', 'Africa News'
         ];
- 
+
         let allArticles = [];
         let currentOrigin = 'all';
         let currentDateFilter = 'month';
         let currentCategory = 'Top Stories';
- 
+
         function safe(value, fallback) {
             if (value === undefined || value === null || value === '') return fallback;
             return value;
         }
- 
+
         async function fetchAllArticles() {
             try {
                 const q = query(
@@ -447,14 +450,14 @@
                     '<p class="no-articles-msg">Error loading articles. Please refresh the page.</p>';
             }
         }
- 
+
         function getOrigin(article) {
             const source = safe(article.sourceName, '') + safe(article.author, '');
             if (LOCAL_SOURCES.some(function(s) { return source.includes(s); })) return 'uganda';
             if (EAST_AFRICA_SOURCES.some(function(s) { return source.includes(s); })) return 'eastafrica';
             return 'international';
         }
- 
+
         function filterByDate(articles, dateFilter) {
             const now = new Date();
             const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
@@ -464,7 +467,7 @@
             weekAgo.setDate(weekAgo.getDate() - 7);
             const monthAgo = new Date(today);
             monthAgo.setDate(monthAgo.getDate() - 30);
- 
+
             return articles.filter(function(a) {
                 if (!a.createdAt) return true;
                 const articleDate = new Date(a.createdAt);
@@ -475,7 +478,7 @@
                 return true;
             });
         }
- 
+
         function filterByOrigin(articles, origin) {
             if (origin === 'local') {
                 return articles.filter(function(a) {
@@ -488,21 +491,21 @@
             }
             return articles;
         }
- 
+
         function getBadge(article) {
             const origin = getOrigin(article);
             if (origin === 'uganda') return '<span class="source-badge uganda">🇺🇬 Uganda</span>';
             if (origin === 'eastafrica') return '<span class="source-badge eastafrica">🌍 East Africa</span>';
             return '<span class="source-badge world">🌐 International</span>';
         }
- 
+
         function createCard(a) {
             const colorClass = categoryColors[a.category] || 'politics';
             const title = safe(a.title, 'Untitled Article');
             const author = safe(a.author, 'Daily News');
             const date = safe(a.date, '');
             const standfirst = a.standfirst ? a.standfirst.substring(0, 120) + '...' : '';
- 
+
             const card = document.createElement('article');
             card.className = 'news-card';
             card.innerHTML =
@@ -521,7 +524,7 @@
                 '<span>' + author + '</span>' +
                 '<span>' + date + '</span>' +
                 '</div></div>';
- 
+
             card.style.cursor = 'pointer';
             card.addEventListener('click', function() {
                 localStorage.setItem('currentArticle', JSON.stringify(a));
@@ -529,27 +532,27 @@
             });
             return card;
         }
- 
+
         function renderByCategories(articles) {
             const container = document.getElementById('newsContainer');
             container.innerHTML = '';
             let hasAny = false;
- 
+
             CATEGORIES.forEach(function(cat) {
                 const catArticles = articles.filter(function(a) {
                     return safe(a.category, '').toLowerCase() === cat.toLowerCase();
                 }).slice(0, 3);
- 
+
                 if (catArticles.length === 0) return;
                 hasAny = true;
- 
+
                 const allCatArticles = articles.filter(function(a) {
                     return safe(a.category, '').toLowerCase() === cat.toLowerCase();
                 });
- 
+
                 const section = document.createElement('div');
                 section.className = 'category-section';
- 
+
                 const heading = document.createElement('div');
                 heading.className = 'category-section-heading ' + (categoryClasses[cat] || '');
                 heading.innerHTML =
@@ -558,12 +561,12 @@
                         ? '<button class="see-more-btn" data-cat="' + cat + '">See all ' + allCatArticles.length + ' →</button>'
                         : '');
                 section.appendChild(heading);
- 
+
                 const grid = document.createElement('div');
                 grid.className = 'news-grid';
                 catArticles.forEach(function(a) { grid.appendChild(createCard(a)); });
                 section.appendChild(grid);
- 
+
                 const seeMore = heading.querySelector('.see-more-btn');
                 if (seeMore) {
                     seeMore.addEventListener('click', function() {
@@ -577,18 +580,18 @@
                         if (sectionTitle) sectionTitle.textContent = cat;
                     });
                 }
- 
+
                 container.appendChild(section);
                 const divider = document.createElement('div');
                 divider.className = 'divider';
                 container.appendChild(divider);
             });
- 
+
             if (!hasAny) {
                 container.innerHTML = '<p class="no-articles-msg">No articles found. Try "All News" tab or "This Month".</p>';
             }
         }
- 
+
         function renderSingleCategory(category, articles) {
             const container = document.getElementById('newsContainer');
             container.innerHTML = '';
@@ -601,14 +604,14 @@
             articles.forEach(function(a) { grid.appendChild(createCard(a)); });
             container.appendChild(grid);
         }
- 
+
         function getArticlesForDisplay() {
             let articles = allArticles.slice();
             articles = filterByDate(articles, currentDateFilter);
             articles = filterByOrigin(articles, currentOrigin);
             return articles;
         }
- 
+
         function render() {
             const articles = getArticlesForDisplay();
             if (currentCategory === 'Top Stories') {
@@ -620,11 +623,11 @@
                 renderSingleCategory(currentCategory, catFiltered);
             }
         }
- 
+
         function renderFeatured() {
             const recentArticles = allArticles.slice(0, 4);
             if (recentArticles.length === 0) return;
- 
+
             const featured = document.querySelector('.featured-story');
             const a = recentArticles[0];
             const colorClass = categoryColors[a.category] || 'politics';
@@ -632,7 +635,7 @@
             const standfirst = safe(a.standfirst, '');
             const author = safe(a.author, 'Daily News');
             const date = safe(a.date, 'Today');
- 
+
             featured.innerHTML =
                 (a.imageUrl
                     ? '<img src="' + a.imageUrl + '" class="featured-img" style="object-fit:cover;width:100%;height:320px;" alt="' + title + '" loading="lazy">'
@@ -646,13 +649,13 @@
                 '<span class="author">By <strong>' + author + '</strong></span>' +
                 '<span class="time">' + date + '</span>' +
                 '</div></div>';
- 
+
             featured.style.cursor = 'pointer';
             featured.onclick = function() {
                 localStorage.setItem('currentArticle', JSON.stringify(a));
                 window.location.href = 'article.html?id=' + a.id;
             };
- 
+
             const rightStories = document.getElementById('rightStories');
             const rightArticles = recentArticles.slice(1, 4);
             if (rightArticles.length > 0) {
@@ -681,7 +684,7 @@
                 });
             }
         }
- 
+
         function updateTicker() {
             const tickerContent = document.getElementById('tickerContent');
             if (!tickerContent) return;
@@ -694,7 +697,7 @@
                 return safe(a.title, 'Untitled');
             }).join('   ●   ');
         }
- 
+
         function renderMostViewed() {
             const list = document.getElementById('mostViewedList');
             if (!list) return;
@@ -715,11 +718,11 @@
                 list.appendChild(li);
             });
         }
- 
+
         function setupDateNav() {
             const buttons = { btnToday: 'today', btnYesterday: 'yesterday', btnThisWeek: 'week', btnThisMonth: 'month' };
             const labels = { today: "Today's News", yesterday: "Yesterday's News", week: "This Week's News", month: "This Month's News" };
- 
+
             Object.keys(buttons).forEach(function(id) {
                 const filter = buttons[id];
                 const btn = document.getElementById(id);
@@ -734,26 +737,26 @@
                 });
             });
         }
- 
+
         function setupOriginTabs() {
             const tabLocal = document.getElementById('tabLocal');
             const tabInternational = document.getElementById('tabInternational');
             const tabAll = document.getElementById('tabAll');
- 
+
             tabLocal.addEventListener('click', function() {
                 document.querySelectorAll('.origin-tab').forEach(function(t) { t.classList.remove('active', 'international'); });
                 tabLocal.classList.add('active');
                 currentOrigin = 'local';
                 render();
             });
- 
+
             tabInternational.addEventListener('click', function() {
                 document.querySelectorAll('.origin-tab').forEach(function(t) { t.classList.remove('active', 'international'); });
                 tabInternational.classList.add('active', 'international');
                 currentOrigin = 'international';
                 render();
             });
- 
+
             tabAll.addEventListener('click', function() {
                 document.querySelectorAll('.origin-tab').forEach(function(t) { t.classList.remove('active', 'international'); });
                 tabAll.classList.add('active');
@@ -761,14 +764,14 @@
                 render();
             });
         }
- 
+
         function setupSearch() {
             const searchToggle = document.getElementById('searchToggle');
             const searchBarWrap = document.getElementById('searchBarWrap');
             const searchInput = document.getElementById('searchInput');
             const searchClearBtn = document.getElementById('searchClearBtn');
             if (!searchToggle) return;
- 
+
             searchToggle.addEventListener('click', function() {
                 searchBarWrap.classList.toggle('active');
                 if (searchBarWrap.classList.contains('active')) {
@@ -778,13 +781,13 @@
                     render();
                 }
             });
- 
+
             searchClearBtn.addEventListener('click', function() {
                 searchInput.value = '';
                 searchBarWrap.classList.remove('active');
                 render();
             });
- 
+
             searchInput.addEventListener('input', function() {
                 const keyword = searchInput.value.trim().toLowerCase();
                 if (keyword === '') { render(); return; }
@@ -800,72 +803,108 @@
                 renderSingleCategory('Search Results', results);
             });
         }
- 
+
+        // ─── FIX: setupNavLinks completely rewritten ──────────────
+        // OLD bug: topNavLinks intercepted ALL clicks including real
+        // page links (jobs.html, about.html, contact.html) with
+        // e.preventDefault(), so they never navigated anywhere.
+        //
+        // NEW behaviour:
+        //  • .top-nav links with real .html hrefs → navigate normally (no JS needed)
+        //  • .section-nav links with data-category → filter in-page
+        //  • Footer category links → handled via URL param on page load
         function setupNavLinks() {
-            const sectionLinks = document.querySelectorAll('.section-nav a');
-            sectionLinks.forEach(function(link) {
+            // Section nav: only intercept links that have data-category (in-page filters)
+            document.querySelectorAll('.section-nav a[data-category]').forEach(function(link) {
                 link.addEventListener('click', function(e) {
-                    const href = link.getAttribute('href');
-                    if (href && href !== '#' && href.includes('.html')) return;
                     e.preventDefault();
-                    sectionLinks.forEach(function(l) { l.classList.remove('active'); });
+
+                    // Active state
+                    document.querySelectorAll('.section-nav a').forEach(function(l) { l.classList.remove('active'); });
                     link.classList.add('active');
-                    const cat = link.textContent.trim();
-                    currentCategory = cat === 'Top Stories' ? 'Top Stories' : cat;
+
+                    const cat = link.dataset.category;
+                    currentCategory = cat;
+
                     const sectionTitle = document.getElementById('sectionTitle');
                     if (sectionTitle) sectionTitle.textContent = cat === 'Top Stories' ? 'Latest News' : cat;
+
                     render();
-                    document.querySelector('.main-content') &&
-                    document.querySelector('.main-content').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                    // Smooth scroll to content
+                    const mainContent = document.querySelector('.main-content');
+                    if (mainContent) mainContent.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 });
             });
- 
-            const topNavLinks = document.querySelectorAll('.top-nav a');
-            const categoryMap = { 'News': 'Top Stories', 'Opinion': 'Opinion', 'Sport': 'Sports', 'Culture': 'Top Stories', 'Lifestyle': 'Top Stories' };
-            topNavLinks.forEach(function(link) {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    currentCategory = categoryMap[link.textContent.trim()] || 'Top Stories';
-                    render();
-                });
-            });
- 
-            document.querySelectorAll('.footer-col a[href^="index.html?category="]').forEach(function(link) {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    const category = new URLSearchParams(link.href.split('?')[1]).get('category');
-                    if (category) {
-                        currentCategory = category;
+
+            // Section nav: links WITHOUT data-category (About, Contact) → let browser navigate
+            // No listener needed — they use real hrefs.
+
+            // Top nav "News" link → reset to Top Stories without full reload
+            const navNews = document.getElementById('navNews');
+            if (navNews) {
+                navNews.addEventListener('click', function(e) {
+                    // Only intercept if we're already on index.html (no ?category param)
+                    if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+                        e.preventDefault();
+                        currentCategory = 'Top Stories';
+                        currentDateFilter = 'month';
+                        document.querySelectorAll('.date-nav-btn').forEach(function(b) { b.classList.remove('active'); });
+                        document.getElementById('btnThisMonth').classList.add('active');
+                        document.querySelectorAll('.section-nav a').forEach(function(l) { l.classList.remove('active'); });
+                        const topStoriesLink = document.querySelector('.section-nav a[data-category="Top Stories"]');
+                        if (topStoriesLink) topStoriesLink.classList.add('active');
+                        const sectionTitle = document.getElementById('sectionTitle');
+                        if (sectionTitle) sectionTitle.textContent = 'Latest News';
+                        render();
                         window.scrollTo({ top: 0, behavior: 'smooth' });
-                        setTimeout(render, 300);
                     }
+                    // Otherwise (e.g. on article.html), let it navigate normally
                 });
-            });
+            }
+
+            // Top nav Opinion/Sport → these use ?category= href, handled by checkUrlCategory()
+            // No extra listener needed — they navigate to index.html?category=X
+
+            // Top nav Jobs → no listener needed, href="jobs.html" navigates directly
+
+            // Footer category links → also use ?category= href, handled by checkUrlCategory()
+            // No extra listener needed.
         }
- 
+
+        // Reads ?category= from URL on page load and applies it
         function checkUrlCategory() {
             const params = new URLSearchParams(window.location.search);
             const category = params.get('category');
             if (category) {
                 currentCategory = category;
                 currentDateFilter = 'month';
+
                 document.querySelectorAll('.date-nav-btn').forEach(function(b) { b.classList.remove('active'); });
-                document.getElementById('btnThisMonth').classList.add('active');
+                const monthBtn = document.getElementById('btnThisMonth');
+                if (monthBtn) monthBtn.classList.add('active');
+
+                // Highlight matching section nav link
+                document.querySelectorAll('.section-nav a').forEach(function(l) { l.classList.remove('active'); });
+                const matchingLink = document.querySelector('.section-nav a[data-category="' + category + '"]');
+                if (matchingLink) matchingLink.classList.add('active');
+
                 const sectionTitle = document.getElementById('sectionTitle');
                 if (sectionTitle) sectionTitle.textContent = category;
+
                 render();
             }
         }
- 
+
         async function init() {
             await fetchAllArticles();
- 
+
             if (allArticles.length > 0) {
                 renderFeatured();
                 updateTicker();
                 renderMostViewed();
             }
- 
+
             render();
             setupDateNav();
             setupOriginTabs();
@@ -873,12 +912,12 @@
             setupSearch();
             checkUrlCategory();
         }
- 
+
         init();
     </script>
- 
+
     <!-- Monetag Push Notifications -->
     <script src="https://5gvci.com/act/files/tag.min.js?z=11022493" data-cfasync="false" async></script>
- 
+
 </body>
 </html>
