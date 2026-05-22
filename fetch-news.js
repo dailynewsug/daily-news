@@ -35,9 +35,10 @@ async function main() {
     }
 
     const db = getFirestore();
-const parser = new Parser({
-    timeout: 15000,
-    headers: {
+
+    const parser = new Parser({
+        timeout: 15000,
+        headers: {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             'Accept': 'application/rss+xml, application/xml, text/xml, */*'
         }
@@ -48,13 +49,13 @@ const parser = new Parser({
     // ================================
     const FULL_SOURCES = [
 
-        // UGANDA — Red Pepper (added)
+        // UGANDA — Red Pepper
         {
             url: 'https://redpepper.co.ug/feed/',
-            category: 'Politics',      // default; overridden per-item by mapRedPepperCategory()
+            category: 'Politics',
             source: 'Red Pepper',
             aggregator: false,
-            dynamicCategory: true      // flag: map category from RSS item tag
+            dynamicCategory: true
         },
 
         // HEALTH
@@ -167,7 +168,7 @@ const parser = new Parser({
             aggregator: true
         },
 
-        // INTERNATIONAL — BBC (most reliable)
+        // INTERNATIONAL — BBC
         {
             url: 'https://feeds.bbci.co.uk/news/world/africa/rss.xml',
             category: 'Politics',
@@ -228,7 +229,6 @@ const parser = new Parser({
 
     // ================================
     // RED PEPPER CATEGORY MAP
-    // Maps their RSS tags to your site categories
     // ================================
     function mapRedPepperCategory(rawCategory) {
         if (!rawCategory) return 'Politics';
@@ -307,7 +307,6 @@ const parser = new Parser({
                 content = paragraphs.join('\n\n');
             }
 
-            // Find image
             let imageUrl = '';
             const ogImage = $('meta[property="og:image"]');
             if (ogImage.length > 0) imageUrl = ogImage.attr('content') || '';
@@ -371,22 +370,25 @@ const parser = new Parser({
     // PROCESS FULL SOURCE
     // ================================
     async function processFullSource(source) {
-    try {
-        console.log(`📰 Fetching from ${source.source}...`);
-
-        let feed;
-        if (source.source === 'Red Pepper') {
-            // Fetch raw XML and strip bad characters before parsing
-            const response = await axios.get(source.url, { timeout: 15000 });
-            const cleanXml = response.data.replace(/&(?!amp;|lt;|gt;|quot;|apos;)/g, '&amp;');
-            feed = await parser.parseString(cleanXml);
-        } else {
-            feed = await parser.parseURL(source.url);
-        }
-    async function processFullSource(source) {
         try {
             console.log(`📰 Fetching from ${source.source}...`);
-            const feed = await parser.parseURL(source.url);
+
+            let feed;
+            if (source.source === 'Red Pepper') {
+                // Fetch raw XML and clean malformed entities before parsing
+                const response = await axios.get(source.url, {
+                    timeout: 15000,
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                        'Accept': 'application/rss+xml, application/xml, text/xml, */*'
+                    }
+                });
+                const cleanXml = response.data.replace(/&(?!amp;|lt;|gt;|quot;|apos;|#\d+;|#x[\da-fA-F]+;)/g, '&amp;');
+                feed = await parser.parseString(cleanXml);
+            } else {
+                feed = await parser.parseURL(source.url);
+            }
+
             console.log(`   Found ${feed.items.length} items`);
 
             let published = 0;
@@ -412,7 +414,6 @@ const parser = new Parser({
                 const cleanStandfirst = standfirst.replace(/<[^>]*>/g, '').trim().substring(0, 300);
                 const cleanBody = body.replace(/<[^>]*>/g, '').trim();
 
-                // Use dynamic category mapping for Red Pepper
                 const category = source.dynamicCategory
                     ? mapRedPepperCategory(item.categories?.[0] || item.category || '')
                     : source.category;
@@ -461,7 +462,6 @@ const parser = new Parser({
 
                 if (cleanSummary.length < 30) continue;
 
-                // Try to get image from RSS enclosure
                 let imageUrl = '';
                 if (item.enclosure && item.enclosure.url) {
                     imageUrl = item.enclosure.url;
