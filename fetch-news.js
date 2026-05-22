@@ -37,13 +37,6 @@ async function main() {
     const db = getFirestore();
 const parser = new Parser({
     timeout: 15000,
-    customFields: {
-        item: ['dc:creator', 'category']
-    },
-    xml2js: {
-        strict: false,
-        xmlMode: true
-    },
     headers: {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
             'Accept': 'application/rss+xml, application/xml, text/xml, */*'
@@ -377,6 +370,19 @@ const parser = new Parser({
     // ================================
     // PROCESS FULL SOURCE
     // ================================
+    async function processFullSource(source) {
+    try {
+        console.log(`📰 Fetching from ${source.source}...`);
+
+        let feed;
+        if (source.source === 'Red Pepper') {
+            // Fetch raw XML and strip bad characters before parsing
+            const response = await axios.get(source.url, { timeout: 15000 });
+            const cleanXml = response.data.replace(/&(?!amp;|lt;|gt;|quot;|apos;)/g, '&amp;');
+            feed = await parser.parseString(cleanXml);
+        } else {
+            feed = await parser.parseURL(source.url);
+        }
     async function processFullSource(source) {
         try {
             console.log(`📰 Fetching from ${source.source}...`);
