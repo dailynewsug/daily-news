@@ -48,6 +48,15 @@ async function main() {
     // ================================
     const FULL_SOURCES = [
 
+        // UGANDA — Red Pepper (added)
+        {
+            url: 'https://redpepper.co.ug/feed/',
+            category: 'Politics',      // default; overridden per-item by mapRedPepperCategory()
+            source: 'Red Pepper',
+            aggregator: false,
+            dynamicCategory: true      // flag: map category from RSS item tag
+        },
+
         // HEALTH
         {
             url: 'https://www.who.int/rss-feeds/news-english.xml',
@@ -218,6 +227,32 @@ async function main() {
     ];
 
     // ================================
+    // RED PEPPER CATEGORY MAP
+    // Maps their RSS tags to your site categories
+    // ================================
+    function mapRedPepperCategory(rawCategory) {
+        if (!rawCategory) return 'Politics';
+        const lower = rawCategory.toLowerCase().trim();
+        const map = {
+            'news':           'Politics',
+            'politics':       'Politics',
+            'crime':          'Politics',
+            'education':      'Education',
+            'sports':         'Sports',
+            'sport':          'Sports',
+            'football':       'Sports',
+            'business':       'Business',
+            'corporate buzz': 'Business',
+            'technology':     'Technology',
+            'tech':           'Technology',
+            'health':         'Health',
+            'environment':    'Environment',
+            'opinion':        'Opinion',
+        };
+        return map[lower] || 'Politics';
+    }
+
+    // ================================
     // CHECK IF ARTICLE EXISTS
     // ================================
     async function articleExists(title) {
@@ -364,9 +399,14 @@ async function main() {
                 const cleanStandfirst = standfirst.replace(/<[^>]*>/g, '').trim().substring(0, 300);
                 const cleanBody = body.replace(/<[^>]*>/g, '').trim();
 
+                // Use dynamic category mapping for Red Pepper
+                const category = source.dynamicCategory
+                    ? mapRedPepperCategory(item.categories?.[0] || item.category || '')
+                    : source.category;
+
                 await publishArticle({
                     title: item.title,
-                    category: source.category,
+                    category,
                     author: source.source,
                     standfirst: cleanStandfirst,
                     body: cleanBody,
