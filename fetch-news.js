@@ -374,6 +374,12 @@ async function main() {
             console.log(`📰 Fetching from ${source.source}...`);
 
             let feed;
+
+            } else {
+                feed = await parser.parseURL(source.url);
+            }
+
+            console.log(`   Found ${feed.items.length} items`);
 if (source.source === 'Red Pepper') {
     const response = await axios.get(source.url, {
         timeout: 15000,
@@ -390,12 +396,6 @@ if (source.source === 'Red Pepper') {
     // Fix unescaped & characters
     cleanXml = cleanXml.replace(/&(?!amp;|lt;|gt;|quot;|apos;|#\d+;|#x[\da-fA-F]+;)/g, '&amp;');
     feed = await parser.parseString(cleanXml);
-            } else {
-                feed = await parser.parseURL(source.url);
-            }
-
-            console.log(`   Found ${feed.items.length} items`);
-
             let published = 0;
             for (const item of feed.items.slice(0, 3)) {
                 if (!item.title || !item.link) continue;
