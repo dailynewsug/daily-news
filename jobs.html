@@ -141,6 +141,12 @@
         .apply-btn { background-color: #052962; color: #fff; border: none; padding: 8px 20px; font-size: 13px; font-weight: 700; cursor: pointer; border-radius: 2px; font-family: 'Source Sans 3', Arial, sans-serif; transition: background 0.2s; text-decoration: none; display: inline-block; }
         .apply-btn:hover { background-color: #c70000; text-decoration: none; }
 
+        /* ─── INDEX WARNING BANNER ──────────────────────────── */
+        /* ADDED: shows a helpful message if Firestore index is missing */
+        .index-warning { background: #fff4e5; border: 1px solid #f0a500; border-left: 4px solid #f0a500; padding: 14px 18px; margin: 16px 20px; font-size: 13px; color: #7a4f00; display: none; border-radius: 2px; }
+        .index-warning strong { display: block; margin-bottom: 4px; color: #5a3800; }
+        .index-warning a { color: #052962; font-weight: 700; }
+
         /* ─── LOAD MORE ─────────────────────────────────────── */
         .load-more-wrap { text-align: center; padding: 30px; }
         .load-more-btn { background: #f6f6f6; border: 1px solid #dcdcdc; color: #052962; padding: 12px 40px; font-size: 14px; font-weight: 700; cursor: pointer; border-radius: 2px; font-family: 'Source Sans 3', Arial, sans-serif; transition: all 0.2s; }
@@ -290,6 +296,15 @@
         <a href="#" class="post-job-btn" onclick="openPostJobModal(); return false;">+ Post a Job</a>
     </div>
 
+    <!-- ADDED: Firestore index warning — shown automatically if index is missing -->
+    <div class="index-warning" id="indexWarning">
+        <strong>⚠️ Setup Required — Firestore Index Missing</strong>
+        Your jobs are saved but not loading because a Firestore composite index is needed.
+        <a id="indexLink" href="https://console.firebase.google.com" target="_blank">Click here to create it in Firebase Console</a>
+        — go to Firestore → Indexes → Add composite index on collection <strong>jobs</strong>
+        with fields: <strong>approved (Ascending)</strong> + <strong>createdAt (Descending)</strong>.
+    </div>
+
     <!-- JOBS LAYOUT -->
     <div class="jobs-layout">
 
@@ -329,15 +344,15 @@
 
             <div class="filter-widget">
                 <h4>Source</h4>
+                <!-- CHANGED: Removed Indeed (blocked), added Fuzu and BrighterMonday -->
                 <div class="source-badges" id="sourceFilter">
                     <span class="source-badge active" data-src="all" onclick="filterJobs('source','all')">All</span>
                     <span class="source-badge" data-src="ReliefWeb" onclick="filterJobs('source','ReliefWeb')">ReliefWeb</span>
-                    <span class="source-badge" data-src="UN Jobs" onclick="filterJobs('source','UN Jobs')">UN Jobs</span>
                     <span class="source-badge" data-src="RemoteOK" onclick="filterJobs('source','RemoteOK')">RemoteOK</span>
-                    <span class="source-badge" data-src="Indeed" onclick="filterJobs('source','Indeed')">Indeed</span>
                     <span class="source-badge" data-src="Devex" onclick="filterJobs('source','Devex')">Devex</span>
                     <span class="source-badge" data-src="WHO Africa" onclick="filterJobs('source','WHO Africa')">WHO</span>
-                    <span class="source-badge" data-src="AfDB" onclick="filterJobs('source','AfDB')">AfDB</span>
+                    <span class="source-badge" data-src="Fuzu" onclick="filterJobs('source','Fuzu')">Fuzu</span>
+                    <span class="source-badge" data-src="BrighterMonday" onclick="filterJobs('source','BrighterMonday')">BrighterMonday</span>
                     <span class="source-badge" data-src="" onclick="filterJobs('source','manual')">Direct Posts</span>
                 </div>
             </div>
@@ -490,8 +505,21 @@
         let currentPage = 1;
 
         // ── FETCH JOBS ─────────────────────────────────────────
+        // FIX: Two-stage fetch strategy.
+        //
+        // STAGE 1: Try the ideal compound query (approved==true + orderBy createdAt).
+        //   This requires a Firestore composite index. If the index exists, great.
+        //   If not, Firestore throws an error with a direct link to create the index.
+        //
+        // STAGE 2 (fallback): If stage 1 fails (missing index), fetch ALL approved
+        //   jobs without ordering, then sort them client-side. This means jobs still
+        //   show up even before the index is created — no more blank page.
+        //
+        // Once you create the index in Firebase Console the stage 1 query will work
+        // and the fallback is never needed again.
         async function fetchJobs() {
             try {
+                // Stage 1: Compound query (needs composite index)
                 const q = query(
                     collection(db, 'jobs'),
                     where('approved', '==', true),
@@ -500,13 +528,57 @@
                 const snapshot = await getDocs(q);
                 allJobs = [];
                 snapshot.forEach(d => allJobs.push({ id: d.id, ...d.data() }));
+                console.log(`✅ Loaded ${allJobs.length} jobs via compound query`);
                 applyAllFilters();
                 updateLocationCounts();
                 updateCategoryCounts();
+
             } catch (error) {
-                console.error('Fetch error:', error);
-                document.getElementById('jobsList').innerHTML =
-                    '<div class="no-jobs-msg"><h3>No jobs available yet</h3><p>Check back soon — we update every 12 hours!</p></div>';
+                console.warn('Compound query failed — trying fallback:', error.message);
+
+                // Show index warning banner with the Firebase console link
+                // (Firestore error messages contain a direct URL to create the index)
+                const indexWarning = document.getElementById('indexWarning');
+                if (indexWarning) {
+                    indexWarning.style.display = 'block';
+                    // Extract the index creation URL from the error message if present
+                    const urlMatch = error.message && error.message.match(/https:\/\/console\.firebase\.google\.com[^\s"']*/);
+                    if (urlMatch) {
+                        const indexLink = document.getElementById('indexLink');
+                        if (indexLink) {
+                            indexLink.href = urlMatch[0];
+                            indexLink.textContent = 'Click here — Firebase will create the index automatically';
+                        }
+                    }
+                }
+
+                // Stage 2: Fallback — fetch without ordering, sort client-side
+                try {
+                    const fallbackQ = query(
+                        collection(db, 'jobs'),
+                        where('approved', '==', true)
+                    );
+                    const fallbackSnapshot = await getDocs(fallbackQ);
+                    allJobs = [];
+                    fallbackSnapshot.forEach(d => allJobs.push({ id: d.id, ...d.data() }));
+
+                    // Sort client-side by createdAt descending
+                    allJobs.sort((a, b) => {
+                        const dateA = a.createdAt ? new Date(a.createdAt) : new Date(0);
+                        const dateB = b.createdAt ? new Date(b.createdAt) : new Date(0);
+                        return dateB - dateA;
+                    });
+
+                    console.log(`✅ Fallback loaded ${allJobs.length} jobs (client-side sorted)`);
+                    applyAllFilters();
+                    updateLocationCounts();
+                    updateCategoryCounts();
+
+                } catch (fallbackError) {
+                    console.error('Fallback fetch also failed:', fallbackError);
+                    document.getElementById('jobsList').innerHTML =
+                        '<div class="no-jobs-msg"><h3>No jobs available yet</h3><p>Check back soon — we update every 12 hours!</p></div>';
+                }
             }
         }
 
@@ -678,7 +750,10 @@
             } else if (type === 'source') {
                 activeSourceFilter = value;
                 document.querySelectorAll('.source-badge').forEach(b => b.classList.remove('active'));
-                document.querySelector('.source-badge[data-src="' + (value === 'manual' ? '' : value) + '"]').classList.add('active');
+                // CHANGED: handle 'manual' source badge selection correctly
+                const targetSrc = value === 'manual' ? '' : value;
+                const badge = document.querySelector('.source-badge[data-src="' + targetSrc + '"]');
+                if (badge) badge.classList.add('active');
             }
             applyAllFilters();
         };

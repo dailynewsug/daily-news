@@ -1,8 +1,18 @@
 // ============================================================
 // DAILY NEWS UGANDA — Automated Jobs Importer
 // Runs every 12 hours via GitHub Actions
-// Fetches from: ReliefWeb, UN Jobs, RemoteOK, Devex, WHO Africa, AfDB
-// Pushes directly to Firebase with approved: true
+// Sources: ReliefWeb, RemoteOK, Devex, WHO Africa, Fuzu, BrighterMonday
+//
+// CHANGES FROM PREVIOUS VERSION:
+//  1. ReliefWeb  — simplified URL (field encoding was breaking the query)
+//  2. UN Jobs    — removed (Cloudflare-blocked; replaced by Fuzu Uganda)
+//  3. AfDB       — removed (Cloudflare-blocked; replaced by BrighterMonday)
+//  4. Devex      — fixed RSS URL (.xml extension)
+//  5. WHO Africa — fixed RSS URL (/careers/vacancies/rss)
+//  6. Fuzu       — NEW: Uganda/East Africa focused job board (JSON API)
+//  7. BrighterMonday Uganda — NEW: Uganda's largest local job board (RSS)
+//  8. RemoteOK   — added title quality filter (removes placeholder listings)
+//  9. Firestore  — paginated fetch unchanged (was already correct)
 // ============================================================
 
 const https = require('https');
@@ -14,21 +24,28 @@ const FIREBASE_API_KEY    = 'AIzaSyC4U6MWTPKDQZ_oICtSLdfnFP3a-HFILb4';
 const FIRESTORE_BASE_URL  = `https://firestore.googleapis.com/v1/projects/${FIREBASE_PROJECT_ID}/databases/(default)/documents`;
 
 // ─── HELPERS ────────────────────────────────────────────────
-function fetchUrl(url) {
+function fetchUrl(url, extraHeaders = {}) {
     return new Promise((resolve, reject) => {
         const client = url.startsWith('https') ? https : http;
         let data = '';
         const req = client.get(url, {
             headers: {
-                'User-Agent': 'Mozilla/5.0 (compatible; DailyNewsUG/1.0; +https://dailynewsug.online)',
-                'Accept': 'application/json, application/xml, text/xml, */*'
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                'Accept': 'application/json, application/xml, text/xml, text/html, */*',
+                'Accept-Language': 'en-US,en;q=0.9',
+                ...extraHeaders
             }
         }, res => {
+            // Follow redirects
+            if (res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+                fetchUrl(res.headers.location, extraHeaders).then(resolve).catch(reject);
+                return;
+            }
             res.on('data', chunk => data += chunk);
             res.on('end', () => resolve(data));
         });
         req.on('error', reject);
-        req.setTimeout(15000, () => { req.destroy(); reject(new Error('Timeout')); });
+        req.setTimeout(20000, () => { req.destroy(); reject(new Error('Timeout')); });
     });
 }
 
@@ -76,7 +93,7 @@ function getXmlValue(item, tag) {
 }
 
 function slugify(str) {
-    return (str || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+    return (str || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '').substring(0, 120);
 }
 
 function formatDate(dateStr) {
@@ -85,6 +102,26 @@ function formatDate(dateStr) {
     } catch {
         return new Date().toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' });
     }
+}
+
+// ─── FIX: Filter out garbage/placeholder job titles from RemoteOK ────
+// RemoteOK sometimes publishes listings with placeholder or very short titles
+function isGarbageTitle(title) {
+    if (!title || title.trim().length < 4) return true;
+    const lower = title.toLowerCase().trim();
+    const garbagePatterns = [
+        /^job position$/i,
+        /^replace with/i,
+        /^vacancies?\s*$/i,
+        /^staff\s*$/i,
+        /^open position/i,
+        /^positions?\s*$/i,
+        /^hiring\s*$/i,
+        /^jobs?\s*$/i,
+        /^amo\s*$/i,
+        /^pse\s*$/i,
+    ];
+    return garbagePatterns.some(p => p.test(lower));
 }
 
 function detectCategory(title, desc) {
@@ -127,15 +164,12 @@ function detectLocation(title, desc, defaultLoc) {
     return defaultLoc || 'International';
 }
 
-// ─── DEBUG: VALIDATE RAW RESPONSE ───────────────────────────
-// Returns true if the response looks like real XML/JSON content
 function isValidResponse(data, source) {
     if (!data || data.length < 50) {
         console.log(`  ⚠️  ${source}: Response too short (${data ? data.length : 0} chars) — likely empty or blocked`);
         return false;
     }
     const preview = data.substring(0, 300);
-    // Detect HTML error pages returned instead of XML/JSON
     if (/<html/i.test(preview) && !/<item/i.test(data) && !/"data"/.test(data)) {
         console.log(`  ⚠️  ${source}: Got HTML instead of XML/JSON — URL may be blocked or changed`);
         console.log(`     Preview: ${preview.replace(/\s+/g, ' ').substring(0, 150)}`);
@@ -145,7 +179,6 @@ function isValidResponse(data, source) {
 }
 
 // ─── FIRESTORE: GET EXISTING JOB IDs (PAGINATED) ────────────
-// FIX: Original only fetched 300 docs max — now paginates through ALL
 async function getExistingJobIds() {
     const ids = new Set();
     let pageToken = '';
@@ -155,12 +188,10 @@ async function getExistingJobIds() {
             const url = `${FIRESTORE_BASE_URL}/jobs?key=${FIREBASE_API_KEY}&pageSize=300${pageToken ? '&pageToken=' + pageToken : ''}`;
             const data   = await fetchUrl(url);
             const parsed = JSON.parse(data);
-
             (parsed.documents || []).forEach(doc => {
                 const fields = doc.fields || {};
                 if (fields.sourceId) ids.add(fields.sourceId.stringValue);
             });
-
             pageToken = parsed.nextPageToken || '';
             console.log(`  📄 Page ${page}: loaded ${(parsed.documents || []).length} docs (total so far: ${ids.size})`);
             page++;
@@ -207,12 +238,15 @@ async function saveJob(job) {
 
 // ════════════════════════════════════════════════════════════
 // SOURCE 1: RELIEFWEB API
+// FIX: Simplified URL — complex field encoding was causing 0 results.
+//      The API returns all fields by default; no need to specify them.
 // ════════════════════════════════════════════════════════════
 async function fetchReliefWeb(existingIds) {
     console.log('\n📡 Fetching ReliefWeb jobs...');
     const jobs = [];
     try {
-        const url  = 'https://api.reliefweb.int/v1/jobs?appname=dailynewsug&limit=50&sort[]=date:desc&fields[include][]=title&fields[include][]=body&fields[include][]=source&fields[include][]=date&fields[include][]=url&fields[include][]=country&fields[include][]=city&fields[include][]=type&fields[include][]=closing_date';
+        // CHANGED: simpler URL without encoded field params that were breaking
+        const url  = 'https://api.reliefweb.int/v1/jobs?appname=dailynewsug&limit=50&sort[]=date:desc&profile=full';
         const data = await fetchUrl(url);
 
         if (!isValidResponse(data, 'ReliefWeb')) return jobs;
@@ -226,11 +260,16 @@ async function fetchReliefWeb(existingIds) {
             if (existingIds.has(sourceId)) continue;
 
             const title      = f.title || '';
-            const desc       = (f.body || '').replace(/<[^>]+>/g, '').substring(0, 600);
+            const desc       = (f.body || f.body_html || '').replace(/<[^>]+>/g, '').substring(0, 600);
             const company    = (f.source && f.source[0]) ? f.source[0].name : 'ReliefWeb';
             const country    = (f.country && f.country[0]) ? f.country[0].name : '';
-            const city       = f.city || '';
+            const city       = f.city ? (Array.isArray(f.city) ? f.city[0].name : f.city) : '';
             const locationRaw = [city, country].filter(Boolean).join(', ');
+            const closingDate = f.closing_date
+                ? (typeof f.closing_date === 'object' ? f.closing_date.value : f.closing_date).split('T')[0]
+                : '';
+
+            if (!title) continue;
 
             jobs.push({
                 title,
@@ -238,9 +277,9 @@ async function fetchReliefWeb(existingIds) {
                 category:    detectCategory(title, desc),
                 type:        detectJobType(title, desc),
                 location:    detectLocation(title, desc, locationRaw),
-                deadline:    f.closing_date ? f.closing_date.split('T')[0] : '',
+                deadline:    closingDate,
                 description: desc,
-                applyLink:   f.url || '',
+                applyLink:   f.url || (f.links && f.links.self ? f.links.self.href : '') || '',
                 salary:      '',
                 source:      'ReliefWeb',
                 sourceId
@@ -254,52 +293,9 @@ async function fetchReliefWeb(existingIds) {
 }
 
 // ════════════════════════════════════════════════════════════
-// SOURCE 2: UN JOBS RSS
-// ════════════════════════════════════════════════════════════
-async function fetchUNJobs(existingIds) {
-    console.log('\n📡 Fetching UN Jobs RSS...');
-    const jobs = [];
-    try {
-        const url = 'https://careers.un.org/lbw/api/JobFeedRSS.aspx?type=rss';
-        const xml = await fetchUrl(url);
-
-        if (!isValidResponse(xml, 'UN Jobs')) return jobs;
-
-        const items = parseXml(xml, 'item');
-        console.log(`  📦 Raw items from RSS: ${items.length}`);
-
-        for (const item of items.slice(0, 40)) {
-            const title  = getXmlValue(item, 'title');
-            const desc   = getXmlValue(item, 'description').substring(0, 600);
-            const link   = getXmlValue(item, 'link');
-
-            // FIX: Use link (stable URL) as sourceId instead of title+date (can be empty/duplicate)
-            const sourceId = `unjobs-${slugify(link || title)}`;
-            if (!sourceId || existingIds.has(sourceId)) continue;
-
-            jobs.push({
-                title,
-                company:     'United Nations',
-                category:    detectCategory(title, desc),
-                type:        detectJobType(title, desc),
-                location:    detectLocation(title, desc, 'International'),
-                deadline:    '',
-                description: desc,
-                applyLink:   link,
-                salary:      '',
-                source:      'UN Jobs',
-                sourceId
-            });
-        }
-        console.log(`  ✅ Found ${jobs.length} new jobs from UN Jobs`);
-    } catch (e) {
-        console.error('  ❌ UN Jobs error:', e.message);
-    }
-    return jobs;
-}
-
-// ════════════════════════════════════════════════════════════
-// SOURCE 3: REMOTEOK API
+// SOURCE 2: REMOTEOK API
+// FIX: Added isGarbageTitle() filter to skip placeholder listings
+//      like "Job Position", "Replace with job title", "Amo", "PSE" etc.
 // ════════════════════════════════════════════════════════════
 async function fetchRemoteOK(existingIds) {
     console.log('\n📡 Fetching RemoteOK jobs...');
@@ -313,13 +309,19 @@ async function fetchRemoteOK(existingIds) {
         const parsed = JSON.parse(data);
         console.log(`  📦 Raw items from API: ${parsed.length - 1}`);
 
-        for (const item of parsed.slice(1, 51)) {
+        for (const item of parsed.slice(1, 80)) { // fetch more since we filter
             if (!item.id) continue;
             const sourceId = `remoteok-${item.id}`;
             if (existingIds.has(sourceId)) continue;
 
             const title = item.position || '';
             const desc  = (item.description || '').replace(/<[^>]+>/g, '').substring(0, 600);
+
+            // CHANGED: skip garbage/placeholder titles
+            if (isGarbageTitle(title)) {
+                console.log(`  ⏭️  Skipping garbage title: "${title}"`);
+                continue;
+            }
 
             jobs.push({
                 title,
@@ -345,13 +347,15 @@ async function fetchRemoteOK(existingIds) {
 }
 
 // ════════════════════════════════════════════════════════════
-// SOURCE 4: DEVEX RSS
+// SOURCE 3: DEVEX RSS
+// FIX: Corrected URL from /jobs/rss → /jobs/rss.xml
 // ════════════════════════════════════════════════════════════
 async function fetchDevex(existingIds) {
     console.log('\n📡 Fetching Devex jobs...');
     const jobs = [];
     try {
-        const url = 'https://www.devex.com/jobs/rss';
+        // CHANGED: added .xml to the URL
+        const url = 'https://www.devex.com/jobs/rss.xml';
         const xml = await fetchUrl(url);
 
         if (!isValidResponse(xml, 'Devex')) return jobs;
@@ -363,14 +367,14 @@ async function fetchDevex(existingIds) {
             const title = getXmlValue(item, 'title');
             const desc  = getXmlValue(item, 'description').substring(0, 600);
             const link  = getXmlValue(item, 'link');
+            if (!title) continue;
 
-            // FIX: Use link as sourceId — more stable than title+date
             const sourceId = `devex-${slugify(link || title)}`;
             if (!sourceId || existingIds.has(sourceId)) continue;
 
             jobs.push({
                 title,
-                company:     getXmlValue(item, 'author') || 'International Organisation',
+                company:     getXmlValue(item, 'author') || getXmlValue(item, 'dc:creator') || 'International Organisation',
                 category:    detectCategory(title, desc),
                 type:        detectJobType(title, desc),
                 location:    detectLocation(title, desc, 'International'),
@@ -390,13 +394,15 @@ async function fetchDevex(existingIds) {
 }
 
 // ════════════════════════════════════════════════════════════
-// SOURCE 5: WHO AFRICA RSS
+// SOURCE 4: WHO AFRICA RSS
+// FIX: Corrected URL from /jobs/rss → /careers/vacancies/rss
 // ════════════════════════════════════════════════════════════
 async function fetchWHOAfrica(existingIds) {
     console.log('\n📡 Fetching WHO Africa jobs...');
     const jobs = [];
     try {
-        const url = 'https://www.afro.who.int/jobs/rss';
+        // CHANGED: fixed RSS endpoint path
+        const url = 'https://www.afro.who.int/careers/vacancies/rss';
         const xml = await fetchUrl(url);
 
         if (!isValidResponse(xml, 'WHO Africa')) return jobs;
@@ -408,8 +414,8 @@ async function fetchWHOAfrica(existingIds) {
             const title = getXmlValue(item, 'title');
             const desc  = getXmlValue(item, 'description').substring(0, 600);
             const link  = getXmlValue(item, 'link');
+            if (!title) continue;
 
-            // FIX: Use link as sourceId
             const sourceId = `who-${slugify(link || title)}`;
             if (!sourceId || existingIds.has(sourceId)) continue;
 
@@ -419,7 +425,7 @@ async function fetchWHOAfrica(existingIds) {
                 category:    'Health & Medical',
                 type:        detectJobType(title, desc),
                 location:    detectLocation(title, desc, 'Africa'),
-                deadline:    '',
+                deadline:    getXmlValue(item, 'pubDate') || '',
                 description: desc,
                 applyLink:   link,
                 salary:      '',
@@ -435,55 +441,163 @@ async function fetchWHOAfrica(existingIds) {
 }
 
 // ════════════════════════════════════════════════════════════
-// SOURCE 6: AFRICAN DEVELOPMENT BANK
+// SOURCE 5: FUZU — Uganda & East Africa focused job board
+// NEW: Replaces UN Jobs (which was Cloudflare-blocked)
+// Fuzu has a public JSON API with Uganda/East Africa jobs
 // ════════════════════════════════════════════════════════════
-async function fetchAfDB(existingIds) {
-    console.log('\n📡 Fetching African Development Bank jobs...');
+async function fetchFuzu(existingIds) {
+    console.log('\n📡 Fetching Fuzu (Uganda/East Africa) jobs...');
     const jobs = [];
     try {
-        const url = 'https://www.afdb.org/en/careers/rss';
-        const xml = await fetchUrl(url);
+        const url  = 'https://www.fuzu.com/api/v2/jobs?country=uganda&per_page=40&sort=recent';
+        const data = await fetchUrl(url, { 'Accept': 'application/json' });
 
-        if (!isValidResponse(xml, 'AfDB')) return jobs;
+        if (!isValidResponse(data, 'Fuzu')) return jobs;
 
-        const items = parseXml(xml, 'item');
-        console.log(`  📦 Raw items from RSS: ${items.length}`);
+        // Fuzu may return HTML on block — double check
+        if (data.trim().startsWith('<')) {
+            console.log('  ⚠️  Fuzu: Returned HTML — trying fallback RSS...');
+            return await fetchFuzuRSS(existingIds);
+        }
 
-        for (const item of items.slice(0, 30)) {
-            const title = getXmlValue(item, 'title');
-            const desc  = getXmlValue(item, 'description').substring(0, 600);
-            const link  = getXmlValue(item, 'link');
+        const parsed = JSON.parse(data);
+        const items  = parsed.data || parsed.jobs || parsed.results || [];
+        console.log(`  📦 Raw items from API: ${items.length}`);
 
-            // FIX: Use link as sourceId
-            const sourceId = `afdb-${slugify(link || title)}`;
-            if (!sourceId || existingIds.has(sourceId)) continue;
+        for (const item of items) {
+            const id = item.id || item.slug || '';
+            if (!id) continue;
+            const sourceId = `fuzu-${id}`;
+            if (existingIds.has(sourceId)) continue;
+
+            const title = item.title || item.name || '';
+            const desc  = (item.description || item.summary || item.excerpt || '').replace(/<[^>]+>/g, '').substring(0, 600);
+            const company = item.company_name || (item.company && item.company.name) || 'Organisation';
+            const location = item.location || item.city || 'Uganda';
+            const deadline = item.deadline || item.expires_at || item.closing_date || '';
+
+            if (!title || isGarbageTitle(title)) continue;
 
             jobs.push({
                 title,
-                company:     'African Development Bank',
-                category:    'Business & Finance',
+                company,
+                category:    detectCategory(title, desc),
                 type:        detectJobType(title, desc),
-                location:    detectLocation(title, desc, 'Africa'),
+                location:    detectLocation(title, desc, location),
+                deadline:    deadline ? deadline.split('T')[0] : '',
+                description: desc,
+                applyLink:   item.url || item.apply_url || `https://www.fuzu.com/jobs/${id}`,
+                salary:      item.salary || '',
+                source:      'Fuzu',
+                sourceId
+            });
+        }
+        console.log(`  ✅ Found ${jobs.length} new jobs from Fuzu`);
+    } catch (e) {
+        console.error('  ❌ Fuzu error:', e.message);
+        // Try RSS fallback
+        return await fetchFuzuRSS(existingIds);
+    }
+    return jobs;
+}
+
+// Fuzu RSS fallback if JSON API is blocked
+async function fetchFuzuRSS(existingIds) {
+    const jobs = [];
+    try {
+        const url = 'https://www.fuzu.com/jobs.rss?country=uganda';
+        const xml = await fetchUrl(url);
+        if (!isValidResponse(xml, 'Fuzu RSS')) return jobs;
+
+        const items = parseXml(xml, 'item');
+        console.log(`  📦 Fuzu RSS items: ${items.length}`);
+
+        for (const item of items.slice(0, 40)) {
+            const title = getXmlValue(item, 'title');
+            const desc  = getXmlValue(item, 'description').substring(0, 600);
+            const link  = getXmlValue(item, 'link');
+            if (!title || isGarbageTitle(title)) continue;
+
+            const sourceId = `fuzu-${slugify(link || title)}`;
+            if (existingIds.has(sourceId)) continue;
+
+            jobs.push({
+                title,
+                company:     getXmlValue(item, 'author') || 'Organisation',
+                category:    detectCategory(title, desc),
+                type:        detectJobType(title, desc),
+                location:    detectLocation(title, desc, 'Uganda'),
                 deadline:    '',
                 description: desc,
                 applyLink:   link,
                 salary:      '',
-                source:      'AfDB',
+                source:      'Fuzu',
                 sourceId
             });
         }
-        console.log(`  ✅ Found ${jobs.length} new jobs from AfDB`);
+        console.log(`  ✅ Found ${jobs.length} new jobs from Fuzu RSS`);
     } catch (e) {
-        console.error('  ❌ AfDB error:', e.message);
+        console.error('  ❌ Fuzu RSS error:', e.message);
     }
     return jobs;
 }
 
 // ════════════════════════════════════════════════════════════
-// NOTE: Indeed Uganda RSS removed
-// Indeed actively blocks non-browser requests and returns
-// CAPTCHA/empty pages, causing silent 0-result failures.
-// Replace with a different Uganda-specific source if needed.
+// SOURCE 6: BRIGHTER MONDAY UGANDA
+// NEW: Replaces AfDB (which was Cloudflare-blocked)
+// Uganda's largest local job board — RSS feed
+// ════════════════════════════════════════════════════════════
+async function fetchBrighterMonday(existingIds) {
+    console.log('\n📡 Fetching BrighterMonday Uganda jobs...');
+    const jobs = [];
+    try {
+        const url = 'https://www.brightermonday.co.ug/jobs/rss';
+        const xml = await fetchUrl(url);
+
+        if (!isValidResponse(xml, 'BrighterMonday')) return jobs;
+
+        const items = parseXml(xml, 'item');
+        console.log(`  📦 Raw items from RSS: ${items.length}`);
+
+        for (const item of items.slice(0, 40)) {
+            const title = getXmlValue(item, 'title');
+            const desc  = getXmlValue(item, 'description').substring(0, 600);
+            const link  = getXmlValue(item, 'link');
+            if (!title || isGarbageTitle(title)) continue;
+
+            const sourceId = `bm-${slugify(link || title)}`;
+            if (!sourceId || existingIds.has(sourceId)) continue;
+
+            // BrighterMonday always Uganda-based
+            const rawLocation = getXmlValue(item, 'location') || 'Uganda';
+
+            jobs.push({
+                title,
+                company:     getXmlValue(item, 'author') || getXmlValue(item, 'dc:creator') || 'Uganda Company',
+                category:    detectCategory(title, desc),
+                type:        detectJobType(title, desc),
+                location:    detectLocation(title, desc, rawLocation),
+                deadline:    '',
+                description: desc,
+                applyLink:   link,
+                salary:      getXmlValue(item, 'salary') || '',
+                source:      'BrighterMonday',
+                sourceId
+            });
+        }
+        console.log(`  ✅ Found ${jobs.length} new jobs from BrighterMonday`);
+    } catch (e) {
+        console.error('  ❌ BrighterMonday error:', e.message);
+    }
+    return jobs;
+}
+
+// ════════════════════════════════════════════════════════════
+// REMOVED SOURCES:
+//  - UN Jobs:  Cloudflare blocks automated requests → returns HTML
+//  - AfDB:     Cloudflare blocks automated requests → returns HTML
+//  - Indeed:   Actively blocks bots, returns CAPTCHA
+// These have been replaced with Fuzu and BrighterMonday above.
 // ════════════════════════════════════════════════════════════
 
 // ════════════════════════════════════════════════════════════
@@ -493,7 +607,6 @@ async function main() {
     console.log('🚀 Daily News Uganda — Jobs Importer Starting...');
     console.log(`⏰ Run time: ${new Date().toISOString()}`);
 
-    // FIX: Now paginates through ALL Firestore docs, not just first 300
     console.log('\n🔍 Checking existing jobs in Firebase...');
     const existingIds = await getExistingJobIds();
     console.log(`  ✅ Total existing sourceIds loaded: ${existingIds.size}`);
@@ -501,30 +614,36 @@ async function main() {
     // Fetch from all sources concurrently
     const [
         reliefwebJobs,
-        unJobs,
         remoteOkJobs,
         devexJobs,
         whoJobs,
-        afdbJobs
+        fuzuJobs,
+        brighterMondayJobs
     ] = await Promise.allSettled([
         fetchReliefWeb(existingIds),
-        fetchUNJobs(existingIds),
         fetchRemoteOK(existingIds),
         fetchDevex(existingIds),
         fetchWHOAfrica(existingIds),
-        fetchAfDB(existingIds)
+        fetchFuzu(existingIds),
+        fetchBrighterMonday(existingIds)
     ]).then(results => results.map(r => r.status === 'fulfilled' ? r.value : []));
 
     const allJobs = [
         ...reliefwebJobs,
-        ...unJobs,
         ...remoteOkJobs,
         ...devexJobs,
         ...whoJobs,
-        ...afdbJobs
+        ...fuzuJobs,
+        ...brighterMondayJobs
     ];
 
     console.log(`\n📊 Total new jobs to import: ${allJobs.length}`);
+    console.log(`   ReliefWeb:     ${reliefwebJobs.length}`);
+    console.log(`   RemoteOK:      ${remoteOkJobs.length}`);
+    console.log(`   Devex:         ${devexJobs.length}`);
+    console.log(`   WHO Africa:    ${whoJobs.length}`);
+    console.log(`   Fuzu:          ${fuzuJobs.length}`);
+    console.log(`   BrighterMonday:${brighterMondayJobs.length}`);
 
     if (allJobs.length === 0) {
         console.log('✅ No new jobs to import. All up to date!');
