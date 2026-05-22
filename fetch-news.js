@@ -35,7 +35,6 @@ async function main() {
     }
 
     const db = getFirestore();
-
     const parser = new Parser({
         timeout: 15000,
         headers: {
@@ -48,15 +47,6 @@ async function main() {
     // FULL ARTICLE SOURCES
     // ================================
     const FULL_SOURCES = [
-
-        // UGANDA — Red Pepper
-        {
-            url: 'https://redpepper.co.ug/feed/',
-            category: 'Politics',
-            source: 'Red Pepper',
-            aggregator: false,
-            dynamicCategory: true
-        },
 
         // HEALTH
         {
@@ -168,7 +158,7 @@ async function main() {
             aggregator: true
         },
 
-        // INTERNATIONAL — BBC
+        // INTERNATIONAL — BBC (most reliable)
         {
             url: 'https://feeds.bbci.co.uk/news/world/africa/rss.xml',
             category: 'Politics',
@@ -226,31 +216,6 @@ async function main() {
             aggregator: true
         }
     ];
-
-    // ================================
-    // RED PEPPER CATEGORY MAP
-    // ================================
-    function mapRedPepperCategory(rawCategory) {
-        if (!rawCategory) return 'Politics';
-        const lower = rawCategory.toLowerCase().trim();
-        const map = {
-            'news':           'Politics',
-            'politics':       'Politics',
-            'crime':          'Politics',
-            'education':      'Education',
-            'sports':         'Sports',
-            'sport':          'Sports',
-            'football':       'Sports',
-            'business':       'Business',
-            'corporate buzz': 'Business',
-            'technology':     'Technology',
-            'tech':           'Technology',
-            'health':         'Health',
-            'environment':    'Environment',
-            'opinion':        'Opinion',
-        };
-        return map[lower] || 'Politics';
-    }
 
     // ================================
     // CHECK IF ARTICLE EXISTS
@@ -372,23 +337,7 @@ async function main() {
     async function processFullSource(source) {
         try {
             console.log(`📰 Fetching from ${source.source}...`);
-
-            let feed;
-            if (source.source === 'Red Pepper') {
-                // Fetch raw XML and clean malformed entities before parsing
-                const response = await axios.get(source.url, {
-                    timeout: 15000,
-                    headers: {
-                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
-                        'Accept': 'application/rss+xml, application/xml, text/xml, */*'
-                    }
-                });
-                const cleanXml = response.data.replace(/&(?!amp;|lt;|gt;|quot;|apos;|#\d+;|#x[\da-fA-F]+;)/g, '&amp;');
-                feed = await parser.parseString(cleanXml);
-            } else {
-                feed = await parser.parseURL(source.url);
-            }
-
+            const feed = await parser.parseURL(source.url);
             console.log(`   Found ${feed.items.length} items`);
 
             let published = 0;
@@ -414,13 +363,9 @@ async function main() {
                 const cleanStandfirst = standfirst.replace(/<[^>]*>/g, '').trim().substring(0, 300);
                 const cleanBody = body.replace(/<[^>]*>/g, '').trim();
 
-                const category = source.dynamicCategory
-                    ? mapRedPepperCategory(item.categories?.[0] || item.category || '')
-                    : source.category;
-
                 await publishArticle({
                     title: item.title,
-                    category,
+                    category: source.category,
                     author: source.source,
                     standfirst: cleanStandfirst,
                     body: cleanBody,
