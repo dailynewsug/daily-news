@@ -369,82 +369,78 @@ async function main() {
     // ================================
     // PROCESS FULL SOURCE
     // ================================
-  async function processFullSource(source) {
-    try {
-        console.log(`📰 Fetching from ${source.source}...`);
+    async function processFullSource(source) {
+        try {
+            console.log(`📰 Fetching from ${source.source}...`);
 
-        let feed;
-const response = await axios.get(source.url, {
-    timeout: 15000,
-    headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-    }
-});
-            const $ = cheerio.load(response.data, { xmlMode: true });
-            const items = [];
-            $('item').each((i, el) => {
-                const title = $(el).find('title').text();
-                const link = $(el).find('link').text() || $(el).find('guid').text();
-                const description = $(el).find('description').text();
-                const category = $(el).find('category').first().text();
-                items.push({ title, link, description, category });
-            });
-            feed = { items };
-        } else {
-            feed = await parser.parseURL(source.url);
-        }
-
-        console.log(`   Found ${feed.items.length} items`);
-
-        let published = 0;
-        for (const item of feed.items.slice(0, 3)) {
-            if (!item.title || !item.link) continue;
-
-            const exists = await articleExists(item.title);
-            if (exists) {
-                console.log(`   ⏭ Already exists: ${item.title.substring(0, 40)}`);
-                continue;
+            let feed;
+            if (source.source === 'Red Pepper') {
+                // Fetch raw XML and clean malformed entities before parsing
+                const response = await axios.get(source.url, {
+                    timeout: 15000,
+                    headers: {
+                        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36',
+                        'Accept': 'application/rss+xml, application/xml, text/xml, */*'
+                    }
+                });
+                const cleanXml = response.data.replace(/&(?!amp;|lt;|gt;|quot;|apos;|#\d+;|#x[\da-fA-F]+;)/g, '&amp;');
+                feed = await parser.parseString(cleanXml);
+            } else {
+                feed = await parser.parseURL(source.url);
             }
 
-            const { content, imageUrl } = await fetchFullContent(item.link);
-            const body = content || item.contentEncoded || item.content ||
-                         item.summary || item.description || '';
+            console.log(`   Found ${feed.items.length} items`);
 
-            if (body.length < 50) {
-                console.log(`   ⚠ Skipping - content too short`);
-                continue;
+            let published = 0;
+            for (const item of feed.items.slice(0, 3)) {
+                if (!item.title || !item.link) continue;
+
+                const exists = await articleExists(item.title);
+                if (exists) {
+                    console.log(`   ⏭ Already exists: ${item.title.substring(0, 40)}`);
+                    continue;
+                }
+
+                const { content, imageUrl } = await fetchFullContent(item.link);
+                const body = content || item.contentEncoded || item.content ||
+                             item.summary || item.description || '';
+
+                if (body.length < 50) {
+                    console.log(`   ⚠ Skipping - content too short`);
+                    continue;
+                }
+
+                const standfirst = item.summary || item.description || body.substring(0, 200);
+                const cleanStandfirst = standfirst.replace(/<[^>]*>/g, '').trim().substring(0, 300);
+                const cleanBody = body.replace(/<[^>]*>/g, '').trim();
+
+                const category = source.dynamicCategory
+                    ? mapRedPepperCategory(item.categories?.[0] || item.category || '')
+                    : source.category;
+
+                await publishArticle({
+                    title: item.title,
+                    category,
+                    author: source.source,
+                    standfirst: cleanStandfirst,
+                    body: cleanBody,
+                    imageUrl: imageUrl || '',
+                    sourceUrl: item.link,
+                    sourceName: source.source,
+                    aggregator: false
+                });
+
+                published++;
+                await new Promise(r => setTimeout(r, 1000));
             }
 
-            const standfirst = item.summary || item.description || body.substring(0, 200);
-            const cleanStandfirst = standfirst.replace(/<[^>]*>/g, '').trim().substring(0, 300);
-            const cleanBody = body.replace(/<[^>]*>/g, '').trim();
+            console.log(`   ✅ ${source.source}: ${published} new articles`);
 
-            const category = source.dynamicCategory
-                ? mapRedPepperCategory(item.categories?.[0] || item.category || '')
-                : source.category;
-
-            await publishArticle({
-                title: item.title,
-                category,
-                author: source.source,
-                standfirst: cleanStandfirst,
-                body: cleanBody,
-                imageUrl: imageUrl || '',
-                sourceUrl: item.link,
-                sourceName: source.source,
-                aggregator: false
-            });
-
-            published++;
-            await new Promise(r => setTimeout(r, 1000));
+        } catch (error) {
+            console.error(`❌ Error processing ${source.source}: ${error.message}`);
         }
-
-        console.log(`   ✅ ${source.source}: ${published} new articles`);
-
-    } catch (error) {
-        console.error(`❌ Error processing ${source.source}: ${error.message}`);
     }
-}
+
     // ================================
     // PROCESS AGGREGATOR SOURCE
     // ================================
